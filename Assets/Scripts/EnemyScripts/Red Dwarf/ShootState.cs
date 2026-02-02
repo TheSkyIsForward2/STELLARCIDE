@@ -6,6 +6,15 @@ public class ShootState : IState
     public Attack shoot;
     private GameObject self;
 
+    private IState ScoutState;
+    private IState ChaseState;
+
+    public void SetStates(IState scout, IState chase)
+    {
+        ScoutState = scout;
+        ChaseState = chase;
+    }
+
     public void OnEntry(StateController controller)
     {
         // This will be called when first entering the state
@@ -26,15 +35,15 @@ public class ShootState : IState
 
     public void OnUpdate(StateController controller)
     {
-        if (controller.enemyToPlayerVector.magnitude > 12)
+        if (controller.DistanceToPlayer > 12)
         {
-            controller.ChangeState(controller.scoutState);
-        } else if (controller.enemyToPlayerVector.magnitude < 8)
+            controller.ChangeState(ScoutState);
+        } else if (controller.DistanceToPlayer < 8)
         {
-            controller.ChangeState(controller.chaseState);
+            controller.ChangeState(ChaseState);
         }
         // Scouting out enemy
-        controller.attackPlayer(shoot);
+        controller.AttackPlayer(shoot);
     }
 
     public void OnExit(StateController controller)

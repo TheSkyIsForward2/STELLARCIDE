@@ -3,21 +3,23 @@ using UnityEngine;
 
 public class ChaseState : IState
 {
+    private IState ScoutState;
+
     float chaseSpeed = 5;
     float loseDistance = 8;
 
-    Transform myTransform;
-    Transform target;
-
     public Attack punch;
     private GameObject self;
+
+    public void SetStates(IState scout)
+    {
+        ScoutState = scout;
+    }
 
     public void OnEntry(StateController controller)
     {
         // This will be called when first entering the state
         UnityEngine.Debug.Log("Entering chase state");
-        myTransform = controller.transform;
-        target = controller._player;
 
         self = controller.gameObject;
         punch = new Punch(self,
@@ -29,17 +31,17 @@ public class ChaseState : IState
     public void OnUpdate(StateController controller)
     {
         // Scouting out enemy
-        if (PlayerLost())
+        if (PlayerLost(controller.transform.position, controller.Player.position))
         {
-            controller.ChangeState(controller.scoutState);
+            controller.ChangeState(ScoutState);
         } else
         {
-            Chase();
+            Chase(controller.transform.position, controller.Player.position);
         }
 
-        if (controller.distanceToPlayer < 1 && punch != null)
+        if (controller.DistanceToPlayer < 1 && punch != null)
         {
-            controller.attackPlayer(punch);
+            controller.AttackPlayer(punch);
         }
     }
 
@@ -48,19 +50,15 @@ public class ChaseState : IState
         // This will be called on leaving the state
     }
 
-    void Chase() 
+    private void Chase(Vector2 pos, Vector2 target) 
     {
-        myTransform.position = Vector2.MoveTowards(myTransform.position, target.position, chaseSpeed * Time.deltaTime);
+        pos = Vector2.MoveTowards(pos, target, chaseSpeed * Time.deltaTime);
     }
 
-    bool PlayerLost()
+    private bool PlayerLost(Vector2 pos, Vector2 target)
     {
-        if (!target)
-        {
-            return true;
-        }
 
-        if (Vector2.Distance(myTransform.position, target.position) > loseDistance)
+        if (Vector2.Distance(pos, target) > loseDistance)
         {
             return true;
         }
