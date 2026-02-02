@@ -31,6 +31,7 @@ public class StateController : MonoBehaviour
         DistanceToPlayer = EnemyToPlayer.magnitude;
 
         CurrentState.OnUpdate(this);
+        RotateToPlayer();
     }
 
     public void AttackPlayer(Attack attack)
@@ -38,6 +39,20 @@ public class StateController : MonoBehaviour
         if (attack.IsReady())
         {
             CoroutineManager.Instance.Run(attack.Execute(transform.position, EnemyToPlayer));
+            Debug.Log("trying to dash");
         }
     }
+
+    private float RotateSpeed = 5f;
+
+    public void RotateToPlayer()
+    {
+        Vector2 direction = Player.position - transform.position;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90f;
+        Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, RotateSpeed * Time.deltaTime);
+    }
+
+
 }
