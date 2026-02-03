@@ -7,10 +7,19 @@ public class ScoutState : IState
 
     private float MoveSpeed = 1.0f;
 
+    private float IdleSwitch = 20.0f;
+    private float ShootSwitch = 12.0f;
+
     public void SetStates(IState idle, IState shoot)
     {
         IdleState = idle;
         ShootState = shoot;
+    }
+
+    public void SetDistance(float dist1, float dist2)
+    {
+        IdleSwitch = dist1;
+        ShootSwitch = dist2;
     }
 
     public void OnEntry(StateController controller)
@@ -21,11 +30,11 @@ public class ScoutState : IState
 
     public void OnUpdate(StateController controller)
     {
-        if (controller.DistanceToPlayer > 20)
+        if (controller.DistanceToPlayer > IdleSwitch)
         {
             controller.ChangeState(IdleState);
         }
-        if (controller.DistanceToPlayer < 12)
+        if (controller.DistanceToPlayer < ShootSwitch)
         {
             controller.ChangeState(ShootState);
         }

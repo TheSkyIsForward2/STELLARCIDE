@@ -39,7 +39,6 @@ public class StateController : MonoBehaviour
         if (attack.IsReady())
         {
             CoroutineManager.Instance.Run(attack.Execute(transform.position, EnemyToPlayer));
-            Debug.Log("trying to dash");
         }
     }
 

@@ -3,20 +3,27 @@ using UnityEngine;
 
 public class RedGiant : MonoBehaviour
 {
-    [SerializeField] Transform head;
-    [SerializeField] Transform tail;
-    [SerializeField] int bodyLength;
+    private StateController Controller;
 
-    public List<Segment> bodies;
+    private IdleState Idle;
+    private ScoutState Scout;
+    private LungeAttackState Lunge;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
-    }
+        Controller = GetComponent<StateController>();
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Idle = new IdleState();
+        Scout = new ScoutState();
+        Lunge = new LungeAttackState();
+
+        Idle.SetStates(Scout);
+        Scout.SetStates(Idle, Lunge);
+        Lunge.SetStates(Scout);
+
+        Scout.SetDistance(20, 3);
+
+        Controller.ChangeState(Idle);
     }
 }

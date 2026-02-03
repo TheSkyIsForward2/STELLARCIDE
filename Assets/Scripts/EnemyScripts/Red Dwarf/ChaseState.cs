@@ -36,7 +36,7 @@ public class ChaseState : IState
             controller.ChangeState(ScoutState);
         } else
         {
-            Chase(controller.transform.position, controller.Player.position);
+            controller.transform.position = Vector2.MoveTowards(controller.transform.position, controller.Player.position, chaseSpeed * Time.deltaTime);
         }
 
         if (controller.DistanceToPlayer < 1 && punch != null)
@@ -48,11 +48,6 @@ public class ChaseState : IState
     public void OnExit(StateController controller)
     {
         // This will be called on leaving the state
-    }
-
-    private void Chase(Vector2 pos, Vector2 target) 
-    {
-        pos = Vector2.MoveTowards(pos, target, chaseSpeed * Time.deltaTime);
     }
 
     private bool PlayerLost(Vector2 pos, Vector2 target)
