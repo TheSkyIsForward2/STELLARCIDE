@@ -38,7 +38,12 @@ public class StateController : MonoBehaviour
     {
         if (attack.IsReady())
         {
-            CoroutineManager.Instance.Run(attack.Execute(transform.position, EnemyToPlayer));
+            if (attack is Shoot)
+                CoroutineManager.Instance.Run(attack.Execute(transform.position, EnemyToPlayer));
+            else
+                CoroutineManager.Instance.Run(attack.Execute(
+                    origin: transform.position, 
+                    target: new Vector3(3,5,0))); // a lil aids but it does the job
         }
     }
 

@@ -19,7 +19,7 @@ public class ChaseState : IState
     public void OnEntry(StateController controller)
     {
         // This will be called when first entering the state
-        UnityEngine.Debug.Log("Entering chase state");
+        // UnityEngine.Debug.Log("Entering chase state");
 
         self = controller.gameObject;
         punch = new Punch(self,
@@ -39,7 +39,7 @@ public class ChaseState : IState
             controller.transform.position = Vector2.MoveTowards(controller.transform.position, controller.Player.position, chaseSpeed * Time.deltaTime);
         }
 
-        if (controller.DistanceToPlayer < 1 && punch != null)
+        if (controller.DistanceToPlayer < 4.5 && punch != null)
         {
             controller.AttackPlayer(punch);
         }
