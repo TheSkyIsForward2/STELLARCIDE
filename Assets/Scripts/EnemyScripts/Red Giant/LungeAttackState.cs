@@ -29,13 +29,12 @@ public class LungeAttackState : IState
     public void OnEntry(StateController controller)
     {
         Debug.Log("Entered lunge state");
-        /*self = controller.gameObject;
+        self = controller.gameObject;
         punch = new Punch(self,
             damage: new Damage(10, Damage.Type.PHYSICAL),
-            cooldown: 1f
-            );
+            cooldown: 2f
+        );
 
-        Debug.Log(punch);*/
         startPos = controller.transform.position;
         backPos = startPos + controller.transform.up * windupDistance;
         lungePos = backPos - controller.transform.up * lungeDistance;

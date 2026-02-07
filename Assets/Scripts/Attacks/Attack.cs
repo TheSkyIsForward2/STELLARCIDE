@@ -89,7 +89,7 @@ public abstract class Attack
         {
             Entity other;
             try { other = entitiesInRange[i].GetComponent<Entity>(); } catch { other = null; }
-                
+
             if (other && other.healthController.team != Owner.GetComponent<Entity>().healthController.team)
             {
                 if (!other.healthController.TakeDamage(Damage))

@@ -22,12 +22,12 @@ public class Head : MonoBehaviour
         Transform prevTransform = transform;
         for (int i = 1; i < SegmentCount + 1; i++)
         {
-            Body body = Instantiate(BodyPrefab, new Vector2(transform.position.x, transform.position.y + (i)), transform.rotation);
+            Body body = Instantiate(BodyPrefab, new Vector2(transform.position.x, transform.position.y + (i)), transform.rotation, transform);
             body.target = prevTransform;
             BodySegments.Add(body);
             prevTransform = body.transform;
         }
-        TailSegment = Instantiate(TailPrefab, new Vector2(transform.position.x, transform.position.y + (SegmentCount + 1)), transform.rotation);
+        TailSegment = Instantiate(TailPrefab, new Vector2(transform.position.x, transform.position.y + (SegmentCount + 1)), transform.rotation, transform);
         TailSegment.target = prevTransform;
     }
 

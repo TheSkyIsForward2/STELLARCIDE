@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 4695293757946873213}
   m_Layer: 0
   m_Name: Yellow Dwarf
-  m_TagString: Untagged
+  m_TagString: Entity
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -174,8 +174,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 277bd9af970ea884aaaa425d7afe8e48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 0
-  healthBar: {fileID: 0}
+  maxHealth: 10
+  healthBar: {fileID: 4074549763594708279}
 --- !u!1 &2049256702854988544
 GameObject:
   m_ObjectHideFlags: 0
@@ -264,7 +264,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 7669794061901248434}
-  target: {fileID: 0}
+  target: {fileID: 3775057481521574827}
   offset: {x: 0, y: 1.2, z: 0}
 --- !u!114 &7669794061901248434
 MonoBehaviour:
