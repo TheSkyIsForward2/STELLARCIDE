@@ -59,9 +59,24 @@ public class PlayerAttacking : MonoBehaviour
             {
                 if (SecondaryAttack.IsReady())
                 {
-                    Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    mouseWorldPos.z = transform.position.z;
-                    CoroutineManager.Instance.Run(SecondaryAttack.Execute(gameObject.transform.position, mouseWorldPos));
+                    if (SecondaryAttack is Dash)
+                    {
+                        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                        mouseWorldPos.z = transform.position.z;
+                        CoroutineManager.Instance.Run(SecondaryAttack.Execute(gameObject.transform.position, mouseWorldPos));
+                    }
+                    if (SecondaryAttack is Strafe)
+                    {
+                        Vector3 direction = Vector3.zero;
+                        if (Input.GetKey(KeyCode.A)) // Strafing feels a little unintuitive right now when rotated
+                        {
+                            direction = gameObject.transform.up;
+                        } else if (Input.GetKey(KeyCode.D))
+                        {
+                            direction = -gameObject.transform.up;
+                        }
+                        CoroutineManager.Instance.Run(SecondaryAttack.Execute(gameObject.transform.position, direction.normalized));
+                    }
                 }
             }
         }
@@ -77,8 +92,12 @@ public class PlayerAttacking : MonoBehaviour
                 travelSpeed: 30,
                 lifetime: 2,
                 piercing: true
-            ); 
-            SecondaryAttack = null;
+            );
+            SecondaryAttack = new Strafe(gameObject,
+                damage: new Damage(10, Damage.Type.PHYSICAL),
+                cooldown: 1f,
+                strafeStrength: 1f
+            );
         }
         else
         {

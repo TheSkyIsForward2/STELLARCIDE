@@ -18,12 +18,14 @@ public abstract class Attack
     public float TravelSpeed;
     public float Lifetime;
     public bool Piercing;
+    public float StrafeStrength; // Could be moved , not sure how this is being ordered right now
     public enum Type
     {
         UNARMED_MELEE,
         ARMED_MELEE,
         RANGED,
-        DASH
+        DASH,
+        STRAFE
     }
     public Type AttackType;
     public float LastExecute;
