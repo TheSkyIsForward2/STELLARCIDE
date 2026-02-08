@@ -95,8 +95,8 @@ public class PlayerAttacking : MonoBehaviour
             );
             SecondaryAttack = new Strafe(gameObject,
                 damage: new Damage(10, Damage.Type.PHYSICAL),
-                cooldown: 1f,
-                strafeStrength: 1f
+                cooldown: 5f,
+                strafeStrength: 10f
             );
         }
         else

@@ -26,6 +26,7 @@ public class Strafe : Attack
         {
             rb.AddForce(target * StrafeStrength, ForceMode2D.Impulse);
         }
+        LastExecute = Time.time;
         yield return new WaitForEndOfFrame();
     }
 }
