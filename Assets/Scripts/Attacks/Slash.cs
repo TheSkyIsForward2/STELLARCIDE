@@ -4,9 +4,8 @@ using UnityEngine;
 public class Slash : Attack
 {
     /// <summary>
-    /// Instantiate a quick melee Attack. This one just damages all enemies in front of the player 
-    /// in a close proximity. Call Slash.Execute() to actually perform the attack. To access its 
-    /// cooldown call Slash.IsReady()
+    /// An armed melee attack. Performs several instances of damage at close range.
+    /// Uses colliders to deal damage.
     /// </summary>
     /// <param name="owner">Gameobject that will perform the punch</param>
     /// <param name="damage">Damage value and type</param>
@@ -15,15 +14,24 @@ public class Slash : Attack
                   Damage damage,
                   float cooldown) : base(owner, damage, cooldown)
     {
-        AttackType = Type.UNARMED_MELEE;
+        AttackType = Type.ARMED_MELEE;
+        if (Owner.transform.Find("MechVisual").TryGetComponent<Animator>(out Animator a))
+        {
+            Animator = a;  
+        }
+        AnimationName = "Slash";
     }
 
+    /// <summary>Actually punches (verb)</summary>
+    /// <param name="origin">Nothing... just necessary for override</param>
+    /// <param name="target">Slash deals damage using a collider</param>
+    /// <returns></returns>
     public override IEnumerator Execute(Vector3 origin, Vector3 target)
     {
-        // instantiate two line / rect at +-120d
-        // -120 goes first and up to 30d
-        // then 120 goes to -30
-        // every entity it touches is dealt damage
+        if (Animator) Animator.SetTrigger("executeSlash");
+            
+        LastExecute = Time.time;
+        yield return new WaitWhile(AnimatorIsPlaying);
 
         LastExecute = Time.time;
         yield return new WaitForEndOfFrame();

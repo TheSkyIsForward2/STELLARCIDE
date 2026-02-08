@@ -14,7 +14,7 @@ public abstract class Attack
     public string AnimationName;
     public string Name;
     public Damage Damage;
-    protected float Cooldown;
+    public float Cooldown;
     public float TravelSpeed;
     public float Lifetime;
     public bool Piercing;

@@ -154,6 +154,7 @@ public class PlayerController : MonoBehaviour
             FlyOut();
             currentMode = PlayerMode.SHIP;
             EventBus.Instance.ChangeForm(true);
+            Debug.Log("player exited asteroid");
         }
     }
 

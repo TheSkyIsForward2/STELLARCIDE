@@ -15,21 +15,38 @@ using Unity.VisualScripting;
 public class PlayerAttacking : MonoBehaviour
 {
     [NonSerialized] public Attack BaseAttack;
+    [NonSerialized] public Attack BaseAttackUpgrade;
     [NonSerialized] public Attack SecondaryAttack;
-    // private GameObject self;
+
+    private Punch punchAttack;
+    private Shoot shootAttack;
+    private Dash dashAttack;
+    private Slash slashAttack;
 
     void Awake()
     {
-        // seems a bit redundant but for some reason this solves a bug
-        // self = gameObject;
-        // start off with a Shoot attack
-        BaseAttack = new Shoot(gameObject,
+        punchAttack = new Punch(gameObject,
+            damage: new Damage(10, Damage.Type.PHYSICAL),
+            cooldown: 0.5f
+        );
+        shootAttack = new Shoot(gameObject,
             damage: new Damage(10, Damage.Type.PHYSICAL),
             cooldown: 1f,
             travelSpeed: 30,
             lifetime: 2,
             piercing: true
         );
+        dashAttack = new Dash(gameObject, 
+            damage: new Damage(10, Damage.Type.PHYSICAL),
+            cooldown: 1f,
+            travelSpeed:0.25f, // looks like the max value before there is a pause after a dash
+            lifetime: 1f
+        );
+        slashAttack = new Slash(gameObject,
+            damage: new Damage(10, Damage.Type.PHYSICAL),
+            cooldown: 1f
+        );
+        BaseAttack = shootAttack;
     }
 
     void Start()
@@ -62,34 +79,32 @@ public class PlayerAttacking : MonoBehaviour
                 }
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            if (!BaseAttackUpgrade.IsUnityNull())
+            {
+                if (BaseAttackUpgrade.IsReady())
+                {
+                    // temporarily change BaseAttack to
+                    // BaseAttackUpgrade
+                }   
+            }
+        }
     }
 
     void SwapAttacks(bool isShip)
     {
         if (isShip)
         {
-            BaseAttack = new Shoot(gameObject,
-                damage: new Damage(10, Damage.Type.PHYSICAL),
-                cooldown: 1f,
-                travelSpeed: 30,
-                lifetime: 2,
-                piercing: true
-            ); 
+            BaseAttack = shootAttack;
             SecondaryAttack = null;
         }
         else
         {
-            BaseAttack = new Punch(gameObject,
-                damage: new Damage(10, Damage.Type.PHYSICAL),
-                cooldown: 0.5f
-            );
-
-            SecondaryAttack = new Dash(gameObject, 
-                damage: new Damage(10, Damage.Type.PHYSICAL),
-                cooldown: 1f,
-                travelSpeed:0.25f, // looks like the max value before there is a pause after a dash
-                lifetime: 1f
-            );
+            BaseAttack = punchAttack;
+            SecondaryAttack = dashAttack;
         }  
     }
+
 }
