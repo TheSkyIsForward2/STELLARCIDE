@@ -16,22 +16,32 @@ public class Punch : Attack
                   float cooldown) : base(owner, damage, cooldown)
     {
         AttackType = Type.UNARMED_MELEE;
-        if (Owner.transform.Find("MechVisual").TryGetComponent<Animator>(out Animator a))
+        if (Owner.transform.Find("MechVisual"))
         {
-          Animator = a;  
+            if (Owner.transform.Find("MechVisual").TryGetComponent<Animator>(out Animator a))
+            {
+                Animator = a;  
+            }
+            AnimationName = "Punch";
         }
-        AnimationName = "Punch";
+        
     }
 
+    /// <summary>Actually punches (verb)</summary>
+    /// <param name="origin">Nothing... just necessary for override</param>
+    /// <param name="target">target.x is the total width of the punch, target.y 
+    ///     is the total range </param>
+    /// <returns></returns>
     public override IEnumerator Execute(Vector3 origin, Vector3 target)
     {
-        if (Animator) Animator.SetTrigger("executePunch");
-
-        LastExecute = Time.time;
-        yield return new WaitWhile(AnimatorIsPlaying);
+        if (Animator) {
+            Animator.SetTrigger("executePunch");
+            LastExecute = Time.time;
+            yield return new WaitWhile(AnimatorIsPlaying);
+        }
 
         AudioManager.Instance.PlayPunchingSFX();
-        DamageArea(range: 3, width: 3f);
+        DamageArea(range: (float)target.x, width: (float)target.y);
 
         LastExecute = Time.time;
         yield return new WaitForEndOfFrame();

@@ -1,13 +1,13 @@
-using System.Collections.Generic;
 using UnityEngine;
 
-public class RedGiant : MonoBehaviour
+public class RedDwarf : MonoBehaviour
 {
     private StateController Controller;
 
     private IdleState Idle;
     private ScoutState Scout;
-    private LungeAttackState Lunge;
+    private ShootState Shoot;
+    private ChaseState Chase;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -16,13 +16,13 @@ public class RedGiant : MonoBehaviour
 
         Idle = new IdleState();
         Scout = new ScoutState();
-        Lunge = new LungeAttackState();
+        Shoot = new ShootState();
+        Chase = new ChaseState();
 
         Idle.SetStates(Scout);
-        Scout.SetStates(Idle, Lunge);
-        Lunge.SetStates(Scout);
-
-        Scout.SetDistance(20, 3);
+        Scout.SetStates(Idle, Shoot);
+        Shoot.SetStates(Scout, Chase);
+        Chase.SetStates(Scout);
 
         Controller.ChangeState(Idle);
     }

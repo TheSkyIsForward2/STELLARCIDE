@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class IdleState : IState
 {
+    private IState ScoutState;
+
+    public void SetStates(IState scout)
+    {
+        ScoutState = scout;
+    }
     public void OnEntry(StateController controller)
     {
         // This will be called when first entering the state
@@ -12,9 +18,9 @@ public class IdleState : IState
 
     public void OnUpdate(StateController controller)
     {
-        if (controller.enemyToPlayerVector.magnitude < 20)
+        if (controller.DistanceToPlayer < 20)
         {
-            controller.ChangeState(controller.scoutState);
+            controller.ChangeState(ScoutState);
         }
     }
 
