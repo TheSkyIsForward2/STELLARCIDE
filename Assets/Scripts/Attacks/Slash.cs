@@ -28,12 +28,15 @@ public class Slash : Attack
     /// <returns></returns>
     public override IEnumerator Execute(Vector3 origin, Vector3 target)
     {
-        if (Animator) Animator.SetTrigger("executeSlash");
+        if (Animator)
+        {
+            Animator.SetTrigger("executeSlash");
+        } 
             
         LastExecute = Time.time;
         yield return new WaitWhile(AnimatorIsPlaying);
 
-        LastExecute = Time.time;
-        yield return new WaitForEndOfFrame();
+        // LastExecute = Time.time;
+        // yield return new WaitForEndOfFrame();
     }
 }

@@ -16,11 +16,15 @@ public class Punch : Attack
                   float cooldown) : base(owner, damage, cooldown)
     {
         AttackType = Type.UNARMED_MELEE;
-        if (Owner.transform.Find("MechVisual").TryGetComponent<Animator>(out Animator a))
+        if (Owner.transform.Find("MechVisual"))
         {
-          Animator = a;  
+            if (Owner.transform.Find("MechVisual").TryGetComponent<Animator>(out Animator a))
+            {
+                Animator = a;  
+            }
+            AnimationName = "Punch";
         }
-        AnimationName = "Punch";
+        
     }
 
     public override IEnumerator Execute(Vector3 origin, Vector3 target)

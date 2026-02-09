@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using Unity.VisualScripting;
+using System.Collections;
 
 /* TODO:
 ++ store inventory of attacks
@@ -86,8 +87,7 @@ public class PlayerAttacking : MonoBehaviour
             {
                 if (BaseAttackUpgrade.IsReady())
                 {
-                    // temporarily change BaseAttack to
-                    // BaseAttackUpgrade
+                    
                 }   
             }
         }
@@ -103,8 +103,7 @@ public class PlayerAttacking : MonoBehaviour
         else
         {
             BaseAttack = punchAttack;
-            SecondaryAttack = dashAttack;
+            SecondaryAttack = slashAttack;
         }  
     }
-
 }
