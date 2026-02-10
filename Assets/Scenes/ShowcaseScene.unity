@@ -2651,6 +2651,10 @@ PrefabInstance:
       propertyPath: punchViz
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 2603373065742762514, guid: 1fef895c7dfca4342959e25e6fcfa900, type: 3}
+      propertyPath: mechAnimator
+      value: 
+      objectReference: {fileID: 1540852801}
     - target: {fileID: 4183817709701007563, guid: 1fef895c7dfca4342959e25e6fcfa900, type: 3}
       propertyPath: m_SortingOrder
       value: 1
@@ -2667,6 +2671,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6448065471613473046, guid: 1fef895c7dfca4342959e25e6fcfa900, type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6448065471613473046, guid: 1fef895c7dfca4342959e25e6fcfa900, type: 3}
+      propertyPath: m_IncludeLayers.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7684684304895595447, guid: 1fef895c7dfca4342959e25e6fcfa900, type: 3}
       propertyPath: m_SortingOrder
       value: 1
@@ -2675,6 +2687,14 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 1280812358}
+    - target: {fileID: 8207670989433173026, guid: 1fef895c7dfca4342959e25e6fcfa900, type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8207670989433173026, guid: 1fef895c7dfca4342959e25e6fcfa900, type: 3}
+      propertyPath: m_IncludeLayers.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8797113400631551818, guid: 1fef895c7dfca4342959e25e6fcfa900, type: 3}
       propertyPath: lockTime
       value: 0.15

@@ -9,7 +9,7 @@ public class ShootState : IState
     public void OnEntry(StateController controller)
     {
         // This will be called when first entering the state
-        UnityEngine.Debug.Log("entering shooting state");
+        // UnityEngine.Debug.Log("entering shooting state");
 
         self = controller.gameObject;
         if (shoot != null)

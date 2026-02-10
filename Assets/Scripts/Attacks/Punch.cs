@@ -32,12 +32,12 @@ public class Punch : Attack
         if (Animator) Animator.SetTrigger("executePunch");
 
         LastExecute = Time.time;
-        yield return new WaitWhile(AnimatorIsPlaying);
+        yield return new WaitForSeconds(0.30f);
 
         AudioManager.Instance.PlayPunchingSFX();
         DamageArea(range: 3, width: 3f);
 
         LastExecute = Time.time;
-        yield return new WaitForEndOfFrame();
+        yield return new WaitWhile(AnimatorIsPlaying);
     }
 }

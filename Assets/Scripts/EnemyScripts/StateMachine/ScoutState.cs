@@ -10,7 +10,7 @@ public class ScoutState : IState
     public void OnEntry(StateController controller)
     {
         // This will be called when first entering the state
-        UnityEngine.Debug.Log("Entered scout state");
+        // UnityEngine.Debug.Log("Entered scout state");
         myTransform = controller.transform;
         target = controller._player;
     }

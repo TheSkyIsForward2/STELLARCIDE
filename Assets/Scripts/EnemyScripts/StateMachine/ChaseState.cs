@@ -15,7 +15,7 @@ public class ChaseState : IState
     public void OnEntry(StateController controller)
     {
         // This will be called when first entering the state
-        UnityEngine.Debug.Log("Entering chase state");
+        // UnityEngine.Debug.Log("Entering chase state");
         myTransform = controller.transform;
         target = controller._player;
 

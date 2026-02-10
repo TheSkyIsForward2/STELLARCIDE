@@ -12,10 +12,10 @@ public class EnemySpawner : MonoBehaviour
 
     void Start()
     {
-        UnityEngine.Debug.Log(transform.childCount);
+        // UnityEngine.Debug.Log(transform.childCount);
         foreach(Transform child in transform)
         {
-            UnityEngine.Debug.Log(child.transform.position);
+            // UnityEngine.Debug.Log(child.transform.position);
         }
     }
 
@@ -35,11 +35,11 @@ public class EnemySpawner : MonoBehaviour
         {
             if (child.transform.childCount == 0)
             {
-                UnityEngine.Debug.Log("spawning enemy");
+                // UnityEngine.Debug.Log("spawning enemy");
                 GameObject enemy = Instantiate(enemyPrefab, child.transform.position, child.transform.rotation);
                 enemy.transform.SetParent(child.transform);
             } else {
-                UnityEngine.Debug.Log("enemy not dead");
+                // UnityEngine.Debug.Log("enemy not dead");
             }
         }
     }
