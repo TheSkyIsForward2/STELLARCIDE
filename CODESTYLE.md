@@ -6,13 +6,13 @@
 
 ## Naming Conventions
 - Class: PascalCase
-- PublicMember: PascalCase
-- privateMember: snakeCase
-- Exception: Monobehaviors
+  - PublicMember: PascalCase
+  - privateMember: snakeCase
+    - Exception: Monobehaviors
 - Interfaces begin with I
 - File: PascalCase
 - Avoid abbreviations whenever possible
-- Exclusions: private RigidBody members, “obvious things” use your best judgement
+  - Exclusions: private RigidBody members, “obvious things” use your best judgement
 
 ## Math
 - Spaces between operators and operands
