@@ -1,22 +1,25 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
-using TMPro; // Include this if your prefab uses TextMeshPro
+using TMPro;
 
 public class LogbookManager : MonoBehaviour
 {
     public List<GameObject> tabPanels;
-    public List<string> entriesEnemies;
     public Button buttonPrefab;
     public Transform buttonParent;
 
+    public List<string> entriesEnemies;
+    public List<string> entriesLocations;
+    public List<string> entriesLore;
+    public List<string> entriesItems;
+
     void Start()
     {
-        GenerateButtons();
         ShowTab(0);
     }
 
-    void GenerateButtons()
+    void GenerateButtons(List<string> currentlist)
     {
         foreach (Transform child in buttonParent)
         {
@@ -34,6 +37,22 @@ public class LogbookManager : MonoBehaviour
         for (int i = 0; i < tabPanels.Count; i++)
         {
             tabPanels[i].SetActive(i == tabIndex);
+            if (i == 0)
+            {
+                GenerateButtons(entriesEnemies);
+            }
+            else if (i == 1)
+            {
+                GenerateButtons(entriesLocations);
+            }
+            else if (i == 2)
+            {
+                GenerateButtons(entriesLore);
+            }
+            else if (i == 3)
+            {
+                GenerateButtons(entriesItems);
+            }
         }
     }
 }
