@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public enum PlayerMode {
     SHIP, MECH
@@ -28,6 +29,7 @@ public class PlayerController : MonoBehaviour
 
     private ShipMovement shipMovement;
     private MechMovement mechMovement;
+    private PlayerControls inputActions;
 
     private Vector3 cursor;
     private Vector3 cursorOffset;
@@ -44,6 +46,8 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         GameManager.Instance.Player = gameObject;
+        inputActions = new PlayerControls();
+        inputActions.Enable();
     }
 
     void Start() {
@@ -99,7 +103,7 @@ public class PlayerController : MonoBehaviour
         Vector2 wishDir;
         if (cursorOffset.magnitude > shipMinCameraDist) {
             float t = Mathf.Clamp01((cursorOffset.magnitude - shipMinCameraDist) / (shipMaxCameraDist - shipMinCameraDist));
-            wishDir = transform.right * (Input.GetKey(KeyCode.Space) ? 1 : 0) * t;
+            wishDir = transform.right * (inputActions.Gameplay.Thrust.IsPressed() ? 1 : 0) * t;
         } else {
             wishDir = Vector2.zero;
         }
@@ -120,10 +124,7 @@ public class PlayerController : MonoBehaviour
         TurnToCursor(mechTurnSpeed);
 
         // directional input
-        Vector2 wishDir = new Vector2(
-            Input.GetAxisRaw("Horizontal"), 
-            Input.GetAxisRaw("Vertical")
-        ).normalized;
+        Vector2 wishDir = inputActions.Gameplay.Move.ReadValue<Vector2>().normalized;
         
             mechMovement.SetWishDirection(wishDir);
 

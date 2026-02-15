@@ -39,7 +39,7 @@ public class PlayerAttacking : MonoBehaviour
     }
 
     UpgradeData slashUpgradeData;
-    UpgradeData chargeUpUpgrdeData;
+    private PlayerControls inputActions;
 
     void Awake()
     {
@@ -70,6 +70,9 @@ public class PlayerAttacking : MonoBehaviour
             cooldown: 10f,
             duration: 5f
         );
+
+        inputActions = new PlayerControls();
+        inputActions.Enable();
     }
 
     void Start()
@@ -82,7 +85,7 @@ public class PlayerAttacking : MonoBehaviour
     #region Input Polling
     void Update()
     {
-        if (Input.GetMouseButton(0))
+        if (inputActions.Gameplay.PrimaryAttack.IsPressed())
         {
             // this is how you actually attack
             if (PrimaryAttack.IsReady()) // check if in cooldown
@@ -92,7 +95,7 @@ public class PlayerAttacking : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButton(1))
+        if (inputActions.Gameplay.SecondaryAttack.IsPressed())
         {
             if (!SecondaryAttack.IsUnityNull())
             {
@@ -107,10 +110,10 @@ public class PlayerAttacking : MonoBehaviour
                     if (SecondaryAttack is Strafe)
                     {
                         Vector3 direction = Vector3.zero;
-                        if (Input.GetKey(KeyCode.A)) // Strafing feels a little unintuitive right now when rotated
+                        if (inputActions.Gameplay.Move.ReadValue<Vector2>().x < 0) // Strafing feels a little unintuitive right now when rotated
                         {
                             direction = gameObject.transform.up;
-                        } else if (Input.GetKey(KeyCode.D))
+                        } else if (inputActions.Gameplay.Move.ReadValue<Vector2>().x > 0)
                         {
                             direction = -gameObject.transform.up;
                         }
