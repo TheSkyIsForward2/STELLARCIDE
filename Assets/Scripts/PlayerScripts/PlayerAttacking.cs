@@ -83,13 +83,8 @@ public class PlayerAttacking : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            if (!BaseAttackUpgrade.IsUnityNull())
-            {
-                if (BaseAttackUpgrade.IsReady())
-                {
-                    
-                }   
-            }
+
+            StartCoroutine(UpgradePunch());
         }
     }
 
@@ -103,7 +98,15 @@ public class PlayerAttacking : MonoBehaviour
         else
         {
             BaseAttack = punchAttack;
-            SecondaryAttack = slashAttack;
+            SecondaryAttack = dashAttack;
         }  
+    }
+
+    IEnumerator UpgradePunch()
+    {
+        Func<Vector3, Vector3, IEnumerator> original = punchAttack.Execute;
+        punchAttack.Execute = slashAttack.Execute;
+        yield return new WaitForSeconds(10);
+        punchAttack.Execute = original;
     }
 }

@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using NUnit.Framework.Constraints;
 using UnityEngine;
 
 
@@ -30,7 +29,7 @@ public abstract class Attack
     public Type AttackType;
     public float LastExecute;
 
-    public Action<IEnumerator> AlternateExecute;
+    public Func<Vector3, Vector3, IEnumerator> Execute;
 
     /// <summary>
     /// Basically never used
@@ -45,6 +44,7 @@ public abstract class Attack
         Owner = owner;
         Damage = damage;
         Cooldown = cooldown;
+        Execute = BasicExecute;
     }
 
     /// <summary>
@@ -52,7 +52,7 @@ public abstract class Attack
     /// </summary>
     /// <param name="origin">World position of where to fire the attack from</param>
     /// <param name="target">World position of where to fire the attack to</param>
-    public virtual IEnumerator Execute(Vector3 origin, Vector3 target)
+    public virtual IEnumerator BasicExecute(Vector3 origin, Vector3 target)
     {
         LastExecute = Time.time;
         yield return new WaitForEndOfFrame();

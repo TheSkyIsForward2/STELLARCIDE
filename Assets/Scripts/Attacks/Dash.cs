@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Dash : Attack
@@ -19,10 +20,11 @@ public class Dash : Attack
         AttackType = Type.DASH;
         Lifetime = lifetime;
         TravelSpeed = travelSpeed;
+
+        Execute = BasicExecute;
     }
     
-    // Execute = (Vector3, Vector3)=>
-    public override IEnumerator Execute(Vector3 origin, Vector3 target)
+    public override IEnumerator BasicExecute(Vector3 origin, Vector3 target)
     {
         float elapsedTime=0;
         // TODO: give targetDistance a minimum
