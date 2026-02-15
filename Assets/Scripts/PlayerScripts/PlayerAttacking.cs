@@ -23,6 +23,7 @@ public class PlayerAttacking : MonoBehaviour
     private Shoot shootAttack;
     private Dash dashAttack;
     private Slash slashAttack;
+    private Strafe strafeAttack;
 
     public struct UpgradeData
     {
@@ -64,7 +65,13 @@ public class PlayerAttacking : MonoBehaviour
             damage: new Damage(10, Damage.Type.PHYSICAL),
             cooldown: 1f
         );
+        strafeAttack = new Strafe(gameObject,
+                damage: new Damage(10, Damage.Type.PHYSICAL),
+                cooldown: 5f,
+                strafeStrength: 10f
+            );
         PrimaryAttack = shootAttack;
+        SecondaryAttack = strafeAttack;
 
         slashUpgradeData = new UpgradeData(
             cooldown: 10f,
@@ -97,28 +104,26 @@ public class PlayerAttacking : MonoBehaviour
 
         if (inputActions.Gameplay.SecondaryAttack.IsPressed())
         {
-            if (!SecondaryAttack.IsUnityNull())
+            Debug.Log("2ndary pressed");
+            if (SecondaryAttack.IsReady())
             {
-                if (SecondaryAttack.IsReady())
+                if (SecondaryAttack is Dash)
                 {
-                    if (SecondaryAttack is Dash)
+                    Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    mouseWorldPos.z = transform.position.z;
+                    StartCoroutine(SecondaryAttack.Execute(gameObject.transform.position, mouseWorldPos));
+                }
+                else if (SecondaryAttack is Strafe)
+                {
+                    Vector3 direction = Vector3.zero;
+                    if (inputActions.Gameplay.Move.ReadValue<Vector2>().x < 0) // Strafing feels a little unintuitive right now when rotated
                     {
-                        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                        mouseWorldPos.z = transform.position.z;
-                        CoroutineManager.Instance.Run(SecondaryAttack.Execute(gameObject.transform.position, mouseWorldPos));
-                    }
-                    if (SecondaryAttack is Strafe)
+                        direction = gameObject.transform.up;
+                    } else if (inputActions.Gameplay.Move.ReadValue<Vector2>().x > 0)
                     {
-                        Vector3 direction = Vector3.zero;
-                        if (inputActions.Gameplay.Move.ReadValue<Vector2>().x < 0) // Strafing feels a little unintuitive right now when rotated
-                        {
-                            direction = gameObject.transform.up;
-                        } else if (inputActions.Gameplay.Move.ReadValue<Vector2>().x > 0)
-                        {
-                            direction = -gameObject.transform.up;
-                        }
-                        CoroutineManager.Instance.Run(SecondaryAttack.Execute(gameObject.transform.position, direction.normalized));
+                        direction = -gameObject.transform.up;
                     }
+                    StartCoroutine(SecondaryAttack.Execute(gameObject.transform.position, direction.normalized));
                 }
             }
         }
@@ -140,23 +145,13 @@ public class PlayerAttacking : MonoBehaviour
     {
         if (isShip)
         {
-            PrimaryAttack = new Shoot(gameObject,
-                damage: new Damage(10, Damage.Type.PHYSICAL),
-                cooldown: 1f,
-                travelSpeed: 30,
-                lifetime: 2,
-                piercing: true
-            );
-            SecondaryAttack = new Strafe(gameObject,
-                damage: new Damage(10, Damage.Type.PHYSICAL),
-                cooldown: 5f,
-                strafeStrength: 10f
-            );
+            PrimaryAttack = shootAttack;
+            SecondaryAttack = strafeAttack;
         }
         else
         {
             PrimaryAttack = punchAttack;
-            SecondaryAttack = slashAttack;
+            SecondaryAttack = dashAttack;
         }  
     }
 
