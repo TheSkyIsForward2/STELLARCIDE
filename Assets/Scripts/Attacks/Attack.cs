@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,7 +15,7 @@ public abstract class Attack
     public string AnimationName;
     public string Name;
     public Damage Damage;
-    protected float Cooldown;
+    public float Cooldown;
     public float TravelSpeed;
     public float Lifetime;
     public bool Piercing;
@@ -113,9 +114,18 @@ public abstract class Attack
     /// Combine this with WaitUntil() to activate an effect after the animation is done
     /// </summary>
     /// <returns>True when Attack.Animator still playing a specific animation</returns>
-    public virtual bool AnimatorIsPlaying()
+    public bool AnimatorIsPlaying()
     {
         return Animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1 && 
             Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimationName);
+    }
+
+    public int CurrentAnimationFrame()
+    {
+        // explanation for code
+        // https://discussions.unity.com/t/getting-the-current-frame-of-an-animation-clip/610627
+        AnimatorClipInfo[] clip = Animator.GetCurrentAnimatorClipInfo(0);
+        return (int) (Animator.GetCurrentAnimatorStateInfo(0).normalizedTime 
+                     * (clip[0].clip.length * clip[0].clip.frameRate));
     }
 }

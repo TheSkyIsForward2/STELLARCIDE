@@ -55,20 +55,20 @@ public class HealthOwner : Component
         if (hp - damage.Amount > maxHP)
         {
             hp = maxHP;
-            Debug.Log($"[HEALING] something on team {team} overhealed");
+            // Debug.Log($"[HEALING] something on team {team} overhealed");
         }
         else
         {
             hp -= damage.Amount;
             AudioManager.Instance.PlayPlayerTakeDamageSFX();
-            Debug.Log($"[DAMAGE] something on team {team} took {damage.Amount} of {damage.type} damage");
+            // Debug.Log($"[DAMAGE] something on team {team} took {damage.Amount} of {damage.type} damage");
         }
 
         if (hp > 0) return false;
 
         hp = 0;
         // healthBar.UpdateHealthBar(hp, maxHP);
-        Debug.Log($"[DEATH] something on team {team} died from taking {damage.Amount} pts of {damage.type} damage");
+        // Debug.Log($"[DEATH] something on team {team} died from taking {damage.Amount} pts of {damage.type} damage");
 
         if (team == Team.PLAYER)
         {

@@ -24,7 +24,6 @@ public class Punch : Attack
             }
             AnimationName = "Punch";
         }
-        
     }
 
     /// <summary>Actually punches (verb)</summary>
@@ -40,10 +39,13 @@ public class Punch : Attack
             yield return new WaitWhile(AnimatorIsPlaying);
         }
 
+        LastExecute = Time.time;
+        yield return new WaitForSeconds(0.30f);
+
         AudioManager.Instance.PlayPunchingSFX();
         DamageArea(range: (float)target.x, width: (float)target.y);
 
         LastExecute = Time.time;
-        yield return new WaitForEndOfFrame();
+        yield return new WaitWhile(AnimatorIsPlaying);
     }
 }
