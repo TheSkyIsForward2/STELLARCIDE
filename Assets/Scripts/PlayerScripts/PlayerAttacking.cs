@@ -38,7 +38,8 @@ public class PlayerAttacking : MonoBehaviour
         }
     }
 
-    UpgradeData slashUpgrade;
+    UpgradeData slashUpgradeData;
+    UpgradeData chargeUpUpgrdeData;
 
     void Awake()
     {
@@ -65,7 +66,10 @@ public class PlayerAttacking : MonoBehaviour
         );
         PrimaryAttack = shootAttack;
 
-        slashUpgrade = new UpgradeData(10,5);
+        slashUpgradeData = new UpgradeData(
+            cooldown: 10f,
+            duration: 5f
+        );
     }
 
     void Start()
@@ -103,14 +107,14 @@ public class PlayerAttacking : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            if (slashUpgrade.IsReady())
-                StartCoroutine(UpgradePunch());
+            if (slashUpgradeData.IsReady())
+                StartCoroutine(ExecuteSlashUpgrade());
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            UpgradeAttack(ref PrimaryAttack, typeof(Punch), slashUpgrade, slashAttack);
-        }
+        // if (Input.GetKeyDown(KeyCode.E))
+        // {
+        //     UpgradeAttack(()=>PrimaryAttack, typeof(Punch), slashUpgradeData, slashAttack);
+        // }
     }
     #endregion
 
@@ -128,53 +132,48 @@ public class PlayerAttacking : MonoBehaviour
         }  
     }
 
-    IEnumerator UpgradePunch()
+    IEnumerator ExecuteSlashUpgrade()
     {
         if (PrimaryAttack is Punch)
         {
-            slashUpgrade.LastExecute = Time.time;
+            slashUpgradeData.LastExecute = Time.time;
             PrimaryAttack = slashAttack;
-            yield return new WaitForSeconds(slashUpgrade.Duration);
+            yield return new WaitForSeconds(slashUpgradeData.Duration);
             PrimaryAttack = punchAttack;
         } 
     }
 
-    // IEnumerator UpgradeAttack(Attack baseAttack, Type baseAttackType, 
-    //                           UpgradeData upgradeData, Attack newAttack)
-    // {
+
+
+    // void UpgradeAttack(Func<Attack> baseAttack, Type baseAttackType, 
+    //                    UpgradeData upgradeData, Attack newAttack)
+    // {   
+    //     Attack original = baseAttack();
     //     if (upgradeData.IsReady())
     //     {
-    //         if (baseAttackType.IsInstanceOfType(baseAttack))
+    //         if (baseAttackType.IsInstanceOfType(original))
     //         {
-    //             Attack original = baseAttack;
-    //             baseAttack = newAttack;
-    //             Debug.Log("started smart slash upgrade");
-    //             yield return new WaitForSeconds(upgradeData.Duration);
-    //             Debug.Log("stopped smart slash upgrade");
-    //             baseAttack = original;
+    //             StartCoroutine( Swap(
+    //                 baseAttack: original,
+    //                 newAttack: newAttack,
+    //                 setter: (a)=>original = a,
+    //                 time: upgradeData.Duration
+    //             ));
     //         }
     //     }
     // }
 
-    void UpgradeAttack(ref Attack baseAttack, Type baseAttackType, 
-                       UpgradeData upgradeData, Attack newAttack)
-    {
-        if (upgradeData.IsReady())
-        {
-            if (baseAttackType.IsInstanceOfType(baseAttack))
-            {
-                Attack original = baseAttack;
-                baseAttack = newAttack;
-                Debug.Log("started smart slash upgrade");
-                StartCoroutine(Sleep(upgradeData.Duration));
-                Debug.Log("stopped smart slash upgrade");
-                baseAttack = original;
-            }
-        }
-    }
-
-    IEnumerator Sleep(float time)
-    {
-        yield return new WaitForSecondsRealtime(time);
-    }
+    // IEnumerator Swap(Attack baseAttack, Attack newAttack, Action<Attack> setter, float time)
+    // {
+    //     // Attack original = baseAttack;
+    //     // baseAttack = newAttack;
+    //     setter(newAttack);
+    //     print(baseAttack);
+    //     Debug.Log("started smart slash upgrade");
+    //     yield return new WaitForSecondsRealtime(time);
+    //     Debug.Log("stopped smart slash upgrade");
+    //     // baseAttack = original;
+    //     setter(baseAttack);
+    //     print(baseAttack);
+    // }
 }
