@@ -24,11 +24,9 @@ public class Punch : Attack
             }
             AnimationName = "Punch";
         }
-        
-        Execute = BasicExecute;
     }
 
-    public override IEnumerator BasicExecute(Vector3 origin, Vector3 target)
+    public override IEnumerator Execute(Vector3 origin, Vector3 target)
     {
         if (Animator) Animator.SetTrigger("executePunch");
 

@@ -20,20 +20,11 @@ public class Slash : Attack
             Animator = a;  
         }
         AnimationName = "Slash";
-
-        Execute = BasicExecute;
     }
 
-    /// <summary>Actually punches (verb)</summary>
-    /// <param name="origin">Nothing... just necessary for override</param>
-    /// <param name="target"></param>
-    /// <returns></returns>
-    public override IEnumerator BasicExecute(Vector3 origin, Vector3 target)
+    public override IEnumerator Execute(Vector3 origin, Vector3 target)
     {
-        if (Animator)
-        {
-            Animator.SetTrigger("executeSlash");
-        }
+        if (Animator) {Animator.SetTrigger("executeSlash");}
         
         LastExecute = Time.time;
         yield return new WaitForSeconds(0.43f); // ikik magic numbers but whatever

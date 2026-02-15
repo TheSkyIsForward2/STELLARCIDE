@@ -4,10 +4,10 @@ using Unity.VisualScripting;
 using System.Collections;
 
 /* TODO:
-++ store inventory of attacks
+++ store inventory of attacks & upgrades
 -- i.e. AttackInventory[] & AttackPool[]
 ++ take attack data from attacks.json
-++ create attacks using data
+++ initialize attacks using data
 */
 
 /// <summary>
@@ -15,14 +15,30 @@ using System.Collections;
 /// </summary>
 public class PlayerAttacking : MonoBehaviour
 {
-    [NonSerialized] public Attack BaseAttack;
-    [NonSerialized] public Attack BaseAttackUpgrade;
+    #region Initialization
+    [NonSerialized] public Attack PrimaryAttack;
     [NonSerialized] public Attack SecondaryAttack;
 
     private Punch punchAttack;
     private Shoot shootAttack;
     private Dash dashAttack;
     private Slash slashAttack;
+
+    public struct UpgradeData
+    {
+        public float Cooldown;
+        public float Duration;
+        public float LastExecute;
+        public bool IsReady(){return Cooldown + LastExecute < Time.time;}
+        public UpgradeData(float duration, float cooldown)
+        {
+            Duration = duration;
+            Cooldown = cooldown;
+            LastExecute = 0;
+        }
+    }
+
+    UpgradeData slashUpgrade;
 
     void Awake()
     {
@@ -47,7 +63,9 @@ public class PlayerAttacking : MonoBehaviour
             damage: new Damage(10, Damage.Type.PHYSICAL),
             cooldown: 1f
         );
-        BaseAttack = shootAttack;
+        PrimaryAttack = shootAttack;
+
+        slashUpgrade = new UpgradeData(10,5);
     }
 
     void Start()
@@ -55,16 +73,18 @@ public class PlayerAttacking : MonoBehaviour
         // this script now observes whenever the player changes forms and switches attacks accordingly
         EventBus.Instance.OnFormChange += (isShip) => SwapAttacks(isShip);
     }
+    #endregion
 
-
+    #region Input Polling
     void Update()
     {
         if (Input.GetMouseButton(0))
         {
             // this is how you actually attack
-            if (BaseAttack.IsReady()) // check if in cooldown
+            if (PrimaryAttack.IsReady()) // check if in cooldown
             {
-                CoroutineManager.Instance.Run(BaseAttack.Execute(gameObject.transform.position, gameObject.transform.right));
+                StartCoroutine(PrimaryAttack.Execute(gameObject.transform.position, 
+                    gameObject.transform.right));
             }
         }
 
@@ -76,37 +96,85 @@ public class PlayerAttacking : MonoBehaviour
                 {
                     Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     mouseWorldPos.z = transform.position.z;
-                    CoroutineManager.Instance.Run(SecondaryAttack.Execute(gameObject.transform.position, mouseWorldPos));
+                    StartCoroutine(SecondaryAttack.Execute(gameObject.transform.position, mouseWorldPos));
                 }
             }
         }
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
+            if (slashUpgrade.IsReady())
+                StartCoroutine(UpgradePunch());
+        }
 
-            StartCoroutine(UpgradePunch());
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            UpgradeAttack(ref PrimaryAttack, typeof(Punch), slashUpgrade, slashAttack);
         }
     }
+    #endregion
 
     void SwapAttacks(bool isShip)
     {
         if (isShip)
         {
-            BaseAttack = shootAttack;
+            PrimaryAttack = shootAttack;
             SecondaryAttack = null;
         }
         else
         {
-            BaseAttack = punchAttack;
-            SecondaryAttack = dashAttack;
+            PrimaryAttack = punchAttack;
+            SecondaryAttack = slashAttack;
         }  
     }
 
     IEnumerator UpgradePunch()
     {
-        Func<Vector3, Vector3, IEnumerator> original = punchAttack.Execute;
-        punchAttack.Execute = slashAttack.Execute;
-        yield return new WaitForSeconds(10);
-        punchAttack.Execute = original;
+        if (PrimaryAttack is Punch)
+        {
+            slashUpgrade.LastExecute = Time.time;
+            PrimaryAttack = slashAttack;
+            yield return new WaitForSeconds(slashUpgrade.Duration);
+            PrimaryAttack = punchAttack;
+        } 
+    }
+
+    // IEnumerator UpgradeAttack(Attack baseAttack, Type baseAttackType, 
+    //                           UpgradeData upgradeData, Attack newAttack)
+    // {
+    //     if (upgradeData.IsReady())
+    //     {
+    //         if (baseAttackType.IsInstanceOfType(baseAttack))
+    //         {
+    //             Attack original = baseAttack;
+    //             baseAttack = newAttack;
+    //             Debug.Log("started smart slash upgrade");
+    //             yield return new WaitForSeconds(upgradeData.Duration);
+    //             Debug.Log("stopped smart slash upgrade");
+    //             baseAttack = original;
+    //         }
+    //     }
+    // }
+
+    void UpgradeAttack(ref Attack baseAttack, Type baseAttackType, 
+                       UpgradeData upgradeData, Attack newAttack)
+    {
+        if (upgradeData.IsReady())
+        {
+            if (baseAttackType.IsInstanceOfType(baseAttack))
+            {
+                Attack original = baseAttack;
+                baseAttack = newAttack;
+                Debug.Log("started smart slash upgrade");
+                StartCoroutine(Sleep(upgradeData.Duration));
+                Debug.Log("stopped smart slash upgrade");
+                baseAttack = original;
+            }
+        }
+    }
+
+    IEnumerator Sleep(float time)
+    {
+        yield return new WaitForSecondsRealtime(time);
     }
 }

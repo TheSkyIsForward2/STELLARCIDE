@@ -28,11 +28,9 @@ public class Shoot : Attack
         Lifetime = lifetime;
         Piercing = piercing;
         AttackType = Type.RANGED;
-
-        Execute = BasicExecute;
     }
 
-    public override IEnumerator BasicExecute(Vector3 origin, Vector3 target)
+    public override IEnumerator Execute(Vector3 origin, Vector3 target)
     {
         GameManager.Instance.ProjectileManager.CreateProjectile(Owner,
                                                                 Damage,

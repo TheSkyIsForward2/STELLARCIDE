@@ -20,11 +20,9 @@ public class Dash : Attack
         AttackType = Type.DASH;
         Lifetime = lifetime;
         TravelSpeed = travelSpeed;
-
-        Execute = BasicExecute;
     }
     
-    public override IEnumerator BasicExecute(Vector3 origin, Vector3 target)
+    public override IEnumerator Execute(Vector3 origin, Vector3 target)
     {
         float elapsedTime=0;
         // TODO: give targetDistance a minimum
