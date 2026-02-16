@@ -35,15 +35,13 @@ public class Punch : Attack
     {
         if (Animator) {
             Animator.SetTrigger("executePunch");
-            LastExecute = Time.time;
-            yield return new WaitWhile(AnimatorIsPlaying);
         }
 
         LastExecute = Time.time;
         yield return new WaitForSeconds(0.30f);
 
         AudioManager.Instance.PlayPunchingSFX();
-        DamageArea(range: (float)target.x, width: (float)target.y);
+        DamageArea(range: (float)target.x + 3, width: (float)target.y + 3);
 
         LastExecute = Time.time;
         yield return new WaitWhile(AnimatorIsPlaying);

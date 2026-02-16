@@ -23,7 +23,6 @@ public class ShipMovement : MonoBehaviour
 */
     private void Update()
     {
-        Debug.Log(wish);
     }
     void FixedUpdate() {
         ApplySwingReduction();
