@@ -97,8 +97,17 @@ public class PlayerAttacking : MonoBehaviour
             // this is how you actually attack
             if (PrimaryAttack.IsReady()) // check if in cooldown
             {
-                StartCoroutine(PrimaryAttack.Execute(gameObject.transform.position, 
-                    gameObject.transform.right));
+                if (PrimaryAttack is Punch)
+                {
+                    StartCoroutine(PrimaryAttack.Execute(gameObject.transform.position,
+                        new Vector3(3, 3)));
+                }
+                else
+                {
+                    StartCoroutine(PrimaryAttack.Execute(gameObject.transform.position,
+                        gameObject.transform.right));
+                }
+
             }
         }
 

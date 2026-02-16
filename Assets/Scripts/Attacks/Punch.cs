@@ -41,7 +41,7 @@ public class Punch : Attack
         yield return new WaitForSeconds(0.30f);
 
         AudioManager.Instance.PlayPunchingSFX();
-        DamageArea(range: (float)target.x + 3, width: (float)target.y + 3);
+        DamageArea(range: (float)target.x, width: (float)target.y);
 
         LastExecute = Time.time;
         yield return new WaitWhile(AnimatorIsPlaying);
