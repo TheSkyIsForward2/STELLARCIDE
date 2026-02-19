@@ -35,8 +35,6 @@ public class Punch : Attack
     {
         if (Animator) {
             Animator.SetTrigger("executePunch");
-            LastExecute = Time.time;
-            yield return new WaitWhile(AnimatorIsPlaying);
         }
 
         LastExecute = Time.time;

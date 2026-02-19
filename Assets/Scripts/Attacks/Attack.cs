@@ -116,8 +116,11 @@ public abstract class Attack
     /// <returns>True when Attack.Animator still playing a specific animation</returns>
     public bool AnimatorIsPlaying()
     {
-        return Animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1 && 
-            Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimationName);
+        if (Animator)
+            return Animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1 && 
+                Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimationName);
+        else
+            return false;
     }
 
     public int CurrentAnimationFrame()
