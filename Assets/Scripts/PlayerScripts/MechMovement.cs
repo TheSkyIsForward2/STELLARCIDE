@@ -8,15 +8,8 @@ public class MechMovement : MonoBehaviour
     private Rigidbody2D rb;
     private Vector2 wish;
 
-    void Start() {
+    void Awake() {
         rb = GetComponent<Rigidbody2D>();
-    }
-
-    void Update() {
-        if (Input.GetKeyDown(KeyCode.R)) {
-            transform.position = Vector3.zero;
-            rb.linearVelocity = Vector3.zero;
-        }
     }
 
     void FixedUpdate() {

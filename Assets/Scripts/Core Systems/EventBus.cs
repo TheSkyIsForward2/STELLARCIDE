@@ -50,13 +50,13 @@ public class EventBus
     }
 
     #region Actions
-    public event Action<bool> OnFormChange;
+    public event Action<PlayerMode> OnFormChange;
     #endregion
 
     #region Callers
-    public void ChangeForm(bool isShip)
+    public void ChangeForm(PlayerMode newMode)
     {
-        OnFormChange?.Invoke(isShip);
+        OnFormChange?.Invoke(newMode);
     }
     #endregion
 }

@@ -7,9 +7,12 @@ public class PauseMenu : MonoBehaviour
     public GameObject mainMenu;
     public GameObject optionsMenu;
     public static bool optionsFromGame = false;
+    PlayerController playerController;
     void Awake()
     {
         Time.timeScale = 0f;
+        playerController = GameManager.Instance.Player.GetComponent<PlayerController>();
+        playerController.ToggleControls(false);
     }
 
     public void ReturnToMainMenu()
@@ -18,6 +21,7 @@ public class PauseMenu : MonoBehaviour
         mainMenu.SetActive(true);
         UITest.mainMenuActive = true;
         optionsFromGame = false;
+        playerController.ToggleControls(true);
     }
 
     public void Options()
@@ -26,8 +30,10 @@ public class PauseMenu : MonoBehaviour
         optionsMenu.SetActive(true);
         UITest.optionsMenuActive = true;
         optionsFromGame = true;
+        playerController.ToggleControls(true);
     }
 
+    // TODO: move into InputActions Events
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -37,6 +43,7 @@ public class PauseMenu : MonoBehaviour
             Time.timeScale = 1f;
             UITest.gameActive = true;
             UITest.pauseMenuActive = false;
+            playerController.ToggleControls(true);
         }
 
         if (!UITest.gameActive)

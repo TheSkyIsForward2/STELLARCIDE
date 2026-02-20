@@ -13,7 +13,7 @@ public class ProjectileController : MonoBehaviour
     public bool piercing;
     public GameObject owner;
 
-
+    // TODO: pool projectiles
     void Update()
     {
         if (owner == null)

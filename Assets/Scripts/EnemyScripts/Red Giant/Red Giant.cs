@@ -10,7 +10,7 @@ public class RedGiant : MonoBehaviour
     private LungeAttackState Lunge;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
         Controller = GetComponent<StateController>();
 

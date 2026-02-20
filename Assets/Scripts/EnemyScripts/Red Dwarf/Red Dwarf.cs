@@ -10,7 +10,7 @@ public class RedDwarf : MonoBehaviour
     private ChaseState Chase;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
         Controller = GetComponent<StateController>();
 

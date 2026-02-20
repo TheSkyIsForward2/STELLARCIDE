@@ -10,7 +10,7 @@ public class StateController : MonoBehaviour
     public Vector2 EnemyToPlayer { get; private set; }
     public float DistanceToPlayer { get; private set; }
 
-    private void Awake()
+    private void Start()
     {
         //Player = FindFirstObjectByType<PlayerController>()?.transform;
         Player = GameObject.FindGameObjectWithTag("Player")?.transform;

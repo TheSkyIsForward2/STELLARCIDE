@@ -12,21 +12,20 @@ public class PlayerVisuals : MonoBehaviour
         playerController = GetComponent<PlayerController>();
         shipSprite.SetActive(true);
         mechSprite.SetActive(false);
+        EventBus.Instance.OnFormChange += (newMode) => SwapSprites(newMode);
     }
 
-    void Update() {
-        PlayerMode mode = playerController.GetPlayerMode();
-        
-        switch (mode) {
-            case PlayerMode.MECH:
-                shipSprite.SetActive(false);
-                mechSprite.SetActive(true);
-                break;
-
+    void SwapSprites(PlayerMode newMode)
+    {
+        switch (newMode)
+        {
             case PlayerMode.SHIP:
-            default:
                 shipSprite.SetActive(true);
                 mechSprite.SetActive(false);
+                break;
+            default:
+                shipSprite.SetActive(false);
+                mechSprite.SetActive(true);
                 break;
         }
     }

@@ -10,14 +10,14 @@ public class EnemySpawner : MonoBehaviour
     public GameObject enemyPrefab;
 
 
-    void Start()
-    {
-        // UnityEngine.Debug.Log(transform.childCount);
-        foreach(Transform child in transform)
-        {
-            // UnityEngine.Debug.Log(child.transform.position);
-        }
-    }
+    // void Start()
+    // {
+    //     // UnityEngine.Debug.Log(transform.childCount);
+    //     foreach(Transform child in transform)
+    //     {
+    //         // UnityEngine.Debug.Log(child.transform.position);
+    //     }
+    // }
 
     void Update()
     {

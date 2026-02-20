@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 
 /* TODO:
 * fix input enabling & disabling on entering a asteroid
-* lock controls during attack animations
 */
 
 public enum PlayerMode {
@@ -40,18 +39,13 @@ public class PlayerController : MonoBehaviour
     private Vector3 cursorOffset;
     
     private Rigidbody2D rb;
-
-    private bool controlLocked;
-    
-    /// <summary>
-    /// Changes the time that swapping forms leaves player control-locked
-    /// </summary>
-    [SerializeField] private float lockTime = 0.25f;
+    private Animator animator;
 
     private void Awake()
     {
         GameManager.Instance.Player = gameObject;
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
 
         inputActions = new PlayerControls();
         inputActions.Enable();
@@ -60,12 +54,10 @@ public class PlayerController : MonoBehaviour
         shipMovement.enabled = true;
         mechMovement = GetComponent<MechMovement>();
         mechMovement.enabled = false;
-        
-        controlLocked = false;
+
     }
 
     void Start() {
-        
         camTarget = GetComponentInChildren<ClampedFollower>();
         initialCamTargetDist = camTarget.maxDistance;
         targetCameraDistance = initialCamTargetDist;
@@ -82,9 +74,6 @@ public class PlayerController : MonoBehaviour
         cursor = CursorUtil.GetCursorPosition();
         cursorOffset = cursor - transform.position;
 
-        // check if FlyIn/Out state is active
-        // if (controlLocked)
-        //     return;
         
         // handle movement modes
         if (currentMode == PlayerMode.SHIP) {
@@ -149,7 +138,7 @@ public class PlayerController : MonoBehaviour
         if ((mechTransitionLayer & (1 << other.gameObject.layer)) != 0) {
             FlyIn();
             currentMode = PlayerMode.MECH;
-            EventBus.Instance.ChangeForm(false);
+            EventBus.Instance.ChangeForm(currentMode);
         }
     }
 
@@ -157,15 +146,12 @@ public class PlayerController : MonoBehaviour
         if ((mechTransitionLayer & (1 << other.gameObject.layer)) != 0) {
             FlyOut();
             currentMode = PlayerMode.SHIP;
-            EventBus.Instance.ChangeForm(true);
+            EventBus.Instance.ChangeForm(currentMode);
         }
     }
 
     void FlyIn()
     {
-        // StartCoroutine("LockControls", lockTime);
-        CoroutineManager.Instance.Run(LockControls(lockTime));
-        
         shipMovement.enabled = false;
         mechMovement.enabled = true;
         
@@ -176,9 +162,6 @@ public class PlayerController : MonoBehaviour
 
     void FlyOut()
     {
-        // StartCoroutine("LockControls", lockTime);
-        CoroutineManager.Instance.Run(LockControls(lockTime));
-
         shipMovement.enabled = true;
         mechMovement.enabled = false;
     
@@ -187,18 +170,22 @@ public class PlayerController : MonoBehaviour
         // sound effect
     }
 
+    /// <summary>
+    /// Temporarily disables player input for a duration
+    /// </summary>
     public IEnumerator LockControls(float duration)
     {
-        // controlLocked = true;
         inputActions.Disable();
         yield return new WaitForSeconds(duration);
-        // controlLocked = false;
         inputActions.Enable();
     }
 
-    public void ToggleControls(bool isOn)
+    /// <summary>
+    /// Enable and disable player inputs until called again
+    /// </summary>
+    public void ToggleControls(bool enabled)
     {
-        if (isOn)
+        if (enabled)
         {
             inputActions.Enable();
         }

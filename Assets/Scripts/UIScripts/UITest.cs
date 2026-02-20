@@ -73,6 +73,7 @@ public class UITest : MonoBehaviour
         //Debug.Log("Retured");
     }
 
+    // TODO: move into InputActions Events
     private void Update()
     {
         if (mainMenuActive || optionsMenuActive || pauseMenuActive)

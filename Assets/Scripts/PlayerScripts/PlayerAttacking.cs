@@ -85,11 +85,12 @@ public class PlayerAttacking : MonoBehaviour
     void Start()
     {
         // this script now observes whenever the player changes forms and switches attacks accordingly
-        EventBus.Instance.OnFormChange += (isShip) => SwapAttacks(isShip);
+        EventBus.Instance.OnFormChange += (newMode) => SwapAttacks(newMode);
     }
     #endregion
 
     #region Input Polling
+    // move this stuff into InputAction Events
     void Update()
     {
         if (inputActions.Gameplay.PrimaryAttack.IsPressed())
@@ -149,18 +150,19 @@ public class PlayerAttacking : MonoBehaviour
     }
     #endregion
 
-    void SwapAttacks(bool isShip)
+    void SwapAttacks(PlayerMode newMode)
     {
-        if (isShip)
+        switch (newMode)
         {
-            PrimaryAttack = shootAttack;
-            SecondaryAttack = strafeAttack;
+            case PlayerMode.SHIP:
+                PrimaryAttack = shootAttack;
+                SecondaryAttack = strafeAttack;
+                break;
+            default:
+                PrimaryAttack = punchAttack;
+                SecondaryAttack = dashAttack;
+                break;
         }
-        else
-        {
-            PrimaryAttack = punchAttack;
-            SecondaryAttack = dashAttack;
-        }  
     }
 
     IEnumerator ExecuteSlashUpgrade()

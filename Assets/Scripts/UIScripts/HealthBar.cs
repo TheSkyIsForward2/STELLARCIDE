@@ -10,15 +10,10 @@ public class HealthBar : MonoBehaviour
     [SerializeField] private Slider healthBar;
     //[SerializeField] private PlayerHealth playerHealth;
 
-    private void Start()
+    void Awake()
     {
         //maxHealth = playerHealth.healthController.maxHP;
         health = GameManager.Instance.Player.GetComponent<PlayerHealth>().healthController;
         healthBar.maxValue = health.maxHP;
-    }
-
-    private void Update()
-    {
-        healthBar.value = (float) health.hp;
     }
 }

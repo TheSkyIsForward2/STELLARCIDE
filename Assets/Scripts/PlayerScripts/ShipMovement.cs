@@ -10,21 +10,10 @@ public class ShipMovement : MonoBehaviour
     private Rigidbody2D rb;
     private Vector2 wish;
 
-    void Start() {
+    void Awake() {
         rb = GetComponent<Rigidbody2D>();
     }
 
-    /*   void Update() {
-        if (Input.GetKeyDown(KeyCode.R)) {
-            transform.position = Vector3.zero;
-            rb.linearVelocity = Vector3.zero;
-        }
-    }
-*/
-    private void Update()
-    {
-        Debug.Log(wish);
-    }
     void FixedUpdate() {
         ApplySwingReduction();
         ApplyDriftReduction();

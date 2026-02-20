@@ -5,7 +5,7 @@ public class CoroutineManager : MonoBehaviour
 {
     public static CoroutineManager Instance;
 
-    void Start()
+    void Awake()
     {
         Instance = this;
     }
