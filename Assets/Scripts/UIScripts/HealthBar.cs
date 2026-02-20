@@ -16,4 +16,9 @@ public class HealthBar : MonoBehaviour
         health = GameManager.Instance.Player.GetComponent<PlayerHealth>().healthController;
         healthBar.maxValue = health.maxHP;
     }
+
+    void Update()
+    {
+        healthBar.value = (float) health.hp;
+    }
 }
