@@ -22,6 +22,7 @@ public class PauseMenu : MonoBehaviour
         UITest.mainMenuActive = true;
         optionsFromGame = false;
         playerController.ToggleControls(true);
+        AudioManager.Instance.RestartBGM();
     }
 
     public void Options()

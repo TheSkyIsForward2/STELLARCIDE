@@ -80,6 +80,8 @@ public class PlayerAttacking : MonoBehaviour
 
         inputActions = new PlayerControls();
         inputActions.Enable();
+
+        // inputActions.Gameplay.PrimaryAttack += ()=>{};
     }
 
     void Start()
@@ -90,7 +92,7 @@ public class PlayerAttacking : MonoBehaviour
     #endregion
 
     #region Input Polling
-    // move this stuff into InputAction Events
+    // TODO: move this stuff into InputAction Events
     void Update()
     {
         if (inputActions.Gameplay.PrimaryAttack.IsPressed())

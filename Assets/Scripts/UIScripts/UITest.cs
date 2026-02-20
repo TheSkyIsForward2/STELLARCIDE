@@ -52,6 +52,7 @@ public class UITest : MonoBehaviour
         optionsMenu.SetActive(false);
         optionsMenuActive = false;
         mainMenuActive = true;
+        AudioManager.Instance.RestartBGM();
     }
 
     public void ReturnFromVolume()

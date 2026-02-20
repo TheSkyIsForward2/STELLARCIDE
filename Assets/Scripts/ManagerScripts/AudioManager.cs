@@ -1,10 +1,7 @@
-// thank you my GOAT Ethan Yoshino for this code 
-using System.Collections;
-using System.Collections.Generic;
+// thank you my GOAT Ethan Yoshino for this code
 using UnityEngine;
 using FMOD.Studio;
 using FMODUnity;
-using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
@@ -47,6 +44,10 @@ public class AudioManager : MonoBehaviour
     private string punchingSFX = "event:/punchingaud";
     #endregion
 
+    #region Object References
+    private GameObject bgmController;
+    #endregion
+
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -75,6 +76,11 @@ public class AudioManager : MonoBehaviour
         #endif
     }
 
+    void Start()
+    {
+        bgmController = transform.Find("BGMusic").gameObject;
+    }
+
 
     /// <summary>
     /// Play any sfx or other sound that isn't music.
@@ -101,5 +107,12 @@ public class AudioManager : MonoBehaviour
        public void PlayPunchingSFX() { Play(punchingSFX); }
     #endregion
 
-
+    #region Music Functions
+        public void StartBGM(){bgmController.SetActive(true);}
+        public void StopBGM(){bgmController.SetActive(false);}
+        public void RestartBGM(){StopBGM(); StartBGM();}
+        public void PauseBGM(){}
+        public void UnpauseBGM(){}
+        
+    #endregion
 }
