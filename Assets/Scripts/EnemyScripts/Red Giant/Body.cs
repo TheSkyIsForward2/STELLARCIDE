@@ -3,37 +3,26 @@ using UnityEngine;
 public class Body : MonoBehaviour
 {
     public Transform target;
-    public float followDistance = 2.0f;
+    public float followDistance = 4.0f;
     public float followSpeed = 5f;
 
-    private Vector2 lastPos;
     public bool freeze = false;
-
-    void Start()
-    {
-        lastPos = transform.position;
-    }
 
     void Update()
     {
-        //if (!target || freeze) return;
+        if (!target || freeze) return;
 
-        //Vector2 dir = (Vector2)(target.position - transform.position);
-        //Vector2 desiredPos = (Vector2)target.position - dir.normalized * followDistance;
 
-        //Vector2 delta = desiredPos - lastPos;
-        //Vector2 forwardDir = dir.normalized;
-        //float forwardMovement = Vector2.Dot(delta, forwardDir);
+        float actualDistance = Vector2.Distance(transform.position, target.position);
 
-        //if (forwardMovement > 0f)
-        //{
-        //    Vector2 move = forwardDir * forwardMovement;
+        var followToCurrent = (transform.position - target.position).normalized;
+        followToCurrent.Scale(new Vector2(followDistance, followDistance));
+        transform.position = Vector2.MoveTowards(transform.position, followToCurrent + target.position, followSpeed * Time.deltaTime);
 
-        //    transform.position = Vector2.MoveTowards(transform.position, lastPos + move, followSpeed * Time.deltaTime);
-        //}
 
-        //transform.up = dir.normalized;
-
-        //lastPos = transform.position;
+        Vector2 direction = target.position - transform.position;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90f;
+        Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, followSpeed * Time.deltaTime);
     }
 }
