@@ -9,6 +9,8 @@ public class EnemySpawner : MonoBehaviour
     private float spawnInterval = 8f;
     public GameObject enemyPrefab;
 
+    [SerializeField] private bool spawnEnemy = true;
+
 
     void Start()
     {
@@ -22,7 +24,7 @@ public class EnemySpawner : MonoBehaviour
     void Update()
     {
         spawnTimer += Time.deltaTime;
-        if (spawnTimer >= spawnInterval)
+        if (spawnTimer >= spawnInterval && spawnEnemy)
         {
             SpawnEnemy();
             spawnTimer = 0;

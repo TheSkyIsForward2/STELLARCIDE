@@ -74,6 +74,7 @@ public class LungeAttackState : IState
 
         t = 0.0f;
 
+        lungePos = backPos - controller.transform.up * lungeDistance;
         while (t < 1.0f)
         {
             t += Time.deltaTime / lungeTime;
