@@ -67,7 +67,7 @@ public class PlayerAttacking : MonoBehaviour
         );
         strafeAttack = new Strafe(gameObject,
                 damage: new Damage(10, Damage.Type.PHYSICAL),
-                cooldown: 5f,
+                cooldown: 3f,
                 strafeStrength: 10f
             );
         PrimaryAttack = shootAttack;
@@ -132,7 +132,9 @@ public class PlayerAttacking : MonoBehaviour
                     {
                         direction = -gameObject.transform.up;
                     }
+                    if (direction == Vector3.zero) { return; }
                     StartCoroutine(SecondaryAttack.Execute(gameObject.transform.position, direction.normalized));
+                    Debug.Log("strafe performed");
                 }
             }
         }
