@@ -70,10 +70,10 @@ public class AudioManager : MonoBehaviour
         masterBus = RuntimeManager.GetBus(masterBusPath);
         musicBus = RuntimeManager.GetBus(musicBusPath);
         sfxBus = RuntimeManager.GetBus(sfxBusPath);
-        #if UNITY_WEBGL
-                SceneManager.sceneUnloaded += (_) => PauseOST();
-                SceneManager.sceneLoaded += (_, _) => UnpauseOST();
-        #endif
+        // #if UNITY_WEBGL
+        //         SceneManager.sceneUnloaded += (_) => PauseOST();
+        //         SceneManager.sceneLoaded += (_, _) => UnpauseOST();
+        // #endif
     }
 
     void Start()

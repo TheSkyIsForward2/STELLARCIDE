@@ -23,7 +23,7 @@ public class PlayerVisuals : MonoBehaviour
                 shipSprite.SetActive(true);
                 mechSprite.SetActive(false);
                 break;
-            default:
+            case PlayerMode.MECH:
                 shipSprite.SetActive(false);
                 mechSprite.SetActive(true);
                 break;

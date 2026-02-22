@@ -1,6 +1,3 @@
-using System.Collections;
-using Unity.VisualScripting;
-using UnityEditor.UI;
 using UnityEngine;
 
 public class YellowDwarf : MonoBehaviour
