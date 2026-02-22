@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6311845005922799543}
   - component: {fileID: 2844196059070646281}
   - component: {fileID: 728081773781724103}
+  - component: {fileID: -910107650060781406}
   m_Layer: 0
   m_Name: Tail
   m_TagString: Untagged
@@ -155,3 +156,15 @@ MonoBehaviour:
   followDistance: 1
   followSpeed: 5
   freeze: 0
+--- !u!114 &-910107650060781406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2771872433535937073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dd588fb8edc29642bbc9fe6d1a27030, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
