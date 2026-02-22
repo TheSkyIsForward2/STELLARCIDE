@@ -74,6 +74,7 @@ public class LungeAttackState : IState
 
         t = 0.0f;
 
+        lungePos = backPos - controller.transform.up * lungeDistance;
         while (t < 1.0f)
         {
             t += Time.deltaTime / lungeTime;
@@ -83,15 +84,6 @@ public class LungeAttackState : IState
         if (punch != null)
         {
             controller.AttackPlayer(punch);
-        }
-
-        t = 0.0f;
-
-        while (t < 1.0f)
-        {
-            t += Time.deltaTime / lungeTime;
-            controller.transform.position = Vector3.Lerp(lungePos, startPos, t);
-            yield return null;
         }
 
         yield return new WaitForSeconds(attackCooldown);
