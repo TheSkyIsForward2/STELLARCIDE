@@ -12,8 +12,8 @@ public class StateController : MonoBehaviour
 
     private void Awake()
     {
-        //Player = FindFirstObjectByType<PlayerController>()?.transform;
-        Player = GameObject.FindGameObjectWithTag("Player")?.transform;
+        Player = FindFirstObjectByType<PlayerController>()?.transform;
+        //Player = GameObject.FindGameObjectWithTag("Player")?.transform;
     }
 
     public void ChangeState(IState newState)

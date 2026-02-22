@@ -7,29 +7,27 @@ using UnityEngine.UIElements;
 
 public class Head : MonoBehaviour
 {
-    public Transform Player;
+    private StateController Controller;
 
-    [Header("Body Info")]
-    public int SegmentCount = 0;
-    public Body BodyPrefab;
-    public Tail TailPrefab;
-    // Hold references to each part
-    private List<Body> BodySegments = new List<Body>();
-    private Tail TailSegment;
+    private IdleState Idle;
+    private ScoutState Scout;
+    private LungeAttackState Lunge;
 
-    private void Start()
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
     {
-        Transform prevTransform = transform;
-        for (int i = 1; i < SegmentCount + 1; i++)
-        {
-            Body body = Instantiate(BodyPrefab, new Vector2(transform.position.x, transform.position.y + (i)), transform.rotation, transform);
-            body.target = prevTransform;
-            BodySegments.Add(body);
-            prevTransform = body.transform;
-        }
-        TailSegment = Instantiate(TailPrefab, new Vector2(transform.position.x, transform.position.y + (SegmentCount + 1)), transform.rotation, transform);
-        TailSegment.target = prevTransform;
+        Controller = GetComponent<StateController>();
+
+        Idle = new IdleState();
+        Scout = new ScoutState();
+        Lunge = new LungeAttackState();
+
+        Idle.SetStates(Scout);
+        Scout.SetStates(Idle, Lunge);
+        Lunge.SetStates(Scout);
+
+        Scout.SetDistance(20, 3);
+
+        Controller.ChangeState(Idle);
     }
-
-
 }
