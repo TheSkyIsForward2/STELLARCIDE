@@ -17,6 +17,7 @@ public class Shoot : Attack
     /// <param name="lifetime">Projectile lifetime in seconds</param>
     /// <param name="sfx">Sound effect for the attack</param>
     /// <param name="piercing">Whether the projectile can pierce Entities</param>
+    /// <param name="homing">Whether the projectile can home onto Entities
     public Shoot(GameObject owner,
                   Damage damage,
                   float cooldown,
@@ -37,6 +38,7 @@ public class Shoot : Attack
                                                                 TravelSpeed,
                                                                 Lifetime,
                                                                 Piercing,
+                                                                false,
                                                                 sizeScalar:2,
                                                                 origin, target);
         AudioManager.Instance.PlayPlayerShootSFX();

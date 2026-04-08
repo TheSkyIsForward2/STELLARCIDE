@@ -24,6 +24,7 @@ public class PlayerAttacking : MonoBehaviour
     private Dash dashAttack;
     private Slash slashAttack;
     private Strafe strafeAttack;
+    private Missile missileAttack;
 
     public struct UpgradeData
     {
@@ -40,6 +41,7 @@ public class PlayerAttacking : MonoBehaviour
     }
 
     UpgradeData slashUpgradeData;
+    UpgradeData missileUpgradeData;
     private PlayerControls inputActions;
 
     void Awake()
@@ -70,10 +72,23 @@ public class PlayerAttacking : MonoBehaviour
                 cooldown: 3f,
                 strafeStrength: 10f
             );
+        missileAttack = new Missile(gameObject,
+            damage: new Damage(10, Damage.Type.PHYSICAL),
+            cooldown: 1f,
+            travelSpeed: 3f,
+            piercing: false,
+            lifetime: 4f,
+            homing: true
+        );
         PrimaryAttack = shootAttack;
         SecondaryAttack = strafeAttack;
 
         slashUpgradeData = new UpgradeData(
+            cooldown: 10f,
+            duration: 5f
+        );
+
+        missileUpgradeData = new UpgradeData(
             cooldown: 10f,
             duration: 5f
         );
@@ -141,16 +156,23 @@ public class PlayerAttacking : MonoBehaviour
             }
         }
 
+        // THESE NEED TO CHECK FOR MECH/SHIP FORM STATUS!!! ------------------------------------
+        
         if (Input.GetKeyDown(KeyCode.Q))
         {
+            // make this check for current upgrade in Q slot and then apply!
             if (slashUpgradeData.IsReady())
                 StartCoroutine(ExecuteSlashUpgrade());
         }
-
-        // if (Input.GetKeyDown(KeyCode.E))
-        // {
-        //     UpgradeAttack(()=>PrimaryAttack, typeof(Punch), slashUpgradeData, slashAttack);
-        // }
+        
+        
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (missileUpgradeData.IsReady())
+                StartCoroutine(ExecuteMissileUpgrade());
+        }
+        
+        // --------------------------------------------------------------------------------------
     }
     #endregion
 
@@ -176,6 +198,17 @@ public class PlayerAttacking : MonoBehaviour
             slashUpgradeData.LastExecute = Time.time;
             PrimaryAttack = slashAttack;
             yield return new WaitForSeconds(slashUpgradeData.Duration);
+            PrimaryAttack = punchAttack;
+        } 
+    }
+    
+    IEnumerator ExecuteMissileUpgrade()
+    {
+        if (PrimaryAttack is Shoot)
+        {
+            missileUpgradeData.LastExecute = Time.time;
+            PrimaryAttack = missileAttack;
+            yield return new WaitForSeconds(missileUpgradeData.Duration);
             PrimaryAttack = punchAttack;
         } 
     }

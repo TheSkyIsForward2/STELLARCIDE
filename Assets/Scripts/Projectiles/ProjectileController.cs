@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 /// <summary>
@@ -11,7 +12,16 @@ public class ProjectileController : MonoBehaviour
     public float speed;
     public float lifetime;
     public bool piercing;
+    public bool homing;
     public GameObject owner;
+    public Transform target;
+    
+    private Rigidbody2D rb;
+
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
 
     // TODO: pool projectiles
     void Update()
@@ -20,10 +30,18 @@ public class ProjectileController : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
-        transform.Translate(new Vector3(speed * Time.deltaTime, 0, 0), Space.Self);
     }
-    
+
+    private void FixedUpdate()
+    {
+        if (homing)
+        {
+            HandleHoming();
+            return;
+        }
+        rb.linearVelocity = transform.right * speed * Time.fixedDeltaTime * 50f;
+    }
+
 
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -49,9 +67,49 @@ public class ProjectileController : MonoBehaviour
         }
         if (piercing) return;
         // projectile dies if entity on opposite team is hit AND doesnt pierce
+        print(otherObject);
         Destroy(gameObject);
     }
 
+    // 1. Check area in r radius for potential enemies
+    // 2. Choose closest enemy
+    // 3. Move towards in arc
+    // 4. Else, continue forward
+    public void HandleHoming()
+    {
+        float radius = 10f;
+        float turnSpeed = speed * Time.deltaTime;
+        
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, radius);
+        foreach (Collider2D collide in colliders)
+        {
+            //print(collide);
+            // collide isn't an Entity
+            if (!collide.CompareTag("Entity"))
+                continue;
+            // collide is on same team
+            if (owner.GetComponent<Entity>().healthController.team ==
+                collide.GetComponent<Entity>().healthController.team)
+                continue;
+            // target doesn't exist
+            if (!target) 
+                target = collide.transform;
+            // closer target
+            if (Vector2.Distance(transform.position, collide.transform.position) < Vector2.Distance(transform.position, target.transform.position))
+                target = collide.transform;
+        }
+
+        rb.linearVelocity = transform.right * speed * Time.fixedDeltaTime * 50f;
+        
+        if (target)
+        {
+            Vector2 direction = (target.transform.position - transform.position).normalized;
+            float rotation = Vector2.SignedAngle(transform.up, direction);
+            // float rotation = Vector3.Cross(transform.up, direction).z;
+            rb.angularVelocity = rotation * turnSpeed * 50f;
+            
+        }
+    }
 
     public void SetLifetime(float time)
     {

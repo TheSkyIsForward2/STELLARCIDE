@@ -19,6 +19,7 @@ public abstract class Attack
     public float TravelSpeed;
     public float Lifetime;
     public bool Piercing;
+    public bool Homing;
     public float StrafeStrength; // Could be moved , not sure how this is being ordered right now
     public enum Type
     {
