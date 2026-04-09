@@ -75,7 +75,7 @@ public class PlayerAttacking : MonoBehaviour
         missileAttack = new Missile(gameObject,
             damage: new Damage(10, Damage.Type.PHYSICAL),
             cooldown: 1f,
-            travelSpeed: 3f,
+            travelSpeed: 10f,
             piercing: false,
             lifetime: 4f,
             homing: true

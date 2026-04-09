@@ -39,7 +39,7 @@ public class ProjectileController : MonoBehaviour
             HandleHoming();
             return;
         }
-        rb.linearVelocity = transform.right * speed * Time.fixedDeltaTime * 50f;
+        rb.linearVelocity = transform.right * speed;
     }
 
 
@@ -78,7 +78,7 @@ public class ProjectileController : MonoBehaviour
     public void HandleHoming()
     {
         float radius = 10f;
-        float turnSpeed = speed * Time.deltaTime;
+        float turnSpeed = 200f;
         
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, radius);
         foreach (Collider2D collide in colliders)
@@ -98,17 +98,16 @@ public class ProjectileController : MonoBehaviour
             if (Vector2.Distance(transform.position, collide.transform.position) < Vector2.Distance(transform.position, target.transform.position))
                 target = collide.transform;
         }
-
-        rb.linearVelocity = transform.right * speed * Time.fixedDeltaTime * 50f;
         
         if (target)
         {
             Vector2 direction = (target.transform.position - transform.position).normalized;
-            float rotation = Vector2.SignedAngle(transform.up, direction);
-            // float rotation = Vector3.Cross(transform.up, direction).z;
-            rb.angularVelocity = rotation * turnSpeed * 50f;
-            
+            float rotation = Vector3.Cross(direction, transform.right).z;
+            rb.angularVelocity = -rotation * turnSpeed;
+            //print(target.gameObject);
         }
+        
+        rb.linearVelocity = transform.right * speed;
     }
 
     public void SetLifetime(float time)
