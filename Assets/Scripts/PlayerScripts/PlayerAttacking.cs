@@ -161,9 +161,6 @@ public class PlayerAttacking : MonoBehaviour
                 {
                     StartCoroutine(PrimaryAttack.Execute(gameObject.transform.position, 
                         new Vector3(3,3)));
-                } else if (PrimaryAttack is ChargeUp)
-                {
-
                 }
                 else
                 {
@@ -263,8 +260,8 @@ public class PlayerAttacking : MonoBehaviour
         // I think each projectile class should have it's own create projectile that fills in the correct parameters
         // That way missiles can actually follow and whatnot
         GameManager.Instance.ProjectileManager.CreateProjectile(PrimaryAttack.Owner, 
-            PrimaryAttack.Damage, PrimaryAttack.TravelSpeed, PrimaryAttack.Lifetime, PrimaryAttack.Piercing,
-            false, sizeScalar: 2 * (Time.time - chargeUpUpgradeData.LastExecute), gameObject.transform.position,
+            PrimaryAttack.Damage, PrimaryAttack.TravelSpeed, PrimaryAttack.Lifetime, PrimaryAttack.Piercing, PrimaryAttack.Homing,
+            sizeScalar: 2 * (Time.time - chargeUpUpgradeData.LastExecute), gameObject.transform.position,
                         gameObject.transform.right);
         chargeUpUpgradeData.LastExecute = 0.0f;
         yield return new WaitForEndOfFrame();
