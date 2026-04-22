@@ -1,7 +1,10 @@
 using System;
-using UnityEngine;
-using Unity.VisualScripting;
 using System.Collections;
+using System.Collections.Generic;
+using System.Net;
+using Unity.VisualScripting;
+using UnityEngine;
+using static UnityEngine.UI.Image;
 
 /* TODO:
 ++ store inventory of attacks & upgrades
@@ -18,6 +21,8 @@ public class PlayerAttacking : MonoBehaviour
     #region Initialization
     [NonSerialized] public Attack PrimaryAttack;
     [NonSerialized] public Attack SecondaryAttack;
+
+    [SerializeField] public GameObject chargeUpIndicator;
 
     private Punch punchAttack;
     private Shoot shootAttack;
@@ -42,6 +47,7 @@ public class PlayerAttacking : MonoBehaviour
 
     UpgradeData slashUpgradeData;
     UpgradeData missileUpgradeData;
+    UpgradeData chargeUpUpgradeData;
     private PlayerControls inputActions;
 
     void Awake()
@@ -80,7 +86,8 @@ public class PlayerAttacking : MonoBehaviour
             lifetime: 4f,
             homing: true
         );
-        PrimaryAttack = shootAttack;
+
+        PrimaryAttack = missileAttack;
         SecondaryAttack = strafeAttack;
 
         slashUpgradeData = new UpgradeData(
@@ -93,6 +100,12 @@ public class PlayerAttacking : MonoBehaviour
             duration: 5f
         );
 
+        // What does cooldown & duration exactly mean here?
+        // Also I think to have the charging up effect, we add a separate script / shape to the player
+        chargeUpUpgradeData = new UpgradeData(
+            cooldown: 1f,
+            duration: 5f
+        );
         inputActions = new PlayerControls();
         inputActions.Enable();
 
@@ -110,6 +123,35 @@ public class PlayerAttacking : MonoBehaviour
     // TODO: move this stuff into InputAction Events
     void Update()
     {
+        // Need to make it so the player doesn't double attack
+        if (inputActions.Gameplay.PrimaryAttack.WasPressedThisFrame())
+        {
+            if (chargeUpUpgradeData.IsReady())
+            {
+                chargeUpUpgradeData.LastExecute = Time.time;
+                chargeUpIndicator.GetComponent<SpriteRenderer>().enabled = true;
+            }
+        }
+
+        if (chargeUpIndicator.GetComponent<SpriteRenderer>().enabled)
+        {
+            chargeUpIndicator.transform.localScale += new Vector3(0.01f, 0.01f, 0);
+            chargeUpIndicator.transform.localPosition += new Vector3(0, 0.005f, 0);
+        }
+
+        if (inputActions.Gameplay.PrimaryAttack.WasReleasedThisFrame())
+        {
+            if (chargeUpUpgradeData.LastExecute != 0.0)
+            {
+                StartCoroutine(ExecuteChargeUpUpgrade());
+                chargeUpIndicator.GetComponent<SpriteRenderer>().enabled = false;
+                chargeUpIndicator.transform.localScale = new Vector3(1, 1, 1);
+                chargeUpIndicator.transform.localPosition = new Vector3(0, 6, 0);
+
+            }
+        }
+        return;
+
         if (inputActions.Gameplay.PrimaryAttack.IsPressed())
         {
             // this is how you actually attack
@@ -119,10 +161,13 @@ public class PlayerAttacking : MonoBehaviour
                 {
                     StartCoroutine(PrimaryAttack.Execute(gameObject.transform.position, 
                         new Vector3(3,3)));
+                } else if (PrimaryAttack is ChargeUp)
+                {
+
                 }
                 else
                 {
-                    StartCoroutine(PrimaryAttack.Execute(gameObject.transform.position, 
+                    StartCoroutine(PrimaryAttack.Execute(gameObject.transform.position,
                         gameObject.transform.right));
                 }
                 
@@ -211,6 +256,18 @@ public class PlayerAttacking : MonoBehaviour
             yield return new WaitForSeconds(missileUpgradeData.Duration);
             PrimaryAttack = punchAttack;
         } 
+    }
+
+    IEnumerator ExecuteChargeUpUpgrade()
+    {
+        // I think each projectile class should have it's own create projectile that fills in the correct parameters
+        // That way missiles can actually follow and whatnot
+        GameManager.Instance.ProjectileManager.CreateProjectile(PrimaryAttack.Owner, 
+            PrimaryAttack.Damage, PrimaryAttack.TravelSpeed, PrimaryAttack.Lifetime, PrimaryAttack.Piercing,
+            false, sizeScalar: 2 * (Time.time - chargeUpUpgradeData.LastExecute), gameObject.transform.position,
+                        gameObject.transform.right);
+        chargeUpUpgradeData.LastExecute = 0.0f;
+        yield return new WaitForEndOfFrame();
     }
 
 
