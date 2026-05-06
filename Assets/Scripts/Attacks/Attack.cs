@@ -58,6 +58,17 @@ public abstract class Attack
         yield return new WaitForEndOfFrame();
     }
 
+    public virtual IEnumerator StartCharge()
+    {
+        LastExecute = Time.time;
+        yield return new WaitForEndOfFrame();
+    }
+
+    public virtual IEnumerator EndCharge(Vector3 origin, Vector3 target)
+    {
+        yield return Execute(origin, target);
+    }
+
     /// <returns>True if cooldown is down. False if cooldown is still counting</returns>
     public bool IsReady()
     {

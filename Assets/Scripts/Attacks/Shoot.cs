@@ -46,4 +46,30 @@ public class Shoot : Attack
         LastExecute = Time.time;
         yield return new WaitForEndOfFrame();
     }
+
+
+    public override IEnumerator StartCharge()
+    {
+        LastExecute = Time.time;
+        yield return new WaitForEndOfFrame();
+    }
+
+    public override IEnumerator EndCharge(Vector3 origin, Vector3 target)
+    {
+        int temp = Damage.Amount;
+        Damage.Amount += Damage.Amount * (int)(Time.time - LastExecute);
+        GameManager.Instance.ProjectileManager.CreateProjectile(Owner,
+                                                                Damage,
+                                                                TravelSpeed,
+                                                                Lifetime,
+                                                                Piercing,
+                                                                false,
+                                                                sizeScalar: 2 + (int)(Time.time - LastExecute),
+                                                                origin, target);
+        AudioManager.Instance.PlayPlayerShootSFX();
+
+        LastExecute = Time.time;
+        Damage.Amount = temp;
+        yield return new WaitForEndOfFrame();
+    }
 }

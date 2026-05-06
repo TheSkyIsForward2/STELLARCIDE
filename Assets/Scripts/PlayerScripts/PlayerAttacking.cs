@@ -103,7 +103,7 @@ public class PlayerAttacking : MonoBehaviour
         // What does cooldown & duration exactly mean here?
         // Also I think to have the charging up effect, we add a separate script / shape to the player
         chargeUpUpgradeData = new UpgradeData(
-            cooldown: 1f,
+            cooldown: -10f,
             duration: 5f
         );
         inputActions = new PlayerControls();
@@ -123,34 +123,55 @@ public class PlayerAttacking : MonoBehaviour
     // TODO: move this stuff into InputAction Events
     void Update()
     {
-        // Need to make it so the player doesn't double attack
+        // If primary attack 
         if (inputActions.Gameplay.PrimaryAttack.WasPressedThisFrame())
         {
             if (chargeUpUpgradeData.IsReady())
             {
-                chargeUpUpgradeData.LastExecute = Time.time;
-                chargeUpIndicator.GetComponent<SpriteRenderer>().enabled = true;
+                StartCoroutine(PrimaryAttack.StartCharge());
+                return;
             }
-        }
-
-        if (chargeUpIndicator.GetComponent<SpriteRenderer>().enabled)
-        {
-            chargeUpIndicator.transform.localScale += new Vector3(0.01f, 0.01f, 0);
-            chargeUpIndicator.transform.localPosition += new Vector3(0, 0.005f, 0);
         }
 
         if (inputActions.Gameplay.PrimaryAttack.WasReleasedThisFrame())
         {
-            if (chargeUpUpgradeData.LastExecute != 0.0)
+            if (chargeUpUpgradeData.IsReady())
             {
-                StartCoroutine(ExecuteChargeUpUpgrade());
-                chargeUpIndicator.GetComponent<SpriteRenderer>().enabled = false;
-                chargeUpIndicator.transform.localScale = new Vector3(1, 1, 1);
-                chargeUpIndicator.transform.localPosition = new Vector3(0, 6, 0);
-
+                StartCoroutine(PrimaryAttack.EndCharge(gameObject.transform.position, gameObject.transform.right));
+                return;
             }
         }
+
         return;
+
+        //// Need to make it so the player doesn't double attack
+        //if (inputActions.Gameplay.PrimaryAttack.WasPressedThisFrame())
+        //{
+        //    if (chargeUpUpgradeData.IsReady())
+        //    {
+        //        chargeUpUpgradeData.LastExecute = Time.time;
+        //        chargeUpIndicator.GetComponent<SpriteRenderer>().enabled = true;
+        //    }
+        //}
+
+        //if (chargeUpIndicator.GetComponent<SpriteRenderer>().enabled)
+        //{
+        //    chargeUpIndicator.transform.localScale += new Vector3(0.01f, 0.01f, 0);
+        //    chargeUpIndicator.transform.localPosition += new Vector3(0, 0.005f, 0);
+        //}
+
+        //if (inputActions.Gameplay.PrimaryAttack.WasReleasedThisFrame())
+        //{
+        //    if (chargeUpUpgradeData.LastExecute != 0.0)
+        //    {
+        //        StartCoroutine(ExecuteChargeUpUpgrade());
+        //        chargeUpIndicator.GetComponent<SpriteRenderer>().enabled = false;
+        //        chargeUpIndicator.transform.localScale = new Vector3(1, 1, 1);
+        //        chargeUpIndicator.transform.localPosition = new Vector3(0, 6, 0);
+
+        //    }
+        //}
+        //return;
 
         if (inputActions.Gameplay.PrimaryAttack.IsPressed())
         {

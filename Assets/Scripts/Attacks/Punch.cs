@@ -33,17 +33,57 @@ public class Punch : Attack
     /// <returns></returns>
     public override IEnumerator Execute(Vector3 origin, Vector3 target)
     {
-        if (Animator) {
+        if (Animator)
+        {
+            Animator.SetTrigger("executeWindup");
+        }
+
+        LastExecute = Time.time;
+        yield return new WaitWhile(AnimatorIsPlaying);
+
+        if (Animator)
+        {
             Animator.SetTrigger("executePunch");
         }
 
         LastExecute = Time.time;
-        yield return new WaitForSeconds(0.30f);
+        yield return new WaitForSeconds(0.15f);
 
         AudioManager.Instance.PlayPunchingSFX();
         DamageArea(range: (float)target.x, width: (float)target.y);
 
         LastExecute = Time.time;
         yield return new WaitWhile(AnimatorIsPlaying);
+    }
+
+    public override IEnumerator StartCharge()
+    {
+        LastExecute = Time.time;
+        if (Animator)
+        {
+            Animator.SetTrigger("executeWindup");
+        }
+
+        yield return new WaitWhile(AnimatorIsPlaying);
+    }
+
+
+    public override IEnumerator EndCharge(Vector3 origin, Vector3 target)
+    {
+        int temp = Damage.Amount;
+        Damage.Amount += Damage.Amount * (int)(Time.time - LastExecute);
+        if (Animator)
+        {
+            Animator.SetTrigger("executePunch");
+        }
+
+        yield return new WaitForSeconds(0.15f);
+
+        AudioManager.Instance.PlayPunchingSFX();
+        DamageArea(range: 3f, width: 3f);
+
+        LastExecute = Time.time;
+        yield return new WaitWhile(AnimatorIsPlaying);
+        Damage.Amount = temp;
     }
 }
