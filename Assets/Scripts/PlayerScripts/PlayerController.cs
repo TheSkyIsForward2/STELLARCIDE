@@ -44,6 +44,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         GameManager.Instance.Player = gameObject;
+        GameManager.Instance.GameActive = true;
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
 
@@ -65,7 +66,7 @@ public class PlayerController : MonoBehaviour
 
     void Update() {
 
-        if (!UITest.gameActive)
+        if (!GameManager.Instance.GameActive)
         {
             return;
         }

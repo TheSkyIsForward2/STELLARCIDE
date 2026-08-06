@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class CursorUtil : MonoBehaviour
@@ -12,8 +13,8 @@ public class CursorUtil : MonoBehaviour
         );
     }
 
-    void FixedUpdate() {
-        Cursor.visible = false;
+    private void Update()
+    {
         transform.position = GetCursorPosition();
     }
 }
