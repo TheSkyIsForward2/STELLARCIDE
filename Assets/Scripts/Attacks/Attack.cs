@@ -21,6 +21,8 @@ public abstract class Attack
     public bool Piercing;
     public bool Homing;
     public float StrafeStrength; // Could be moved , not sure how this is being ordered right now
+    public bool Doubling;
+
     public enum Type
     {
         UNARMED_MELEE,

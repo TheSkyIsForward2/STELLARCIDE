@@ -15,6 +15,7 @@ using System.Collections;
 /// </summary>
 public class PlayerAttacking : MonoBehaviour
 {
+    private PlayerController pc;
     #region Initialization
     [NonSerialized] public Attack PrimaryAttack;
     [NonSerialized] public Attack SecondaryAttack;
@@ -42,6 +43,7 @@ public class PlayerAttacking : MonoBehaviour
 
     UpgradeData slashUpgradeData;
     UpgradeData missileUpgradeData;
+    UpgradeData doublingUpgradeData;
     private PlayerControls inputActions;
 
     void Awake()
@@ -68,10 +70,10 @@ public class PlayerAttacking : MonoBehaviour
             cooldown: 1f
         );
         strafeAttack = new Strafe(gameObject,
-                damage: new Damage(10, Damage.Type.PHYSICAL),
-                cooldown: 3f,
-                strafeStrength: 10f
-            );
+            damage: new Damage(10, Damage.Type.PHYSICAL),
+            cooldown: 3f,
+            strafeStrength: 10f
+        );
         missileAttack = new Missile(gameObject,
             damage: new Damage(10, Damage.Type.PHYSICAL),
             cooldown: 1f,
@@ -93,6 +95,11 @@ public class PlayerAttacking : MonoBehaviour
             duration: 5f
         );
 
+        doublingUpgradeData = new UpgradeData(
+            cooldown: 10f,
+            duration: 5f
+        );
+
         inputActions = new PlayerControls();
         inputActions.Enable();
 
@@ -103,6 +110,7 @@ public class PlayerAttacking : MonoBehaviour
     {
         // this script now observes whenever the player changes forms and switches attacks accordingly
         EventBus.Instance.OnFormChange += (newMode) => SwapAttacks(newMode);
+        pc = GetComponent<PlayerController>();
     }
     #endregion
 
@@ -125,7 +133,6 @@ public class PlayerAttacking : MonoBehaviour
                     StartCoroutine(PrimaryAttack.Execute(gameObject.transform.position, 
                         gameObject.transform.right));
                 }
-                
             }
         }
 
@@ -155,24 +162,29 @@ public class PlayerAttacking : MonoBehaviour
                 }
             }
         }
-
-        // THESE NEED TO CHECK FOR MECH/SHIP FORM STATUS!!! ------------------------------------
-        
+        #region Upgrades
         if (Input.GetKeyDown(KeyCode.Q))
         {
             // make this check for current upgrade in Q slot and then apply!
-            if (slashUpgradeData.IsReady())
-                StartCoroutine(ExecuteSlashUpgrade());
+            switch (pc.GetPlayerMode())
+            {
+                case PlayerMode.MECH:
+                    if (slashUpgradeData.IsReady())
+                        StartCoroutine(ExecuteSlashUpgrade());
+                    break;
+                case PlayerMode.SHIP:
+                    if (missileUpgradeData.IsReady())
+                        StartCoroutine(ExecuteMissileUpgrade());
+                    break;
+            }
+            
         }
-        
         
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (missileUpgradeData.IsReady())
-                StartCoroutine(ExecuteMissileUpgrade());
+            StartCoroutine(ExecuteDoublingUpgrade());
         }
-        
-        // --------------------------------------------------------------------------------------
+        #endregion
     }
     #endregion
 
@@ -211,6 +223,15 @@ public class PlayerAttacking : MonoBehaviour
             yield return new WaitForSeconds(missileUpgradeData.Duration);
             PrimaryAttack = punchAttack;
         } 
+    }
+
+    IEnumerator ExecuteDoublingUpgrade()
+    {
+        Debug.Log("executed double time");
+        doublingUpgradeData.LastExecute = Time.time;
+        PrimaryAttack.Doubling = true;
+        yield return new WaitForSeconds(doublingUpgradeData.Duration);
+        PrimaryAttack.Doubling = false;
     }
 
 
