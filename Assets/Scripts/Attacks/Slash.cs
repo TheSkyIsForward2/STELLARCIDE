@@ -22,16 +22,56 @@ public class Slash : Attack
         AnimationName = "Slash";
     }
 
+    public override IEnumerator StartCharge()
+    {
+        LastExecute = Time.time;
+        if (Animator)
+        {
+            Animator.SetTrigger("executeSlashWindup");
+        }
+
+        yield return new WaitWhile(AnimatorIsPlaying);
+    }
+
+    public override IEnumerator EndCharge(Vector3 origin, Vector3 target)
+    {
+        if (Animator)
+        {
+            Animator.SetTrigger("executeSlash");
+        }
+        LastExecute = Time.time;
+        yield return new WaitForSeconds(0.28f); // ikik magic numbers but whatever
+        DamageArea(3, 3);
+
+        LastExecute = Time.time;
+        yield return new WaitForSeconds(0.077f);
+        DamageArea(3, 3);
+
+        LastExecute = Time.time;
+        yield return new WaitWhile(AnimatorIsPlaying);
+    }
+
     public override IEnumerator Execute(Vector3 origin, Vector3 target)
     {
-        if (Animator) {Animator.SetTrigger("executeSlash");}
-        
+        if (Animator)
+        {
+            Animator.SetTrigger("executeSlashWindup");
+        }
+
         LastExecute = Time.time;
-        yield return new WaitForSeconds(0.43f); // ikik magic numbers but whatever
+        yield return new WaitWhile(AnimatorIsPlaying);
+
+        if (Animator)
+        {
+            Animator.SetTrigger("executeSlash");
+        }
+
+        LastExecute = Time.time;
+        yield return new WaitForSeconds(0.28f); // ikik magic numbers but whatever
         DamageArea(3,3);
 
         LastExecute = Time.time;
-        yield return new WaitForSeconds(0.227f);
+        yield return new WaitForSeconds(0.077f);
         DamageArea(3,3);
 
         LastExecute = Time.time;

@@ -21,6 +21,7 @@ public abstract class Attack
     public bool Piercing;
     public bool Homing;
     public float StrafeStrength; // Could be moved , not sure how this is being ordered right now
+    public bool ChargeStart;
     public enum Type
     {
         UNARMED_MELEE,
@@ -61,11 +62,13 @@ public abstract class Attack
     public virtual IEnumerator StartCharge()
     {
         LastExecute = Time.time;
+        ChargeStart = true;
         yield return new WaitForEndOfFrame();
     }
 
     public virtual IEnumerator EndCharge(Vector3 origin, Vector3 target)
     {
+        ChargeStart = false;
         yield return Execute(origin, target);
     }
 

@@ -87,7 +87,7 @@ public class PlayerAttacking : MonoBehaviour
             homing: true
         );
 
-        PrimaryAttack = missileAttack;
+        PrimaryAttack = shootAttack;
         SecondaryAttack = strafeAttack;
 
         slashUpgradeData = new UpgradeData(
@@ -100,8 +100,7 @@ public class PlayerAttacking : MonoBehaviour
             duration: 5f
         );
 
-        // What does cooldown & duration exactly mean here?
-        // Also I think to have the charging up effect, we add a separate script / shape to the player
+        // Using negative so cause it's supposed to be passive
         chargeUpUpgradeData = new UpgradeData(
             cooldown: -10f,
             duration: 5f
@@ -123,72 +122,48 @@ public class PlayerAttacking : MonoBehaviour
     // TODO: move this stuff into InputAction Events
     void Update()
     {
-        // If primary attack 
-        if (inputActions.Gameplay.PrimaryAttack.WasPressedThisFrame())
+        // If chargeup upgrade is active
+        if (true)
         {
-            if (chargeUpUpgradeData.IsReady())
+            // If primary attack 
+            if (inputActions.Gameplay.PrimaryAttack.WasPressedThisFrame())
             {
-                StartCoroutine(PrimaryAttack.StartCharge());
-                return;
-            }
-        }
-
-        if (inputActions.Gameplay.PrimaryAttack.WasReleasedThisFrame())
-        {
-            if (chargeUpUpgradeData.IsReady())
-            {
-                StartCoroutine(PrimaryAttack.EndCharge(gameObject.transform.position, gameObject.transform.right));
-                return;
-            }
-        }
-
-        return;
-
-        //// Need to make it so the player doesn't double attack
-        //if (inputActions.Gameplay.PrimaryAttack.WasPressedThisFrame())
-        //{
-        //    if (chargeUpUpgradeData.IsReady())
-        //    {
-        //        chargeUpUpgradeData.LastExecute = Time.time;
-        //        chargeUpIndicator.GetComponent<SpriteRenderer>().enabled = true;
-        //    }
-        //}
-
-        //if (chargeUpIndicator.GetComponent<SpriteRenderer>().enabled)
-        //{
-        //    chargeUpIndicator.transform.localScale += new Vector3(0.01f, 0.01f, 0);
-        //    chargeUpIndicator.transform.localPosition += new Vector3(0, 0.005f, 0);
-        //}
-
-        //if (inputActions.Gameplay.PrimaryAttack.WasReleasedThisFrame())
-        //{
-        //    if (chargeUpUpgradeData.LastExecute != 0.0)
-        //    {
-        //        StartCoroutine(ExecuteChargeUpUpgrade());
-        //        chargeUpIndicator.GetComponent<SpriteRenderer>().enabled = false;
-        //        chargeUpIndicator.transform.localScale = new Vector3(1, 1, 1);
-        //        chargeUpIndicator.transform.localPosition = new Vector3(0, 6, 0);
-
-        //    }
-        //}
-        //return;
-
-        if (inputActions.Gameplay.PrimaryAttack.IsPressed())
-        {
-            // this is how you actually attack
-            if (PrimaryAttack.IsReady()) // check if in cooldown
-            {
-                if (PrimaryAttack is Punch)
+                if (PrimaryAttack.IsReady())
                 {
-                    StartCoroutine(PrimaryAttack.Execute(gameObject.transform.position, 
-                        new Vector3(3,3)));
+                    PrimaryAttack.ChargeStart = true;
+                    StartCoroutine(PrimaryAttack.StartCharge());
+                    return;
                 }
-                else
+            }
+
+            if (inputActions.Gameplay.PrimaryAttack.WasReleasedThisFrame())
+            {
+                if (PrimaryAttack.ChargeStart)
                 {
-                    StartCoroutine(PrimaryAttack.Execute(gameObject.transform.position,
-                        gameObject.transform.right));
+                    StartCoroutine(PrimaryAttack.EndCharge(gameObject.transform.position, gameObject.transform.right));
+                    PrimaryAttack.ChargeStart = false;
+                    return;
                 }
-                
+            }
+        } else
+        {
+            if (inputActions.Gameplay.PrimaryAttack.IsPressed())
+            {
+                // this is how you actually attack
+                if (PrimaryAttack.IsReady()) // check if in cooldown
+                {
+                    if (PrimaryAttack is Punch)
+                    {
+                        StartCoroutine(PrimaryAttack.Execute(gameObject.transform.position,
+                            new Vector3(3, 3)));
+                    }
+                    else
+                    {
+                        StartCoroutine(PrimaryAttack.Execute(gameObject.transform.position,
+                            gameObject.transform.right));
+                    }
+
+                }
             }
         }
 
@@ -208,13 +183,13 @@ public class PlayerAttacking : MonoBehaviour
                     if (inputActions.Gameplay.Move.ReadValue<Vector2>().x < 0) // Strafing feels a little unintuitive right now when rotated
                     {
                         direction = gameObject.transform.up;
-                    } else if (inputActions.Gameplay.Move.ReadValue<Vector2>().x > 0)
+                    }
+                    else if (inputActions.Gameplay.Move.ReadValue<Vector2>().x > 0)
                     {
                         direction = -gameObject.transform.up;
                     }
                     if (direction == Vector3.zero) { return; }
                     StartCoroutine(SecondaryAttack.Execute(gameObject.transform.position, direction.normalized));
-                    Debug.Log("strafe performed");
                 }
             }
         }
@@ -261,6 +236,11 @@ public class PlayerAttacking : MonoBehaviour
             slashUpgradeData.LastExecute = Time.time;
             PrimaryAttack = slashAttack;
             yield return new WaitForSeconds(slashUpgradeData.Duration);
+            while (inputActions.Gameplay.PrimaryAttack.IsPressed())
+            {
+                yield return null;
+            }
+            yield return new WaitForEndOfFrame();
             PrimaryAttack = punchAttack;
         } 
     }
@@ -272,22 +252,14 @@ public class PlayerAttacking : MonoBehaviour
             missileUpgradeData.LastExecute = Time.time;
             PrimaryAttack = missileAttack;
             yield return new WaitForSeconds(missileUpgradeData.Duration);
-            PrimaryAttack = punchAttack;
+            while (inputActions.Gameplay.PrimaryAttack.IsPressed())
+            {
+                yield return null;
+            }
+            yield return new WaitForEndOfFrame();
+            PrimaryAttack = shootAttack;
         } 
     }
-
-    IEnumerator ExecuteChargeUpUpgrade()
-    {
-        // I think each projectile class should have it's own create projectile that fills in the correct parameters
-        // That way missiles can actually follow and whatnot
-        GameManager.Instance.ProjectileManager.CreateProjectile(PrimaryAttack.Owner, 
-            PrimaryAttack.Damage, PrimaryAttack.TravelSpeed, PrimaryAttack.Lifetime, PrimaryAttack.Piercing, PrimaryAttack.Homing,
-            sizeScalar: 2 * (Time.time - chargeUpUpgradeData.LastExecute), gameObject.transform.position,
-                        gameObject.transform.right);
-        chargeUpUpgradeData.LastExecute = 0.0f;
-        yield return new WaitForEndOfFrame();
-    }
-
 
 
     // void UpgradeAttack(Func<Attack> baseAttack, Type baseAttackType, 
