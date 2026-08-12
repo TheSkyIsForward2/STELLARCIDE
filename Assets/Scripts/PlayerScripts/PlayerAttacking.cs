@@ -18,6 +18,7 @@ using static UnityEngine.UI.Image;
 /// </summary>
 public class PlayerAttacking : MonoBehaviour
 {
+    private PlayerController pc;
     #region Initialization
     [NonSerialized] public Attack PrimaryAttack;
     [NonSerialized] public Attack SecondaryAttack;
@@ -36,9 +37,11 @@ public class PlayerAttacking : MonoBehaviour
         public float Cooldown;
         public float Duration;
         public float LastExecute;
+        public bool IsActive;
         public bool IsReady(){return Cooldown + LastExecute < Time.time;}
         public UpgradeData(float duration, float cooldown)
         {
+            IsActive = false;
             Duration = duration;
             Cooldown = cooldown;
             LastExecute = 0;
@@ -48,13 +51,15 @@ public class PlayerAttacking : MonoBehaviour
     UpgradeData slashUpgradeData;
     UpgradeData missileUpgradeData;
     UpgradeData chargeUpUpgradeData;
+    UpgradeData doublingUpgradeData;
     private PlayerControls inputActions;
 
     void Awake()
     {
         punchAttack = new Punch(gameObject,
             damage: new Damage(10, Damage.Type.PHYSICAL),
-            cooldown: 0.5f
+            cooldown: 0.5f,
+            travelSpeed: 10
         );
         shootAttack = new Shoot(gameObject,
             damage: new Damage(10, Damage.Type.PHYSICAL),
@@ -71,13 +76,14 @@ public class PlayerAttacking : MonoBehaviour
         );
         slashAttack = new Slash(gameObject,
             damage: new Damage(10, Damage.Type.PHYSICAL),
-            cooldown: 1f
+            cooldown: 1f,
+            travelSpeed:10
         );
         strafeAttack = new Strafe(gameObject,
-                damage: new Damage(10, Damage.Type.PHYSICAL),
-                cooldown: 3f,
-                strafeStrength: 10f
-            );
+            damage: new Damage(10, Damage.Type.PHYSICAL),
+            cooldown: 3f,
+            strafeStrength: 10f
+        );
         missileAttack = new Missile(gameObject,
             damage: new Damage(10, Damage.Type.PHYSICAL),
             cooldown: 1f,
@@ -105,6 +111,11 @@ public class PlayerAttacking : MonoBehaviour
             cooldown: -10f,
             duration: 5f
         );
+        doublingUpgradeData = new UpgradeData(
+            cooldown: 10f,
+            duration: 5f
+        );
+
         inputActions = new PlayerControls();
         inputActions.Enable();
 
@@ -115,6 +126,7 @@ public class PlayerAttacking : MonoBehaviour
     {
         // this script now observes whenever the player changes forms and switches attacks accordingly
         EventBus.Instance.OnFormChange += (newMode) => SwapAttacks(newMode);
+        pc = GetComponent<PlayerController>();
     }
     #endregion
 
@@ -193,24 +205,32 @@ public class PlayerAttacking : MonoBehaviour
                 }
             }
         }
-
-        // THESE NEED TO CHECK FOR MECH/SHIP FORM STATUS!!! ------------------------------------
-        
+        #region Upgrades
         if (Input.GetKeyDown(KeyCode.Q))
         {
             // make this check for current upgrade in Q slot and then apply!
-            if (slashUpgradeData.IsReady())
-                StartCoroutine(ExecuteSlashUpgrade());
+            switch (pc.GetPlayerMode())
+            {
+                case PlayerMode.MECH:
+                    if (slashUpgradeData.IsReady())
+                        StartCoroutine(ExecuteSlashUpgrade());
+                    break;
+                case PlayerMode.SHIP:
+                    if (missileUpgradeData.IsReady())
+                        StartCoroutine(ExecuteMissileUpgrade());
+                    break;
+            }
+            
         }
-        
         
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (missileUpgradeData.IsReady())
-                StartCoroutine(ExecuteMissileUpgrade());
+            if (doublingUpgradeData.IsReady())
+            {
+                StartCoroutine(ExecuteDoublingUpgrade());
+            }
         }
-        
-        // --------------------------------------------------------------------------------------
+        #endregion
     }
     #endregion
 
@@ -229,12 +249,21 @@ public class PlayerAttacking : MonoBehaviour
         }
     }
 
+    // TODO:
+    // [BUG] if doubling is pressed before slash, slash doesnt get doubled
+    // doubling's duration also never ends
+
     IEnumerator ExecuteSlashUpgrade()
     {
         if (PrimaryAttack is Punch)
         {
+            slashUpgradeData.IsActive = true;
             slashUpgradeData.LastExecute = Time.time;
             PrimaryAttack = slashAttack;
+            if (doublingUpgradeData.IsActive) // check if doublingUpgrade is active
+            {
+                PrimaryAttack.Doubling = true;
+            }
             yield return new WaitForSeconds(slashUpgradeData.Duration);
             while (inputActions.Gameplay.PrimaryAttack.IsPressed())
             {
@@ -242,6 +271,7 @@ public class PlayerAttacking : MonoBehaviour
             }
             yield return new WaitForEndOfFrame();
             PrimaryAttack = punchAttack;
+            slashUpgradeData.IsActive = false;
         } 
     }
     
@@ -249,6 +279,7 @@ public class PlayerAttacking : MonoBehaviour
     {
         if (PrimaryAttack is Shoot)
         {
+            missileUpgradeData.IsActive = true;
             missileUpgradeData.LastExecute = Time.time;
             PrimaryAttack = missileAttack;
             yield return new WaitForSeconds(missileUpgradeData.Duration);
@@ -258,7 +289,20 @@ public class PlayerAttacking : MonoBehaviour
             }
             yield return new WaitForEndOfFrame();
             PrimaryAttack = shootAttack;
+            missileUpgradeData.IsActive = false;
         } 
+    }
+
+    IEnumerator ExecuteDoublingUpgrade()
+    {
+        doublingUpgradeData.IsActive = true;
+        doublingUpgradeData.LastExecute = Time.time;
+        PrimaryAttack.Doubling = true;
+        yield return new WaitForSeconds(doublingUpgradeData.Duration);
+        slashAttack.Doubling = false; // not the best but o well
+        punchAttack.Doubling = false;
+        shootAttack.Doubling = false;
+        doublingUpgradeData.IsActive = false;
     }
 
 

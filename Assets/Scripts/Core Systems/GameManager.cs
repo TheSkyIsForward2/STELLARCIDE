@@ -11,5 +11,6 @@ public class GameManager
 
     public GameObject Player;
     public ProjectileManager ProjectileManager;
+    public bool GameActive;
 
 }

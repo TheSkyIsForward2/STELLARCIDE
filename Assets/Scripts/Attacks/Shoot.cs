@@ -31,7 +31,7 @@ public class Shoot : Attack
         AttackType = Type.RANGED;
     }
 
-    public override IEnumerator Execute(Vector3 origin, Vector3 target)
+    private void CreateProjectile(Vector3 o, Vector3 t)
     {
         GameManager.Instance.ProjectileManager.CreateProjectile(Owner,
                                                                 Damage,
@@ -40,11 +40,25 @@ public class Shoot : Attack
                                                                 Piercing,
                                                                 false,
                                                                 sizeScalar:2,
-                                                                origin, target);
-        AudioManager.Instance.PlayPlayerShootSFX();
+                                                                o, t);
+    }
 
+    public override IEnumerator Execute(Vector3 origin, Vector3 target)
+    {
+        CreateProjectile(origin, target);
+        AudioManager.Instance.PlayPlayerShootSFX();
         LastExecute = Time.time;
-        yield return new WaitForEndOfFrame();
+        yield return new WaitForSeconds(0.06f);
+
+        // lol 
+        if (Doubling)
+        {
+            Debug.Log("shooted twice");
+            CreateProjectile(origin, target);
+            AudioManager.Instance.PlayPlayerShootSFX();
+            LastExecute = Time.time;
+            yield return new WaitForSeconds(0.01f);
+        }
     }
 
 
