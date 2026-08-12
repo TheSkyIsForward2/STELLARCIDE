@@ -139,6 +139,7 @@ public class PlayerController : MonoBehaviour
             FlyIn();
             currentMode = PlayerMode.MECH;
             EventBus.Instance.ChangeForm(currentMode);
+            ToggleControls(true);
         }
     }
 
@@ -147,6 +148,7 @@ public class PlayerController : MonoBehaviour
             FlyOut();
             currentMode = PlayerMode.SHIP;
             EventBus.Instance.ChangeForm(currentMode);
+            ToggleControls(true);
         }
     }
 

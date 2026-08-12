@@ -13,8 +13,10 @@ public class Punch : Attack
     /// <param name="cooldown">Time in seconds before another attack</param>
     public Punch(GameObject owner,
                   Damage damage,
-                  float cooldown) : base(owner, damage, cooldown)
+                  float cooldown,
+                  float travelSpeed=0) : base(owner, damage, cooldown)
     {
+        TravelSpeed = travelSpeed;
         AttackType = Type.UNARMED_MELEE;
         if (Owner.transform.Find("MechVisual"))
         {
@@ -24,6 +26,7 @@ public class Punch : Attack
             }
             AnimationName = "Punch";
         }
+        playerRB = Owner.GetComponent<Rigidbody2D>();
     }
 
     /// <summary>Actually punches (verb)</summary>
@@ -37,6 +40,8 @@ public class Punch : Attack
             Animator.SetTrigger("executePunch");
         }
 
+        playerRB.AddForce(Owner.transform.right * TravelSpeed, ForceMode2D.Impulse);
+        
         LastExecute = Time.time;
         yield return new WaitForSeconds(0.30f);
 

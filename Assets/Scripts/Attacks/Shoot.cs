@@ -48,7 +48,7 @@ public class Shoot : Attack
         CreateProjectile(origin, target);
         AudioManager.Instance.PlayPlayerShootSFX();
         LastExecute = Time.time;
-        yield return new WaitForSeconds(0.05f);
+        yield return new WaitForSeconds(0.06f);
 
         // lol 
         if (Doubling)
