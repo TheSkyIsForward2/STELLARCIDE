@@ -11,6 +11,6 @@ public class CameraManager : MonoBehaviour
     
     void Update()
     {
-        cb.enabled = UITest.gameActive ? true : false;
+        cb.enabled = GameManager.Instance.GameActive ? true : false;
     }
 }

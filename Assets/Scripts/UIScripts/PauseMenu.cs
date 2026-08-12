@@ -2,26 +2,37 @@ using UnityEngine;
 
 public class PauseMenu : MonoBehaviour
 {
-    public UITest script;
     public GameObject pauseMenu;
-    public GameObject mainMenu;
     public GameObject optionsMenu;
-    public static bool optionsFromGame = false;
     PlayerController playerController;
+
+    private bool nested;
     void Awake()
     {
-        Time.timeScale = 0f;
         playerController = GameManager.Instance.Player.GetComponent<PlayerController>();
         playerController.ToggleControls(false);
+        pauseMenu.SetActive(false);
+        nested = false;
+    }
+
+    public void Pause()
+    {
+        pauseMenu.SetActive(true);
+        GameManager.Instance.GameActive = false;
+        Time.timeScale = 0f;
+        playerController.ToggleControls(false);
+    }
+
+    public void Resume()
+    {
+        pauseMenu.SetActive(false);
+        Time.timeScale = 1f;
+        GameManager.Instance.GameActive = true;
     }
 
     public void ReturnToMainMenu()
     {
         pauseMenu.SetActive(false);
-        mainMenu.SetActive(true);
-        UITest.mainMenuActive = true;
-        optionsFromGame = false;
-        playerController.ToggleControls(true);
         AudioManager.Instance.RestartBGM();
     }
 
@@ -29,9 +40,14 @@ public class PauseMenu : MonoBehaviour
     {
         pauseMenu.SetActive(false);
         optionsMenu.SetActive(true);
-        UITest.optionsMenuActive = true;
-        optionsFromGame = true;
-        playerController.ToggleControls(true);
+        nested = true;
+    }
+
+    public void ExitOptions()
+    {
+        pauseMenu.SetActive(true);
+        optionsMenu.SetActive(false);
+        nested = false;
     }
 
     // TODO: move into InputActions Events
@@ -39,17 +55,8 @@ public class PauseMenu : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            //Debug.Log("Esc Pressed");
-            pauseMenu.SetActive(false);
-            Time.timeScale = 1f;
-            UITest.gameActive = true;
-            UITest.pauseMenuActive = false;
-            playerController.ToggleControls(true);
-        }
-
-        if (!UITest.gameActive)
-        {
-            Time.timeScale = 0f;
+            if (GameManager.Instance.GameActive) Pause();
+            else if (!nested) Resume();
         }
     }
 }
