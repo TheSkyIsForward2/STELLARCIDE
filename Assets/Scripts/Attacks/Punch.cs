@@ -40,13 +40,24 @@ public class Punch : Attack
             Animator.SetTrigger("executePunch");
         }
 
+        // small lunge forward
         playerRB.AddForce(Owner.transform.right * TravelSpeed, ForceMode2D.Impulse);
         
         LastExecute = Time.time;
         yield return new WaitForSeconds(0.30f);
 
         AudioManager.Instance.PlayPunchingSFX();
-        DamageArea(range: (float)target.x, width: (float)target.y);
+
+        // knocking back enemies
+        foreach (Entity entity in DamageArea(range: (float)target.x, width: (float)target.y))
+        {
+            if (entity.healthController.team == HealthOwner.Team.ENEMY)
+            {
+                CoroutineManager.Instance.Run(entity.KnockBack(
+                    origin: entity.transform.position,
+                    strength: 3));
+            }
+        }
 
         LastExecute = Time.time;
         yield return new WaitWhile(AnimatorIsPlaying);

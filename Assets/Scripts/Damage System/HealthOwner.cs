@@ -1,11 +1,5 @@
 using UnityEngine;
 
-/* TODO:
-++ make method to set health to percentage value
-++ make method to take percentage values of damage
-++ 
-*/
-
 /// <summary>
 /// Stores an entity's team type and HP. Come to definition to find
 /// all teams available and maybe add more. Also stores the entity

@@ -210,9 +210,6 @@ public class PlayerAttacking : MonoBehaviour
         }
     }
 
-    // TODO:
-    // [BUG] if doubling is pressed before slash, slash doesnt get doubled
-    // doubling's duration also never ends
 
     IEnumerator ExecuteSlashUpgrade()
     {

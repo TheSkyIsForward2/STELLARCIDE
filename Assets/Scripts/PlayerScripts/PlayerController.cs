@@ -3,10 +3,6 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-/* TODO:
-* fix input enabling & disabling on entering a asteroid
-*/
-
 public enum PlayerMode {
     SHIP, MECH
 }

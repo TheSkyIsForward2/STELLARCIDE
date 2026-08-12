@@ -1,9 +1,6 @@
 using System.Collections;
 using UnityEngine;
 
-// TODO:
-// make step > slash > step > slash
-
 public class Slash : Attack
 {
     /// <summary>
