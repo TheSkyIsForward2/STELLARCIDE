@@ -28,12 +28,14 @@ public class PauseMenu : MonoBehaviour
         pauseMenu.SetActive(false);
         Time.timeScale = 1f;
         GameManager.Instance.GameActive = true;
+        playerController.ToggleControls(true);
     }
 
     public void ReturnToMainMenu()
     {
         pauseMenu.SetActive(false);
         AudioManager.Instance.RestartBGM();
+        playerController.ToggleControls(false);
     }
 
     public void Options()
