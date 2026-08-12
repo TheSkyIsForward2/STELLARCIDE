@@ -63,7 +63,16 @@ public class Punch : Attack
         // lol it works
         if (Doubling)
         {
-            if (Animator) {
+            if (Animator)
+            {
+                Animator.SetTrigger("executeWindup");
+            }
+
+            LastExecute = Time.time;
+            yield return new WaitWhile(AnimatorIsPlaying);
+
+            if (Animator)
+            {
                 Animator.SetTrigger("executePunch");
             }
 
