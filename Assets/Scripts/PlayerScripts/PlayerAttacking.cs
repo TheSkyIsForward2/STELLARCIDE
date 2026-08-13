@@ -42,7 +42,9 @@ public class PlayerAttacking : MonoBehaviour
             damage: new Damage(10, Damage.Type.PHYSICAL),
             cooldown: 1f,
             travelSpeed:0.25f, // looks like the max value before there is a pause after a dash
-            lifetime: 1f
+            lifetime: 1f,
+            minDistance: 7.5f,
+            maxDistance: 10
         );
         slashAttack = new Slash(gameObject,
             damage: new Damage(10, Damage.Type.PHYSICAL),
