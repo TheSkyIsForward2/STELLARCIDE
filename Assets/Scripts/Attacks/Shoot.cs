@@ -71,6 +71,7 @@ public class Shoot : Attack
     public override IEnumerator EndCharge(Vector3 origin, Vector3 target)
     {
         int temp = Damage.Amount;
+        int size = 2 + (int)(Time.time - LastExecute);
         Damage.Amount += Damage.Amount * (int)(Time.time - LastExecute);
         GameManager.Instance.ProjectileManager.CreateProjectile(Owner,
                                                                 Damage,
@@ -78,11 +79,29 @@ public class Shoot : Attack
                                                                 Lifetime,
                                                                 Piercing,
                                                                 false,
-                                                                sizeScalar: 2 + (int)(Time.time - LastExecute),
+                                                                sizeScalar: size,
                                                                 origin, target);
         AudioManager.Instance.PlayPlayerShootSFX();
 
         LastExecute = Time.time;
+
+
+        if (Doubling)
+        {
+            yield return new WaitForSeconds(0.06f);
+            Debug.Log("shooted twice");
+            GameManager.Instance.ProjectileManager.CreateProjectile(Owner,
+                                                                            Damage,
+                                                                            TravelSpeed,
+                                                                            Lifetime,
+                                                                            Piercing,
+                                                                            false,
+                                                                            sizeScalar: size,
+                                                                            origin, target);
+            AudioManager.Instance.PlayPlayerShootSFX();
+            LastExecute = Time.time;
+            yield return new WaitForSeconds(0.01f);
+        }
         Damage.Amount = temp;
         yield return new WaitForEndOfFrame();
     }

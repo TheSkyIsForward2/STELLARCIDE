@@ -115,6 +115,32 @@ public class Punch : Attack
 
         LastExecute = Time.time;
         yield return new WaitWhile(AnimatorIsPlaying);
+
+        // lol it works
+        if (Doubling)
+        {
+            if (Animator)
+            {
+                Animator.SetTrigger("executeWindup");
+            }
+
+            LastExecute = Time.time;
+            yield return new WaitWhile(AnimatorIsPlaying);
+
+            if (Animator)
+            {
+                Animator.SetTrigger("executePunch");
+            }
+
+            LastExecute = Time.time;
+            yield return new WaitForSeconds(0.20f);
+
+            AudioManager.Instance.PlayPunchingSFX();
+            DamageArea(range: 3f, width: 3f);
+
+            LastExecute = Time.time;
+            yield return new WaitWhile(AnimatorIsPlaying);
+        }
         Damage.Amount = temp;
     }
 }

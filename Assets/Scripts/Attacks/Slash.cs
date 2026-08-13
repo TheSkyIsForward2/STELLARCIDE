@@ -55,6 +55,22 @@ public class Slash : Attack
 
         LastExecute = Time.time;
         yield return new WaitWhile(AnimatorIsPlaying);
+
+        if (Doubling)
+        {
+            if (Animator) { Animator.SetTrigger("executeSlash"); }
+
+            LastExecute = Time.time;
+            yield return new WaitForSeconds(0.43f); // ikik magic numbers but whatever
+            DamageArea(3, 3);
+
+            LastExecute = Time.time;
+            yield return new WaitForSeconds(0.227f);
+            DamageArea(3, 3);
+
+            LastExecute = Time.time;
+            yield return new WaitWhile(AnimatorIsPlaying);
+        }
     }
 
     public override IEnumerator Execute(Vector3 origin, Vector3 target)
