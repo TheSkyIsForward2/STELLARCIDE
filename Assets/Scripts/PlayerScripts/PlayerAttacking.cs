@@ -135,7 +135,7 @@ public class PlayerAttacking : MonoBehaviour
     void Update()
     {
         // If chargeup upgrade is active
-        if (true)
+        if (false)
         {
             // If primary attack 
             if (inputActions.Gameplay.PrimaryAttack.WasPressedThisFrame())

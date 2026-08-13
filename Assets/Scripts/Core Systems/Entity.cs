@@ -9,7 +9,7 @@ using UnityEngine;
 public abstract class Entity : MonoBehaviour
 {
     [NonSerialized] public HealthOwner healthController;
-
+    public StateController sc;
     /// <summary>
     /// 
     /// </summary>
@@ -18,13 +18,11 @@ public abstract class Entity : MonoBehaviour
     /// <returns></returns>
     public IEnumerator KnockBack(Vector3 origin, float strength)
     {
-        if (healthController == null)
+        Debug.Log("do some knockback");
+        if (sc)
         {
-            yield break;
-        }
-        if (healthController.team == HealthOwner.Team.ENEMY)
-        {
-            // TODO: STANLEY change state to IDLE temporarily so they dont move while being knocked back
+            Debug.Log("do something");
+            sc.locked = true;
         }
 
         float elapsedTime=0;
@@ -36,11 +34,18 @@ public abstract class Entity : MonoBehaviour
                 origin + directionVector, 
                 elapsedTime/strength
             );
+            Debug.Log("knocking back");
             elapsedTime += Time.deltaTime;
 
             yield return new WaitForEndOfFrame();
         }
         transform.position = origin + directionVector;
+
+        if (sc)
+        {
+            sc.locked = false;
+        }
+
         yield return new WaitForEndOfFrame();
     }
 }

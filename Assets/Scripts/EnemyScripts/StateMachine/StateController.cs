@@ -12,6 +12,8 @@ public class StateController : MonoBehaviour
 
     public Animator Animator { get; private set; }
 
+    public bool locked = false; // Locks the state
+
     private void Start()
     {
         Player = FindFirstObjectByType<PlayerController>()?.transform;
@@ -28,6 +30,10 @@ public class StateController : MonoBehaviour
 
     private void Update()
     {
+        if (locked)
+        {
+            return;
+        }
         if (Player == null || CurrentState == null) return;
 
         EnemyToPlayer = Player.position - transform.position;
