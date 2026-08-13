@@ -12,6 +12,7 @@ public class IdleState : IState
     }
     public void OnEntry(StateController controller)
     {
+        controller.Animator.SetTrigger("triggerIdle");
         // This will be called when first entering the state
         UnityEngine.Debug.Log("Entering idle state");
     }

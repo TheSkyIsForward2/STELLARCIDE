@@ -1,6 +1,10 @@
 using System;
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.Net;
+using Unity.VisualScripting;
+using static UnityEngine.UI.Image;
 
 /// <summary>
 /// Controller script for player attacks 
@@ -12,6 +16,8 @@ public class PlayerAttacking : MonoBehaviour
     [NonSerialized] public Attack PrimaryAttack;
     [NonSerialized] public Attack SecondaryAttack;
 
+    [SerializeField] public GameObject chargeUpIndicator;
+
     private Punch punchAttack;
     private Shoot shootAttack;
     private Dash dashAttack;
@@ -21,6 +27,7 @@ public class PlayerAttacking : MonoBehaviour
 
     UpgradeData slashUpgradeData;
     UpgradeData missileUpgradeData;
+    UpgradeData chargeUpUpgradeData;
     UpgradeData doublingUpgradeData;
     private PlayerControls inputActions;
 
@@ -64,6 +71,7 @@ public class PlayerAttacking : MonoBehaviour
             lifetime: 4f,
             homing: true
         );
+
         PrimaryAttack = shootAttack;
         SecondaryAttack = strafeAttack;
 
@@ -77,6 +85,11 @@ public class PlayerAttacking : MonoBehaviour
             duration: 5f
         );
 
+        // Using negative so cause it's supposed to be passive
+        chargeUpUpgradeData = new UpgradeData(
+            cooldown: -10f,
+            duration: 5f
+        );
         doublingUpgradeData = new UpgradeData(
             cooldown: 10f,
             duration: 5f
@@ -122,20 +135,47 @@ public class PlayerAttacking : MonoBehaviour
     #region Input Polling
     void Update()
     {
-        if (inputActions.Gameplay.PrimaryAttack.IsPressed())
+        // If chargeup upgrade is active
+        if (true)
         {
-            // this is how you actually attack
-            if (PrimaryAttack.IsReady()) // check if in cooldown
+            // If primary attack 
+            if (inputActions.Gameplay.PrimaryAttack.WasPressedThisFrame())
             {
-                if (PrimaryAttack is Punch)
+                if (PrimaryAttack.IsReady())
                 {
-                    StartCoroutine(PrimaryAttack.Execute(gameObject.transform.position, 
-                        new Vector3(3,3)));
+                    PrimaryAttack.ChargeStart = true;
+                    StartCoroutine(PrimaryAttack.StartCharge());
+                    return;
                 }
-                else
+            }
+
+            if (inputActions.Gameplay.PrimaryAttack.WasReleasedThisFrame())
+            {
+                if (PrimaryAttack.ChargeStart)
                 {
-                    StartCoroutine(PrimaryAttack.Execute(gameObject.transform.position, 
-                        gameObject.transform.right));
+                    StartCoroutine(PrimaryAttack.EndCharge(gameObject.transform.position, gameObject.transform.right));
+                    PrimaryAttack.ChargeStart = false;
+                    return;
+                }
+            }
+        } else
+        {
+            if (inputActions.Gameplay.PrimaryAttack.IsPressed())
+            {
+                // this is how you actually attack
+                if (PrimaryAttack.IsReady()) // check if in cooldown
+                {
+                    if (PrimaryAttack is Punch)
+                    {
+                        StartCoroutine(PrimaryAttack.Execute(gameObject.transform.position,
+                            new Vector3(3, 3)));
+                    }
+                    else
+                    {
+                        StartCoroutine(PrimaryAttack.Execute(gameObject.transform.position,
+                            gameObject.transform.right));
+                    }
+
                 }
             }
         }
@@ -156,13 +196,13 @@ public class PlayerAttacking : MonoBehaviour
                     if (inputActions.Gameplay.Move.ReadValue<Vector2>().x < 0) // Strafing feels a little unintuitive right now when rotated
                     {
                         direction = gameObject.transform.up;
-                    } else if (inputActions.Gameplay.Move.ReadValue<Vector2>().x > 0)
+                    }
+                    else if (inputActions.Gameplay.Move.ReadValue<Vector2>().x > 0)
                     {
                         direction = -gameObject.transform.up;
                     }
                     if (direction == Vector3.zero) { return; }
                     StartCoroutine(SecondaryAttack.Execute(gameObject.transform.position, direction.normalized));
-                    Debug.Log("strafe performed");
                 }
             }
         }
@@ -198,6 +238,11 @@ public class PlayerAttacking : MonoBehaviour
                 PrimaryAttack.Doubling = true;
             }
             yield return new WaitForSeconds(slashUpgradeData.Duration);
+            while (inputActions.Gameplay.PrimaryAttack.IsPressed())
+            {
+                yield return null;
+            }
+            yield return new WaitForEndOfFrame();
             PrimaryAttack = punchAttack;
             slashUpgradeData.IsActive = false;
         } 
@@ -211,6 +256,11 @@ public class PlayerAttacking : MonoBehaviour
             missileUpgradeData.LastExecute = Time.time;
             PrimaryAttack = missileAttack;
             yield return new WaitForSeconds(missileUpgradeData.Duration);
+            while (inputActions.Gameplay.PrimaryAttack.IsPressed())
+            {
+                yield return null;
+            }
+            yield return new WaitForEndOfFrame();
             PrimaryAttack = shootAttack;
             missileUpgradeData.IsActive = false;
         } 

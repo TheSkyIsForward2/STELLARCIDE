@@ -10,9 +10,12 @@ public class StateController : MonoBehaviour
     public Vector2 EnemyToPlayer { get; private set; }
     public float DistanceToPlayer { get; private set; }
 
+    public Animator Animator { get; private set; }
+
     private void Start()
     {
         Player = FindFirstObjectByType<PlayerController>()?.transform;
+        Animator = GetComponent<Animator>();
         //Player = GameObject.FindGameObjectWithTag("Player")?.transform;
     }
 
@@ -52,7 +55,7 @@ public class StateController : MonoBehaviour
     public void RotateToPlayer()
     {
         Vector2 direction = Player.position - transform.position;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90f;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
         Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
         transform.rotation = Quaternion.Slerp(transform.rotation, rotation, RotateSpeed * Time.deltaTime);

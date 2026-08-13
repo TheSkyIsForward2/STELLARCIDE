@@ -20,6 +20,7 @@ public abstract class Attack
     public bool Piercing;
     public bool Homing;
     public float StrafeStrength; // Could be moved , not sure how this is being ordered right now
+    public bool ChargeStart;
     public bool Doubling;
     public float knockbackStrength;
 
@@ -60,6 +61,19 @@ public abstract class Attack
     {
         LastExecute = Time.time;
         yield return new WaitForEndOfFrame();
+    }
+
+    public virtual IEnumerator StartCharge()
+    {
+        LastExecute = Time.time;
+        ChargeStart = true;
+        yield return new WaitForEndOfFrame();
+    }
+
+    public virtual IEnumerator EndCharge(Vector3 origin, Vector3 target)
+    {
+        ChargeStart = false;
+        yield return Execute(origin, target);
     }
 
     /// <returns>True if cooldown is down. False if cooldown is still counting</returns>

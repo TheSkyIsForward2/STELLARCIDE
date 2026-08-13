@@ -181,12 +181,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: -5568589674029779244, guid: 53d48659b9ff3f64a8086dee62485c05, type: 3}
+  m_Sprite: {fileID: 554031699, guid: f5f26dc0f6b32df4bbecc2e47184ce73, type: 3}
   m_Color: {r: 0.67295593, g: 0.027510656, b: 0.027510656, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 12.48, y: 14.264129}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -418,6 +418,7 @@ GameObject:
   - component: {fileID: 6726531227031700955}
   - component: {fileID: 5126087307439459462}
   - component: {fileID: 2403514411214816434}
+  - component: {fileID: 6669856226694730567}
   m_Layer: 0
   m_Name: Red Dwarf
   m_TagString: Entity
@@ -526,6 +527,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c41d1aafd591b3848acf187eb1f4dbc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &6669856226694730567
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7226862931294652116}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d1e0734b201ac7b4b9aaf08ca8910916, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &8774047553006665030
 GameObject:
   m_ObjectHideFlags: 0

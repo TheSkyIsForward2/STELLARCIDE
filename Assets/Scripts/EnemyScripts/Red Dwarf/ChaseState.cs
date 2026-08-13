@@ -18,6 +18,7 @@ public class ChaseState : IState
 
     public void OnEntry(StateController controller)
     {
+        controller.Animator.SetTrigger("triggerWalk");
         // This will be called when first entering the state
         // UnityEngine.Debug.Log("Entering chase state");
 

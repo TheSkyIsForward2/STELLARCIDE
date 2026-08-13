@@ -37,7 +37,18 @@ public class Punch : Attack
     /// <returns></returns>
     public override IEnumerator Execute(Vector3 origin, Vector3 target)
     {
-        if (Animator) {Animator.SetTrigger("executePunch");}
+        if (Animator)
+        {
+            Animator.SetTrigger("executeWindup");
+        }
+
+        LastExecute = Time.time;
+        yield return new WaitWhile(AnimatorIsPlaying);
+
+        if (Animator)
+        {
+            Animator.SetTrigger("executePunch");
+        }
 
         // small lunge forward
         if (pc && playerRB)
@@ -49,7 +60,7 @@ public class Punch : Attack
         }
         
         LastExecute = Time.time;
-        yield return new WaitForSeconds(0.30f);
+        yield return new WaitForSeconds(0.15f);
 
         AudioManager.Instance.PlayPunchingSFX();
 
@@ -70,7 +81,16 @@ public class Punch : Attack
         // lol it works
         if (Doubling)
         {
-            if (Animator) {
+            if (Animator)
+            {
+                Animator.SetTrigger("executeWindup");
+            }
+
+            LastExecute = Time.time;
+            yield return new WaitWhile(AnimatorIsPlaying);
+
+            if (Animator)
+            {
                 Animator.SetTrigger("executePunch");
             }
 
@@ -83,5 +103,62 @@ public class Punch : Attack
             LastExecute = Time.time;
             yield return new WaitWhile(AnimatorIsPlaying);
         }
+    }
+
+    public override IEnumerator StartCharge()
+    {
+        LastExecute = Time.time;
+        if (Animator)
+        {
+            Animator.SetTrigger("executeWindup");
+        }
+
+        yield return new WaitWhile(AnimatorIsPlaying);
+    }
+
+
+    public override IEnumerator EndCharge(Vector3 origin, Vector3 target)
+    {
+        int temp = Damage.Amount;
+        Damage.Amount += Damage.Amount * (int)(Time.time - LastExecute);
+        if (Animator)
+        {
+            Animator.SetTrigger("executePunch");
+        }
+
+        yield return new WaitForSeconds(0.15f);
+
+        AudioManager.Instance.PlayPunchingSFX();
+        DamageArea(range: 3f, width: 3f);
+
+        LastExecute = Time.time;
+        yield return new WaitWhile(AnimatorIsPlaying);
+
+        // lol it works
+        if (Doubling)
+        {
+            if (Animator)
+            {
+                Animator.SetTrigger("executeWindup");
+            }
+
+            LastExecute = Time.time;
+            yield return new WaitWhile(AnimatorIsPlaying);
+
+            if (Animator)
+            {
+                Animator.SetTrigger("executePunch");
+            }
+
+            LastExecute = Time.time;
+            yield return new WaitForSeconds(0.20f);
+
+            AudioManager.Instance.PlayPunchingSFX();
+            DamageArea(range: 3f, width: 3f);
+
+            LastExecute = Time.time;
+            yield return new WaitWhile(AnimatorIsPlaying);
+        }
+        Damage.Amount = temp;
     }
 }

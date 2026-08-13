@@ -1,0 +1,361 @@
+fileFormatVersion: 2
+guid: d0ca439793a1a0747959e9b9204623e8
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -7065450585766752803
+    second: YellowDwarf_0
+  - first:
+      213: -2370548812010622760
+    second: YellowDwarf_1
+  - first:
+      213: -7484149381153237644
+    second: YellowDwarf_2
+  - first:
+      213: 2500888939205723543
+    second: YellowDwarf_3
+  - first:
+      213: 1736961918952301931
+    second: YellowDwarf_4
+  - first:
+      213: -7102235848488510231
+    second: YellowDwarf_5
+  - first:
+      213: -2867741472193936509
+    second: YellowDwarf_6
+  - first:
+      213: 3721817396142318974
+    second: YellowDwarf_7
+  - first:
+      213: 6034105037875031809
+    second: YellowDwarf_8
+  - first:
+      213: 871956179498987700
+    second: YellowDwarf_9
+  - first:
+      213: 5702786644632982058
+    second: YellowDwarf_10
+  - first:
+      213: -7707946572718941362
+    second: YellowDwarf_11
+  - first:
+      213: 265431231398382708
+    second: YellowDwarf_12
+  - first:
+      213: -706788101798844596
+    second: YellowDwarf_13
+  - first:
+      213: 5222827173175462981
+    second: YellowDwarf_14
+  - first:
+      213: -9145024011738061460
+    second: YellowDwarf_15
+  - first:
+      213: -6479659962872323828
+    second: YellowDwarf_16
+  - first:
+      213: -2495719615016932169
+    second: YellowDwarf_17
+  - first:
+      213: -490569733113348045
+    second: YellowDwarf_18
+  - first:
+      213: -5154246011133802993
+    second: YellowDwarf_19
+  - first:
+      213: 4671972806636000770
+    second: YellowDwarf_20
+  - first:
+      213: 7595300441132334804
+    second: YellowDwarf_21
+  - first:
+      213: -2545587253860701872
+    second: YellowDwarf_22
+  - first:
+      213: -7031416571303045981
+    second: YellowDwarf_23
+  - first:
+      213: -2228692762728297718
+    second: YellowDwarf_24
+  - first:
+      213: 2185335681438613391
+    second: YellowDwarf_25
+  - first:
+      213: 8083230540296392146
+    second: YellowDwarf_26
+  - first:
+      213: -4929670923085477420
+    second: YellowDwarf_27
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: YellowDwarf_2
+      rect:
+        serializedVersion: 2
+        x: 525
+        y: 3825
+        width: 490
+        height: 1750
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 475d6626ac5f22890800000000000000
+      internalID: -7484149381153237644
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YellowDwarf_5
+      rect:
+        serializedVersion: 2
+        x: 2186
+        y: 3865
+        width: 515
+        height: 1640
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ec1cc3002acf6d90800000000000000
+      internalID: -7102235848488510231
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YellowDwarf_6
+      rect:
+        serializedVersion: 2
+        x: 4012
+        y: 3632
+        width: 491
+        height: 1967
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3838932335cb338d0800000000000000
+      internalID: -2867741472193936509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YellowDwarf_17
+      rect:
+        serializedVersion: 2
+        x: 507
+        y: 1161
+        width: 496
+        height: 1585
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7bce0f7ab3c6d5dd0800000000000000
+      internalID: -2495719615016932169
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YellowDwarf_20
+      rect:
+        serializedVersion: 2
+        x: 2251
+        y: 899
+        width: 504
+        height: 1836
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 206d2d3b38e26d040800000000000000
+      internalID: 4671972806636000770
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YellowDwarf_21
+      rect:
+        serializedVersion: 2
+        x: 3915
+        y: 907
+        width: 517
+        height: 1644
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4de7f04728de76960800000000000000
+      internalID: 7595300441132334804
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 90908133625870341b7ba460c8bdc274
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      YellowDwarf_0: -7065450585766752803
+      YellowDwarf_1: -2370548812010622760
+      YellowDwarf_10: 5702786644632982058
+      YellowDwarf_11: -7707946572718941362
+      YellowDwarf_12: 265431231398382708
+      YellowDwarf_13: -706788101798844596
+      YellowDwarf_14: 5222827173175462981
+      YellowDwarf_15: -9145024011738061460
+      YellowDwarf_16: -6479659962872323828
+      YellowDwarf_17: -2495719615016932169
+      YellowDwarf_18: -490569733113348045
+      YellowDwarf_19: -5154246011133802993
+      YellowDwarf_2: -7484149381153237644
+      YellowDwarf_20: 4671972806636000770
+      YellowDwarf_21: 7595300441132334804
+      YellowDwarf_22: -2545587253860701872
+      YellowDwarf_23: -7031416571303045981
+      YellowDwarf_24: -2228692762728297718
+      YellowDwarf_25: 2185335681438613391
+      YellowDwarf_26: 8083230540296392146
+      YellowDwarf_27: -4929670923085477420
+      YellowDwarf_3: 2500888939205723543
+      YellowDwarf_4: 1736961918952301931
+      YellowDwarf_5: -7102235848488510231
+      YellowDwarf_6: -2867741472193936509
+      YellowDwarf_7: 3721817396142318974
+      YellowDwarf_8: 6034105037875031809
+      YellowDwarf_9: 871956179498987700
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
