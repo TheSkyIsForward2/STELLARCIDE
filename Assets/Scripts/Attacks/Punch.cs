@@ -71,7 +71,8 @@ public class Punch : Attack
             {
                 CoroutineManager.Instance.Run(entity.KnockBack(
                     origin: entity.transform.position,
-                    strength: 3));
+                    strength: 100));
+                Debug.Log("applying knockback");
             }
         }
 

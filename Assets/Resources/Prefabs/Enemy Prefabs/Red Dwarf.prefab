@@ -501,6 +501,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 277bd9af970ea884aaaa425d7afe8e48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sc: {fileID: 2403514411214816434}
   maxHealth: 50
   healthBar: {fileID: 2905231782183969447}
 --- !u!114 &5126087307439459462
@@ -527,6 +528,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c41d1aafd591b3848acf187eb1f4dbc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  locked: 0
 --- !u!95 &6669856226694730567
 Animator:
   serializedVersion: 7
