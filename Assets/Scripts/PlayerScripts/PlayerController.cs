@@ -1,11 +1,6 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem;
-
-/* TODO:
-* fix input enabling & disabling on entering a asteroid
-*/
 
 public enum PlayerMode {
     SHIP, MECH
@@ -25,6 +20,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask mechTransitionLayer;
     [SerializeField] private float mechTurnSpeed = 100f;
     
+    [NonSerialized] public bool inputEnabled;
+
     private PlayerMode currentMode = PlayerMode.SHIP;
     
     private float targetCameraDistance;

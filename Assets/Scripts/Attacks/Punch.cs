@@ -27,6 +27,7 @@ public class Punch : Attack
             AnimationName = "Punch";
         }
         playerRB = Owner.GetComponent<Rigidbody2D>();
+        pc = Owner.GetComponent<PlayerController>();
     }
 
     /// <summary>Actually punches (verb)</summary>
@@ -49,13 +50,30 @@ public class Punch : Attack
             Animator.SetTrigger("executePunch");
         }
 
-        playerRB.AddForce(Owner.transform.right * TravelSpeed, ForceMode2D.Impulse);
+        // small lunge forward
+        if (pc && playerRB)
+        {
+            if (pc.inputEnabled)
+            {
+                playerRB.AddForce(Owner.transform.right * TravelSpeed, ForceMode2D.Impulse);
+            }
+        }
         
         LastExecute = Time.time;
         yield return new WaitForSeconds(0.15f);
 
         AudioManager.Instance.PlayPunchingSFX();
-        DamageArea(range: (float)target.x, width: (float)target.y);
+
+        // knocking back enemies
+        foreach (Entity entity in DamageArea(range: (float)target.x, width: (float)target.y))
+        {
+            if (entity.healthController.team == HealthOwner.Team.ENEMY)
+            {
+                CoroutineManager.Instance.Run(entity.KnockBack(
+                    origin: entity.transform.position,
+                    strength: 3));
+            }
+        }
 
         LastExecute = Time.time;
         yield return new WaitWhile(AnimatorIsPlaying);

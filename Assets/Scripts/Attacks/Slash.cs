@@ -1,9 +1,6 @@
 using System.Collections;
 using UnityEngine;
 
-// TODO:
-// make step > slash > step > slash
-
 public class Slash : Attack
 {
     /// <summary>
@@ -80,6 +77,15 @@ public class Slash : Attack
             Animator.SetTrigger("executeSlashWindup");
         }
 
+        // small lunge forward
+        if (pc && playerRB)
+        {
+            if (pc.inputEnabled)
+            {
+                playerRB.AddForce(Owner.transform.right * TravelSpeed, ForceMode2D.Impulse);
+            }
+        }
+        
         LastExecute = Time.time;
         yield return new WaitWhile(AnimatorIsPlaying);
 
