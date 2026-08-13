@@ -27,6 +27,7 @@ public class Punch : Attack
             AnimationName = "Punch";
         }
         playerRB = Owner.GetComponent<Rigidbody2D>();
+        pc = Owner.GetComponent<PlayerController>();
     }
 
     /// <summary>Actually punches (verb)</summary>
@@ -36,12 +37,16 @@ public class Punch : Attack
     /// <returns></returns>
     public override IEnumerator Execute(Vector3 origin, Vector3 target)
     {
-        if (Animator) {
-            Animator.SetTrigger("executePunch");
-        }
+        if (Animator) {Animator.SetTrigger("executePunch");}
 
         // small lunge forward
-        playerRB.AddForce(Owner.transform.right * TravelSpeed, ForceMode2D.Impulse);
+        if (pc && playerRB)
+        {
+            if (pc.inputEnabled)
+            {
+                playerRB.AddForce(Owner.transform.right * TravelSpeed, ForceMode2D.Impulse);
+            }
+        }
         
         LastExecute = Time.time;
         yield return new WaitForSeconds(0.30f);

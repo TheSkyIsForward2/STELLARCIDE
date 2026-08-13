@@ -1,14 +1,6 @@
 using System;
 using UnityEngine;
-using Unity.VisualScripting;
 using System.Collections;
-
-/* TODO:
-++ store inventory of attacks & upgrades
--- i.e. AttackInventory[] & AttackPool[]
-++ take attack data from attacks.json
-++ initialize attacks using data
-*/
 
 /// <summary>
 /// Controller script for player attacks 
@@ -26,22 +18,6 @@ public class PlayerAttacking : MonoBehaviour
     private Slash slashAttack;
     private Strafe strafeAttack;
     private Missile missileAttack;
-
-    public struct UpgradeData
-    {
-        public float Cooldown;
-        public float Duration;
-        public float LastExecute;
-        public bool IsActive;
-        public bool IsReady(){return Cooldown + LastExecute < Time.time;}
-        public UpgradeData(float duration, float cooldown)
-        {
-            IsActive = false;
-            Duration = duration;
-            Cooldown = cooldown;
-            LastExecute = 0;
-        }
-    }
 
     UpgradeData slashUpgradeData;
     UpgradeData missileUpgradeData;
@@ -107,8 +83,31 @@ public class PlayerAttacking : MonoBehaviour
         inputActions = new PlayerControls();
         inputActions.Enable();
 
-        // inputActions.Gameplay.PrimaryAttack += ()=>{};
+        // Primary Upgrades
+        inputActions.Gameplay.UpgradeA.performed += (ctx) =>
+        {
+            switch (pc.GetPlayerMode())
+            {
+                case PlayerMode.MECH:
+                    if (slashUpgradeData.IsReady())
+                        StartCoroutine(ExecuteSlashUpgrade());
+                    break;
+                case PlayerMode.SHIP:
+                    if (missileUpgradeData.IsReady())
+                        StartCoroutine(ExecuteMissileUpgrade());
+                    break;
+            }
+        };
+        
+        inputActions.Gameplay.UpgradeB.performed += (ctx) =>
+        {
+            if (doublingUpgradeData.IsReady())
+            {
+                StartCoroutine(ExecuteDoublingUpgrade());
+            }
+        };
     }
+
 
     void Start()
     {
@@ -119,7 +118,6 @@ public class PlayerAttacking : MonoBehaviour
     #endregion
 
     #region Input Polling
-    // TODO: move this stuff into InputAction Events
     void Update()
     {
         if (inputActions.Gameplay.PrimaryAttack.IsPressed())
@@ -166,34 +164,9 @@ public class PlayerAttacking : MonoBehaviour
                 }
             }
         }
-        #region Upgrades
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            // make this check for current upgrade in Q slot and then apply!
-            switch (pc.GetPlayerMode())
-            {
-                case PlayerMode.MECH:
-                    if (slashUpgradeData.IsReady())
-                        StartCoroutine(ExecuteSlashUpgrade());
-                    break;
-                case PlayerMode.SHIP:
-                    if (missileUpgradeData.IsReady())
-                        StartCoroutine(ExecuteMissileUpgrade());
-                    break;
-            }
-            
-        }
-        
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            if (doublingUpgradeData.IsReady())
-            {
-                StartCoroutine(ExecuteDoublingUpgrade());
-            }
-        }
-        #endregion
     }
     #endregion
+
 
     void SwapAttacks(PlayerMode newMode)
     {
@@ -252,38 +225,4 @@ public class PlayerAttacking : MonoBehaviour
         shootAttack.Doubling = false;
         doublingUpgradeData.IsActive = false;
     }
-
-
-
-    // void UpgradeAttack(Func<Attack> baseAttack, Type baseAttackType, 
-    //                    UpgradeData upgradeData, Attack newAttack)
-    // {   
-    //     Attack original = baseAttack();
-    //     if (upgradeData.IsReady())
-    //     {
-    //         if (baseAttackType.IsInstanceOfType(original))
-    //         {
-    //             StartCoroutine( Swap(
-    //                 baseAttack: original,
-    //                 newAttack: newAttack,
-    //                 setter: (a)=>original = a,
-    //                 time: upgradeData.Duration
-    //             ));
-    //         }
-    //     }
-    // }
-
-    // IEnumerator Swap(Attack baseAttack, Attack newAttack, Action<Attack> setter, float time)
-    // {
-    //     // Attack original = baseAttack;
-    //     // baseAttack = newAttack;
-    //     setter(newAttack);
-    //     print(baseAttack);
-    //     Debug.Log("started smart slash upgrade");
-    //     yield return new WaitForSecondsRealtime(time);
-    //     Debug.Log("stopped smart slash upgrade");
-    //     // baseAttack = original;
-    //     setter(baseAttack);
-    //     print(baseAttack);
-    // }
 }

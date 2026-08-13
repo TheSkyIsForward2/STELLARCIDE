@@ -27,9 +27,16 @@ public class Slash : Attack
 
     public override IEnumerator Execute(Vector3 origin, Vector3 target)
     {
-        playerRB.AddForce(Owner.transform.right * TravelSpeed, ForceMode2D.Impulse);
-
         if (Animator) {Animator.SetTrigger("executeSlash");}
+
+        // small lunge forward
+        if (pc && playerRB)
+        {
+            if (pc.inputEnabled)
+            {
+                playerRB.AddForce(Owner.transform.right * TravelSpeed, ForceMode2D.Impulse);
+            }
+        }
         
         LastExecute = Time.time;
         yield return new WaitForSeconds(0.43f); // ikik magic numbers but whatever

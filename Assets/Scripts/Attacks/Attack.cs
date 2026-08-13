@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -35,6 +34,7 @@ public abstract class Attack
     public Type AttackType;
     public float LastExecute=0;
     public Rigidbody2D playerRB;
+    public PlayerController pc;
 
     /// <summary>
     /// Basically never used
