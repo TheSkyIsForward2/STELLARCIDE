@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -36,6 +37,7 @@ public class PauseMenu : MonoBehaviour
         pauseMenu.SetActive(false);
         AudioManager.Instance.RestartBGM();
         playerController.ToggleControls(false);
+        SceneManager.LoadScene("MainMenu");
     }
 
     public void Options()
