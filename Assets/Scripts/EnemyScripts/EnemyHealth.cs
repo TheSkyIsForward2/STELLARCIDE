@@ -11,8 +11,6 @@ public class EnemyHealth : Entity
     void Start()
     {
         healthController = new HealthOwner(maxHealth, HealthOwner.Team.ENEMY, gameObject);
-        Debug.Log("tf is this line doing");
-        Debug.Log(healthController);
         healthBar.UpdateHealthBar(healthController.hp, maxHealth);
     }
 }

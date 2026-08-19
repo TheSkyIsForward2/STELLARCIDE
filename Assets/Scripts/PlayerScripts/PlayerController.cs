@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum PlayerMode {
     SHIP, MECH
@@ -175,9 +176,9 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public IEnumerator LockControls(float duration)
     {
-        inputActions.Disable();
+        ToggleControls(false);
         yield return new WaitForSeconds(duration);
-        inputActions.Enable();
+        ToggleControls(true);
     }
 
     /// <summary>

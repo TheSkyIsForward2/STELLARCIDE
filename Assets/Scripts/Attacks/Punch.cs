@@ -41,7 +41,7 @@ public class Punch : Attack
     /// <returns></returns>
     public override IEnumerator Execute(Vector3 origin, Vector3 target)
     {
-        if (pc && pc.inputEnabled && Animator)
+        if (Animator)
         {
             Animator.SetTrigger("executeWindup");
 
@@ -49,7 +49,10 @@ public class Punch : Attack
             yield return new WaitWhile(AnimatorIsPlaying);
 
             Animator.SetTrigger("executePunch");
-            playerRB.AddForce(Owner.transform.right * TravelSpeed, ForceMode2D.Impulse);
+            if (playerRB)
+            {
+                playerRB.AddForce(Owner.transform.right * TravelSpeed, ForceMode2D.Impulse);
+            }
         }
         
         
@@ -119,6 +122,11 @@ public class Punch : Attack
         if (Animator)
         {
             Animator.SetTrigger("executePunch");
+        }
+
+        if (playerRB)
+        {
+            playerRB.AddForce(Owner.transform.right * TravelSpeed, ForceMode2D.Impulse);
         }
 
         yield return new WaitForSeconds(0.15f);

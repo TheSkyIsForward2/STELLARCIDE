@@ -1,10 +1,6 @@
 using System;
 using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
-using System.Net;
-using Unity.VisualScripting;
-using static UnityEngine.UI.Image;
 
 /// <summary>
 /// Controller script for player attacks 
@@ -57,7 +53,8 @@ public class PlayerAttacking : MonoBehaviour
         slashAttack = new Slash(gameObject,
             damage: new Damage(10, Damage.Type.PHYSICAL),
             cooldown: 1f,
-            travelSpeed:10
+            travelSpeed:10,
+            knockbackStrength: 10
         );
         strafeAttack = new Strafe(gameObject,
             damage: new Damage(10, Damage.Type.PHYSICAL),
@@ -102,6 +99,8 @@ public class PlayerAttacking : MonoBehaviour
         // Primary Upgrades
         inputActions.Gameplay.UpgradeA.performed += (ctx) =>
         {
+            if (!pc.inputEnabled) {return;}
+
             switch (pc.GetPlayerMode())
             {
                 case PlayerMode.MECH:
@@ -117,6 +116,8 @@ public class PlayerAttacking : MonoBehaviour
         
         inputActions.Gameplay.UpgradeB.performed += (ctx) =>
         {
+            if (!pc.inputEnabled) {return;}
+
             if (doublingUpgradeData.IsReady())
             {
                 StartCoroutine(ExecuteDoublingUpgrade());
@@ -136,6 +137,7 @@ public class PlayerAttacking : MonoBehaviour
     #region Input Polling
     void Update()
     {
+        if (!pc.inputEnabled) {return;}
         // If chargeup upgrade is active
         if (true)
         {
