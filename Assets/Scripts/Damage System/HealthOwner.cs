@@ -5,7 +5,7 @@ using UnityEngine;
 /// all teams available and maybe add more. Also stores the entity
 /// owner itself
 /// </summary>
-public class HealthOwner : Component
+public class HealthOwner : MonoBehaviour
 {
     public enum Team
     {

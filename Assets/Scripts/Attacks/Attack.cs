@@ -22,7 +22,7 @@ public abstract class Attack
     public float StrafeStrength; // Could be moved , not sure how this is being ordered right now
     public bool ChargeStart;
     public bool Doubling;
-    public float knockbackStrength;
+    public float KnockbackStrength;
 
     public enum Type
     {
@@ -36,6 +36,7 @@ public abstract class Attack
     public float LastExecute=0;
     public Rigidbody2D playerRB;
     public PlayerController pc;
+    public Entity entity;
 
     /// <summary>
     /// Basically never used

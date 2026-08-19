@@ -36,7 +36,8 @@ public class PlayerAttacking : MonoBehaviour
         punchAttack = new Punch(gameObject,
             damage: new Damage(10, Damage.Type.PHYSICAL),
             cooldown: 0.5f,
-            travelSpeed: 10
+            travelSpeed: 10,
+            knockbackStrength: 10
         );
         shootAttack = new Shoot(gameObject,
             damage: new Damage(10, Damage.Type.PHYSICAL),

@@ -193,6 +193,7 @@ public class PlayerController : MonoBehaviour
         {
             inputActions.Disable();
         }
+        inputEnabled = enabled;
     }
     
     public PlayerMode GetPlayerMode() {

@@ -14,27 +14,24 @@ public abstract class Entity : MonoBehaviour
     /// 
     /// </summary>
     /// <param name="origin">Position of the source of knockback</param>
-    /// <param name="strength"></param>
+    /// <param name="strength">Distance to be knocked back; min:0.5, max:inf</param>
     /// <returns></returns>
     public IEnumerator KnockBack(Vector3 origin, float strength)
     {
-        Debug.Log("do some knockback");
         if (sc)
         {
-            Debug.Log("do something");
             sc.locked = true;
         }
 
-        float elapsedTime=0;
-        Vector3 directionVector = transform.position - origin;
+        float elapsedTime = 0;
+        Vector3 directionVector = (transform.position - origin).normalized * strength;
 
-        while (elapsedTime < strength)
+        while (elapsedTime < 0.5f)
         {
             transform.position = Vector3.Lerp(transform.position, 
                 origin + directionVector, 
-                elapsedTime/strength
+                elapsedTime / 0.5f
             );
-            Debug.Log("knocking back");
             elapsedTime += Time.deltaTime;
 
             yield return new WaitForEndOfFrame();
