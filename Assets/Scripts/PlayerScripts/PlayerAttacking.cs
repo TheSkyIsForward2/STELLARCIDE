@@ -137,7 +137,7 @@ public class PlayerAttacking : MonoBehaviour
     void Update()
     {
         // If chargeup upgrade is active
-        if (false)
+        if (true)
         {
             // If primary attack 
             if (inputActions.Gameplay.PrimaryAttack.WasPressedThisFrame())
@@ -154,7 +154,8 @@ public class PlayerAttacking : MonoBehaviour
             {
                 if (PrimaryAttack.ChargeStart)
                 {
-                    StartCoroutine(PrimaryAttack.EndCharge(gameObject.transform.position, gameObject.transform.right));
+                    Vector3 _target = PrimaryAttack is Punch ? new Vector3(3,3) : gameObject.transform.right;
+                    StartCoroutine(PrimaryAttack.EndCharge(gameObject.transform.position, _target));
                     PrimaryAttack.ChargeStart = false;
                     return;
                 }

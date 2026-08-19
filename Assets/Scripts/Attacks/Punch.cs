@@ -124,7 +124,16 @@ public class Punch : Attack
         yield return new WaitForSeconds(0.15f);
 
         AudioManager.Instance.PlayPunchingSFX();
-        DamageArea(range: 3f, width: 3f);
+        foreach (Entity entity in DamageArea(range: (float)target.x, width: (float)target.y))
+        {
+            if (entity.healthController.team != this.entity.healthController.team)
+            {
+                CoroutineManager.Instance.Run(entity.KnockBack(
+                    origin: Owner.transform.position,
+                    strength: KnockbackStrength
+                ));
+            }
+        }
 
         LastExecute = Time.time;
         yield return new WaitWhile(AnimatorIsPlaying);
