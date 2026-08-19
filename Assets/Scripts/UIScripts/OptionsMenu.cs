@@ -20,7 +20,7 @@ public class OptionsMenu : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void Return()
     {
-        if (inMainMenu)
+        if (!inMainMenu)
             pauseMenu.ExitOptions();
         else SceneManager.LoadScene("MainMenu");
     }
