@@ -11,7 +11,6 @@ public class PauseMenu : MonoBehaviour
     void Awake()
     {
         playerController = GameManager.Instance.Player.GetComponent<PlayerController>();
-        playerController.ToggleControls(false);
         pauseMenu.SetActive(false);
         nested = false;
     }
