@@ -100,7 +100,8 @@ public class UpgradeManager : MonoBehaviour
         slashAttack = new Slash(player,
             damage: new Damage(10, Damage.Type.PHYSICAL),
             cooldown: 1f,
-            travelSpeed: 10
+            travelSpeed: 10,
+            knockbackStrength: 10
         );
         missileAttack = new Missile(player,
             damage: new Damage(10, Damage.Type.PHYSICAL),
@@ -141,7 +142,8 @@ public class UpgradeManager : MonoBehaviour
                         slashAttack = new Slash(GameObject.FindWithTag("Player"),
                             damage: new Damage(10, Damage.Type.PHYSICAL),
                             cooldown: 1f,
-                            travelSpeed: 10
+                            travelSpeed: 10,
+                            knockbackStrength: 10
                         );
                         slashUpgradeData = new SlashUpgrade(
                             cooldown: 10f,

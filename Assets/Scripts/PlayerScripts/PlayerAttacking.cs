@@ -18,10 +18,6 @@ public class PlayerAttacking : MonoBehaviour
 
     void Awake()
     {
-        UpgradeManager.Instance.CreateAttacks(gameObject);
-        PrimaryAttack = UpgradeManager.Instance.shootAttack;
-        SecondaryAttack = null;
-
         inputActions = new PlayerControls();
         inputActions.Enable();
 
@@ -57,6 +53,12 @@ public class PlayerAttacking : MonoBehaviour
         // this script now observes whenever the player changes forms and switches attacks accordingly
         EventBus.Instance.OnFormChange += (newMode) => SwapAttacks(newMode);
         pc = GetComponent<PlayerController>();
+
+        UpgradeManager.Instance.CreateAttacks(gameObject);
+        PrimaryAttack = UpgradeManager.Instance.shootAttack;
+        Debug.Log(PrimaryAttack);
+        Debug.Log(UpgradeManager.Instance.shootAttack);
+        SecondaryAttack = null;
     }
     #endregion
 
