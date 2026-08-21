@@ -19,80 +19,13 @@ public class PlayerAttacking : MonoBehaviour
 
     [SerializeField] public GameObject chargeUpIndicator;
 
-    private Punch punchAttack;
-    private Shoot shootAttack;
-    private Dash dashAttack;
-    private Slash slashAttack;
-    private Strafe strafeAttack;
-    private Missile missileAttack;
-
-    UpgradeData slashUpgradeData;
-    UpgradeData missileUpgradeData;
-    UpgradeData chargeUpUpgradeData;
-    UpgradeData doublingUpgradeData;
     private PlayerControls inputActions;
 
     void Awake()
     {
-        punchAttack = new Punch(gameObject,
-            damage: new Damage(10, Damage.Type.PHYSICAL),
-            cooldown: 0.5f,
-            travelSpeed: 10
-        );
-        shootAttack = new Shoot(gameObject,
-            damage: new Damage(10, Damage.Type.PHYSICAL),
-            cooldown: 1f,
-            travelSpeed: 30,
-            lifetime: 2,
-            piercing: true
-        );
-        dashAttack = new Dash(gameObject, 
-            damage: new Damage(10, Damage.Type.PHYSICAL),
-            cooldown: 1f,
-            travelSpeed:0.25f, // looks like the max value before there is a pause after a dash
-            lifetime: 1f
-        );
-        slashAttack = new Slash(gameObject,
-            damage: new Damage(10, Damage.Type.PHYSICAL),
-            cooldown: 1f,
-            travelSpeed:10
-        );
-        strafeAttack = new Strafe(gameObject,
-            damage: new Damage(10, Damage.Type.PHYSICAL),
-            cooldown: 3f,
-            strafeStrength: 10f
-        );
-        missileAttack = new Missile(gameObject,
-            damage: new Damage(10, Damage.Type.PHYSICAL),
-            cooldown: 1f,
-            travelSpeed: 10f,
-            piercing: false,
-            lifetime: 4f,
-            homing: true
-        );
-
-        PrimaryAttack = shootAttack;
-        SecondaryAttack = strafeAttack;
-
-        slashUpgradeData = new UpgradeData(
-            cooldown: 10f,
-            duration: 5f
-        );
-
-        missileUpgradeData = new UpgradeData(
-            cooldown: 10f,
-            duration: 5f
-        );
-
-        // Using negative so cause it's supposed to be passive
-        chargeUpUpgradeData = new UpgradeData(
-            cooldown: -10f,
-            duration: 5f
-        );
-        doublingUpgradeData = new UpgradeData(
-            cooldown: 10f,
-            duration: 5f
-        );
+        UpgradeManager.Instance.CreateAttacks(gameObject);
+        PrimaryAttack = UpgradeManager.Instance.shootAttack;
+        SecondaryAttack = null;
 
         inputActions = new PlayerControls();
         inputActions.Enable();
@@ -100,24 +33,19 @@ public class PlayerAttacking : MonoBehaviour
         // Primary Upgrades
         inputActions.Gameplay.UpgradeA.performed += (ctx) =>
         {
-            switch (pc.GetPlayerMode())
+            if (UpgradeManager.Instance.PrimaryUpgrade == null) { return;  }
+            if (UpgradeManager.Instance.PrimaryUpgrade.IsReady())
             {
-                case PlayerMode.MECH:
-                    if (slashUpgradeData.IsReady())
-                        StartCoroutine(ExecuteSlashUpgrade());
-                    break;
-                case PlayerMode.SHIP:
-                    if (missileUpgradeData.IsReady())
-                        StartCoroutine(ExecuteMissileUpgrade());
-                    break;
+                UpgradeManager.Instance.PrimaryUpgrade.Execute();
             }
         };
         
         inputActions.Gameplay.UpgradeB.performed += (ctx) =>
         {
-            if (doublingUpgradeData.IsReady())
+            if (UpgradeManager.Instance.SecondaryUpgrade == null) { return; }
+            if (UpgradeManager.Instance.SecondaryUpgrade.IsReady())
             {
-                StartCoroutine(ExecuteDoublingUpgrade());
+                UpgradeManager.Instance.SecondaryUpgrade.Execute();
             }
         };
     }
@@ -135,7 +63,7 @@ public class PlayerAttacking : MonoBehaviour
     void Update()
     {
         // If chargeup upgrade is active
-        if (false)
+        if (UpgradeManager.Instance.chargeUpUpgradeData != null)
         {
             // If primary attack 
             if (inputActions.Gameplay.PrimaryAttack.WasPressedThisFrame())
@@ -179,7 +107,7 @@ public class PlayerAttacking : MonoBehaviour
             }
         }
 
-        if (inputActions.Gameplay.SecondaryAttack.IsPressed())
+        if (inputActions.Gameplay.SecondaryAttack.IsPressed() && SecondaryAttack != null)
         {
             if (SecondaryAttack.IsReady())
             {
@@ -214,66 +142,66 @@ public class PlayerAttacking : MonoBehaviour
         switch (newMode)
         {
             case PlayerMode.SHIP:
-                PrimaryAttack = shootAttack;
-                SecondaryAttack = strafeAttack;
+                PrimaryAttack = UpgradeManager.Instance.shootAttack;
+                SecondaryAttack = UpgradeManager.Instance.strafeAttack;
                 break;
             default:
-                PrimaryAttack = punchAttack;
-                SecondaryAttack = dashAttack;
+                PrimaryAttack = UpgradeManager.Instance.punchAttack;
+                SecondaryAttack = UpgradeManager.Instance.dashAttack;
                 break;
         }
     }
 
 
-    IEnumerator ExecuteSlashUpgrade()
-    {
-        if (PrimaryAttack is Punch)
-        {
-            slashUpgradeData.IsActive = true;
-            slashUpgradeData.LastExecute = Time.time;
-            PrimaryAttack = slashAttack;
-            if (doublingUpgradeData.IsActive) // check if doublingUpgrade is active
-            {
-                PrimaryAttack.Doubling = true;
-            }
-            yield return new WaitForSeconds(slashUpgradeData.Duration);
-            while (inputActions.Gameplay.PrimaryAttack.IsPressed())
-            {
-                yield return null;
-            }
-            yield return new WaitForEndOfFrame();
-            PrimaryAttack = punchAttack;
-            slashUpgradeData.IsActive = false;
-        } 
-    }
+    //IEnumerator ExecuteSlashUpgrade()
+    //{
+    //    if (PrimaryAttack is Punch)
+    //    {
+    //        slashUpgradeData.IsActive = true;
+    //        slashUpgradeData.LastExecute = Time.time;
+    //        PrimaryAttack = slashAttack;
+    //        if (doublingUpgradeData.IsActive) // check if doublingUpgrade is active
+    //        {
+    //            PrimaryAttack.Doubling = true;
+    //        }
+    //        yield return new WaitForSeconds(slashUpgradeData.Duration);
+    //        while (inputActions.Gameplay.PrimaryAttack.IsPressed())
+    //        {
+    //            yield return null;
+    //        }
+    //        yield return new WaitForEndOfFrame();
+    //        PrimaryAttack = punchAttack;
+    //        slashUpgradeData.IsActive = false;
+    //    } 
+    //}
     
-    IEnumerator ExecuteMissileUpgrade()
-    {
-        if (PrimaryAttack is Shoot)
-        {
-            missileUpgradeData.IsActive = true;
-            missileUpgradeData.LastExecute = Time.time;
-            PrimaryAttack = missileAttack;
-            yield return new WaitForSeconds(missileUpgradeData.Duration);
-            while (inputActions.Gameplay.PrimaryAttack.IsPressed())
-            {
-                yield return null;
-            }
-            yield return new WaitForEndOfFrame();
-            PrimaryAttack = shootAttack;
-            missileUpgradeData.IsActive = false;
-        } 
-    }
+    //IEnumerator ExecuteMissileUpgrade()
+    //{
+    //    if (PrimaryAttack is Shoot)
+    //    {
+    //        missileUpgradeData.IsActive = true;
+    //        missileUpgradeData.LastExecute = Time.time;
+    //        PrimaryAttack = missileAttack;
+    //        yield return new WaitForSeconds(missileUpgradeData.Duration);
+    //        while (inputActions.Gameplay.PrimaryAttack.IsPressed())
+    //        {
+    //            yield return null;
+    //        }
+    //        yield return new WaitForEndOfFrame();
+    //        PrimaryAttack = shootAttack;
+    //        missileUpgradeData.IsActive = false;
+    //    } 
+    //}
 
-    IEnumerator ExecuteDoublingUpgrade()
-    {
-        doublingUpgradeData.IsActive = true;
-        doublingUpgradeData.LastExecute = Time.time;
-        PrimaryAttack.Doubling = true;
-        yield return new WaitForSeconds(doublingUpgradeData.Duration);
-        slashAttack.Doubling = false; // not the best but o well
-        punchAttack.Doubling = false;
-        shootAttack.Doubling = false;
-        doublingUpgradeData.IsActive = false;
-    }
+    //IEnumerator ExecuteDoublingUpgrade()
+    //{
+    //    doublingUpgradeData.IsActive = true;
+    //    doublingUpgradeData.LastExecute = Time.time;
+    //    PrimaryAttack.Doubling = true;
+    //    yield return new WaitForSeconds(doublingUpgradeData.Duration);
+    //    slashAttack.Doubling = false; // not the best but o well
+    //    punchAttack.Doubling = false;
+    //    shootAttack.Doubling = false;
+    //    doublingUpgradeData.IsActive = false;
+    //}
 }
