@@ -96,6 +96,12 @@ public class PlayerAttacking : MonoBehaviour
         inputActions = new PlayerControls();
         inputActions.Enable();
 
+        // Debug Heal
+        inputActions.Gameplay.Heal.performed += (ctx) =>
+        {
+            GetComponent<PlayerHealth>().healthController.TakeDamage(new Damage(-100, Damage.Type.PHYSICAL));
+        };
+
         // Primary Upgrades
         inputActions.Gameplay.UpgradeA.performed += (ctx) =>
         {

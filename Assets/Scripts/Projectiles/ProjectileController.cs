@@ -67,7 +67,6 @@ public class ProjectileController : MonoBehaviour
         }
         if (piercing) return;
         // projectile dies if entity on opposite team is hit AND doesnt pierce
-        print(otherObject);
         Destroy(gameObject);
     }
 

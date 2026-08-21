@@ -13,7 +13,7 @@ public class IdleState : IState
     
     public void OnEntry(StateController controller)
     {
-        controller.Animator.SetTrigger("triggerIdle");
+        try { controller.Animator.SetTrigger("triggerIdle"); } catch{}
     }
 
     public void OnUpdate(StateController controller)

@@ -107,6 +107,7 @@ public abstract class Attack
     {
         List<Entity> gameObjectsHit = new List<Entity>();
         Collider2D[] entitiesInRange = Physics2D.OverlapAreaAll(start,end);
+        
 
         for (int i = 0; i < entitiesInRange.Length; i++)
         {

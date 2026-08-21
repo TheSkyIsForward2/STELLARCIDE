@@ -154,6 +154,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Heal"",
+                    ""type"": ""Button"",
+                    ""id"": ""53613468-9667-4449-828a-988534a2b4f5"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -343,6 +352,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""UpgradeB"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a751561d-f298-4f19-ad97-0ff36367ba90"",
+                    ""path"": ""<Keyboard>/h"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Heal"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -358,6 +378,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Gameplay_Options = m_Gameplay.FindAction("Options", throwIfNotFound: true);
         m_Gameplay_UpgradeA = m_Gameplay.FindAction("UpgradeA", throwIfNotFound: true);
         m_Gameplay_UpgradeB = m_Gameplay.FindAction("UpgradeB", throwIfNotFound: true);
+        m_Gameplay_Heal = m_Gameplay.FindAction("Heal", throwIfNotFound: true);
     }
 
     ~@PlayerControls()
@@ -445,6 +466,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Options;
     private readonly InputAction m_Gameplay_UpgradeA;
     private readonly InputAction m_Gameplay_UpgradeB;
+    private readonly InputAction m_Gameplay_Heal;
     /// <summary>
     /// Provides access to input actions defined in input action map "Gameplay".
     /// </summary>
@@ -484,6 +506,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Gameplay/UpgradeB".
         /// </summary>
         public InputAction @UpgradeB => m_Wrapper.m_Gameplay_UpgradeB;
+        /// <summary>
+        /// Provides access to the underlying input action "Gameplay/Heal".
+        /// </summary>
+        public InputAction @Heal => m_Wrapper.m_Gameplay_Heal;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -531,6 +557,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @UpgradeB.started += instance.OnUpgradeB;
             @UpgradeB.performed += instance.OnUpgradeB;
             @UpgradeB.canceled += instance.OnUpgradeB;
+            @Heal.started += instance.OnHeal;
+            @Heal.performed += instance.OnHeal;
+            @Heal.canceled += instance.OnHeal;
         }
 
         /// <summary>
@@ -563,6 +592,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @UpgradeB.started -= instance.OnUpgradeB;
             @UpgradeB.performed -= instance.OnUpgradeB;
             @UpgradeB.canceled -= instance.OnUpgradeB;
+            @Heal.started -= instance.OnHeal;
+            @Heal.performed -= instance.OnHeal;
+            @Heal.canceled -= instance.OnHeal;
         }
 
         /// <summary>
@@ -652,5 +684,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnUpgradeB(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Heal" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnHeal(InputAction.CallbackContext context);
     }
 }

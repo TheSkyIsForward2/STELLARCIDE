@@ -17,10 +17,14 @@ public class StateController : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI debugText;
 
+    private void Awake()
+    {
+        Animator = GetComponent<Animator>();
+    }
+
     private void Start()
     {
         Player = FindFirstObjectByType<PlayerController>()?.transform;
-        Animator = GetComponent<Animator>();
         //Player = GameObject.FindGameObjectWithTag("Player")?.transform;
     }
 
@@ -57,11 +61,11 @@ public class StateController : MonoBehaviour
             }
             else if (attack is Punch)
             {
+                Debug.Log("bug punch");
                 CoroutineManager.Instance.Run(attack.Execute(
                     origin: transform.position, 
-                    target: new Vector3(1,10,0))); // a lil aids but it does the job
+                    target: new Vector3(50,150))); // x is range, y is width
             }
-                
         }
     }
 
@@ -70,7 +74,7 @@ public class StateController : MonoBehaviour
     public void RotateToPlayer()
     {
         Vector2 direction = Player.position - transform.position;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
         transform.rotation = Quaternion.Slerp(transform.rotation, rotation, RotateSpeed * Time.deltaTime);
