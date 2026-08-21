@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -10,7 +11,6 @@ public class PauseMenu : MonoBehaviour
     void Awake()
     {
         playerController = GameManager.Instance.Player.GetComponent<PlayerController>();
-        playerController.ToggleControls(false);
         pauseMenu.SetActive(false);
         nested = false;
     }
@@ -36,6 +36,7 @@ public class PauseMenu : MonoBehaviour
         pauseMenu.SetActive(false);
         AudioManager.Instance.RestartBGM();
         playerController.ToggleControls(false);
+        SceneManager.LoadScene("MainMenu");
     }
 
     public void Options()
