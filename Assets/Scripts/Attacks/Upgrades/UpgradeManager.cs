@@ -255,7 +255,7 @@ public class UpgradeManager : MonoBehaviour
                         break;
                     case UpgradeTarget.MISSILE:
                         missileUpgradeData.Cooldown -= 0.5f;
-                        if (missileUpgradeData.Duration == slashUpgradeData.Cooldown)
+                        if (missileUpgradeData.Duration == missileUpgradeData.Cooldown)
                         {
                             removeDurationAndCooldown(upgrade);
                         }
