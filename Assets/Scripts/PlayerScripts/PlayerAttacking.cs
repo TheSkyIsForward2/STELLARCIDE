@@ -1,11 +1,6 @@
 using System;
 using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
-using System.Net;
-using Unity.VisualScripting;
-using UnityEngine;
-using static UnityEngine.UI.Image;
 
 /// <summary>
 /// Controller script for player attacks 
@@ -29,6 +24,12 @@ public class PlayerAttacking : MonoBehaviour
 
         inputActions = new PlayerControls();
         inputActions.Enable();
+
+        // Debug Heal
+        inputActions.Gameplay.Heal.performed += (ctx) =>
+        {
+            GetComponent<PlayerHealth>().healthController.TakeDamage(new Damage(-100, Damage.Type.PHYSICAL));
+        };
 
         // Primary Upgrades
         inputActions.Gameplay.UpgradeA.performed += (ctx) =>
@@ -62,6 +63,7 @@ public class PlayerAttacking : MonoBehaviour
     #region Input Polling
     void Update()
     {
+        if (!pc.inputEnabled) {return;}
         // If chargeup upgrade is active
         if (UpgradeManager.Instance.chargeUpUpgradeData != null)
         {
@@ -80,7 +82,8 @@ public class PlayerAttacking : MonoBehaviour
             {
                 if (PrimaryAttack.ChargeStart)
                 {
-                    StartCoroutine(PrimaryAttack.EndCharge(gameObject.transform.position, gameObject.transform.right));
+                    Vector3 _target = PrimaryAttack is Punch ? new Vector3(3,3) : gameObject.transform.right;
+                    StartCoroutine(PrimaryAttack.EndCharge(gameObject.transform.position, _target));
                     PrimaryAttack.ChargeStart = false;
                     return;
                 }

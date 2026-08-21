@@ -13,9 +13,11 @@ public class Slash : Attack
     public Slash(GameObject owner,
                   Damage damage,
                   float cooldown,
-                  float travelSpeed) : base(owner, damage, cooldown)
+                  float travelSpeed,
+                  float knockbackStrength) : base(owner, damage, cooldown)
     {
         TravelSpeed = travelSpeed;
+        KnockbackStrength = knockbackStrength;
         AttackType = Type.ARMED_MELEE;
         if (Owner.transform.Find("MechVisual").TryGetComponent<Animator>(out Animator a))
         {
@@ -48,7 +50,16 @@ public class Slash : Attack
 
         LastExecute = Time.time;
         yield return new WaitForSeconds(0.077f);
-        DamageArea(3, 3);
+        foreach (Entity entity in DamageArea(range: 3, width: 3))
+        {
+            if (entity.healthController.team != this.entity.healthController.team)
+            {
+                CoroutineManager.Instance.Run(entity.KnockBack(
+                    origin: Owner.transform.position,
+                    strength: KnockbackStrength
+                ));
+            }
+        }
 
         LastExecute = Time.time;
         yield return new WaitWhile(AnimatorIsPlaying);
@@ -72,11 +83,13 @@ public class Slash : Attack
 
     public override IEnumerator Execute(Vector3 origin, Vector3 target)
     {
-        if (Animator)
-        {
-            Animator.SetTrigger("executeSlashWindup");
-        }
 
+        if (Animator){Animator.SetTrigger("executeSlashWindup");}
+
+        LastExecute = Time.time;
+        yield return new WaitWhile(AnimatorIsPlaying);
+
+        if (Animator){Animator.SetTrigger("executeSlash");}
         // small lunge forward
         if (pc && playerRB)
         {
@@ -85,14 +98,6 @@ public class Slash : Attack
                 playerRB.AddForce(Owner.transform.right * TravelSpeed, ForceMode2D.Impulse);
             }
         }
-        
-        LastExecute = Time.time;
-        yield return new WaitWhile(AnimatorIsPlaying);
-
-        if (Animator)
-        {
-            Animator.SetTrigger("executeSlash");
-        }
 
         LastExecute = Time.time;
         yield return new WaitForSeconds(0.28f); // ikik magic numbers but whatever
@@ -100,7 +105,17 @@ public class Slash : Attack
 
         LastExecute = Time.time;
         yield return new WaitForSeconds(0.077f);
-        DamageArea(3,3);
+
+        foreach (Entity entity in DamageArea(range: 3, width: 3))
+        {
+            if (entity.healthController.team != this.entity.healthController.team)
+            {
+                CoroutineManager.Instance.Run(entity.KnockBack(
+                    origin: Owner.transform.position,
+                    strength: KnockbackStrength
+                ));
+            }
+        }
 
         LastExecute = Time.time;
         yield return new WaitWhile(AnimatorIsPlaying);
@@ -121,5 +136,4 @@ public class Slash : Attack
             yield return new WaitWhile(AnimatorIsPlaying);
         }
     }
-
 }

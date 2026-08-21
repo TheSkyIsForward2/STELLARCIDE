@@ -76,7 +76,6 @@ public class Missile : Attack
         if (Doubling)
         {
             yield return new WaitForSeconds(0.06f);
-            Debug.Log("shooted twice");
             GameManager.Instance.ProjectileManager.CreateProjectile(Owner,
                                                                             Damage,
                                                                             TravelSpeed,

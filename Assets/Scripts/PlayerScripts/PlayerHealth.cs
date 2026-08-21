@@ -12,8 +12,6 @@ public class PlayerHealth : Entity
     void Awake()
     {
         healthController = new HealthOwner(health, HealthOwner.Team.PLAYER, gameObject);
-        Debug.Log("player");
-        Debug.Log(healthController);
     }
 
     private void Update()

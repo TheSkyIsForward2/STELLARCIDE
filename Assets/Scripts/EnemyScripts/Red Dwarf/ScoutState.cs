@@ -25,8 +25,6 @@ public class ScoutState : IState
     public void OnEntry(StateController controller)
     {
         controller.Animator.SetTrigger("triggerWalk");
-        // This will be called when first entering the state
-        UnityEngine.Debug.Log("Entered scout state");
     }
 
     public void OnUpdate(StateController controller)
@@ -48,5 +46,10 @@ public class ScoutState : IState
     public void OnExit(StateController controller)
     {
         // This will be called on leaving the state
+    }
+
+    public string GetName()
+    {
+        return "Scout";
     }
 }

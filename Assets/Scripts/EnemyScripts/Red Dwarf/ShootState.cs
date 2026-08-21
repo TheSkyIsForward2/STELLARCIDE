@@ -18,9 +18,7 @@ public class ShootState : IState
     public void OnEntry(StateController controller)
     {
         controller.Animator.SetTrigger("triggerIdle");
-        // This will be called when first entering the state
-        // UnityEngine.Debug.Log("entering shooting state");
-
+        
         self = controller.gameObject;
         if (shoot != null)
             return;
@@ -50,5 +48,10 @@ public class ShootState : IState
     public void OnExit(StateController controller)
     {
         // This will be called on leaving the state
+    }
+
+    public string GetName()
+    {
+        return "Shoot";
     }
 }

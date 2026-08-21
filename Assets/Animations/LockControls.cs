@@ -7,7 +7,6 @@ public class LockControls : StateMachineBehaviour
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Debug.Log("entered punching state");
         pc = GameManager.Instance.Player.GetComponent<PlayerController>();
         pc.ToggleControls(false);
     }
@@ -21,7 +20,6 @@ public class LockControls : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Debug.Log("exiting punch state");
         pc.ToggleControls(true);
     }
 

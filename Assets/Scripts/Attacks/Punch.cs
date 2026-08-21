@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor.UI;
 using UnityEngine;
 
 public class Punch : Attack
@@ -14,9 +15,11 @@ public class Punch : Attack
     public Punch(GameObject owner,
                   Damage damage,
                   float cooldown,
-                  float travelSpeed=0) : base(owner, damage, cooldown)
+                  float travelSpeed=0,
+                  float knockbackStrength=10) : base(owner, damage, cooldown)
     {
         TravelSpeed = travelSpeed;
+        KnockbackStrength = knockbackStrength;
         AttackType = Type.UNARMED_MELEE;
         if (Owner.transform.Find("MechVisual"))
         {
@@ -28,6 +31,7 @@ public class Punch : Attack
         }
         playerRB = Owner.GetComponent<Rigidbody2D>();
         pc = Owner.GetComponent<PlayerController>();
+        entity = Owner.GetComponent<Entity>();
     }
 
     /// <summary>Actually punches (verb)</summary>
@@ -40,24 +44,17 @@ public class Punch : Attack
         if (Animator)
         {
             Animator.SetTrigger("executeWindup");
-        }
 
-        LastExecute = Time.time;
-        yield return new WaitWhile(AnimatorIsPlaying);
+            LastExecute = Time.time;
+            yield return new WaitWhile(AnimatorIsPlaying);
 
-        if (Animator)
-        {
             Animator.SetTrigger("executePunch");
-        }
-
-        // small lunge forward
-        if (pc && playerRB)
-        {
-            if (pc.inputEnabled)
+            if (playerRB)
             {
                 playerRB.AddForce(Owner.transform.right * TravelSpeed, ForceMode2D.Impulse);
             }
         }
+        
         
         LastExecute = Time.time;
         yield return new WaitForSeconds(0.15f);
@@ -67,12 +64,12 @@ public class Punch : Attack
         // knocking back enemies
         foreach (Entity entity in DamageArea(range: (float)target.x, width: (float)target.y))
         {
-            if (entity.healthController.team == HealthOwner.Team.ENEMY)
+            if (entity.healthController.team != this.entity.healthController.team)
             {
                 CoroutineManager.Instance.Run(entity.KnockBack(
-                    origin: entity.transform.position,
-                    strength: 100));
-                Debug.Log("applying knockback");
+                    origin: Owner.transform.position,
+                    strength: KnockbackStrength
+                ));
             }
         }
 
@@ -127,10 +124,24 @@ public class Punch : Attack
             Animator.SetTrigger("executePunch");
         }
 
+        if (playerRB)
+        {
+            playerRB.AddForce(Owner.transform.right * TravelSpeed, ForceMode2D.Impulse);
+        }
+
         yield return new WaitForSeconds(0.15f);
 
         AudioManager.Instance.PlayPunchingSFX();
-        DamageArea(range: 3f, width: 3f);
+        foreach (Entity entity in DamageArea(range: (float)target.x, width: (float)target.y))
+        {
+            if (entity.healthController.team != this.entity.healthController.team)
+            {
+                CoroutineManager.Instance.Run(entity.KnockBack(
+                    origin: Owner.transform.position,
+                    strength: KnockbackStrength
+                ));
+            }
+        }
 
         LastExecute = Time.time;
         yield return new WaitWhile(AnimatorIsPlaying);
