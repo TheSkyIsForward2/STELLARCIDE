@@ -119,17 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!114 &266450594 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7678411033196404026, guid: 2151be5f19fa77549a34a4dedbfa705d, type: 3}
-  m_PrefabInstance: {fileID: 1417467355865735921}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &292830635
 GameObject:
   m_ObjectHideFlags: 0
@@ -544,6 +533,7 @@ GameObject:
   - component: {fileID: 549631976}
   - component: {fileID: 549631975}
   - component: {fileID: 549631974}
+  - component: {fileID: 549631978}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -603,6 +593,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &549631978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 549631973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e71c3df5b4146b64db60af3a4df9ea60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &551508686
 GameObject:
   m_ObjectHideFlags: 0
@@ -943,7 +945,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 223470b4ef7c65a4e9e4dbcb38aee108, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundSlider: {fileID: 266450594}
+  soundSlider: {fileID: 0}
   masterMixer: {fileID: 24100000, guid: e115c91a482a34e4ba79a8a313ef8e2a, type: 2}
 --- !u!4 &1078034800
 Transform:
