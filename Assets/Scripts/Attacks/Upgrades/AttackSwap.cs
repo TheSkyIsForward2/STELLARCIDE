@@ -30,10 +30,8 @@ public class AttackSwap
         T copy = original;
         original = newAttack;
 
-        Debug.Log($"started attackswap at {Time.time}");
         LastExecute = Time.time; 
         CoroutineManager.Instance.Run(waitTask(10));
-        Debug.Log($"stopped attackswap at {Time.time}");
 
         original = copy;
     }

@@ -16,12 +16,10 @@ public class ChaseState : IState
         ScoutState = scout;
     }
 
+    // This will be called when first entering the state
     public void OnEntry(StateController controller)
     {
         controller.Animator.SetTrigger("triggerWalk");
-        // This will be called when first entering the state
-        // UnityEngine.Debug.Log("Entering chase state");
-
         self = controller.gameObject;
         punch = new Punch(self,
             damage: new Damage(10, Damage.Type.PHYSICAL), 
@@ -49,6 +47,11 @@ public class ChaseState : IState
     public void OnExit(StateController controller)
     {
         // This will be called on leaving the state
+    }
+
+    public string GetName()
+    {
+        return "Chase";
     }
 
     private bool PlayerLost(Vector2 pos, Vector2 target)

@@ -1,3 +1,4 @@
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -14,6 +15,8 @@ public class StateController : MonoBehaviour
 
     public bool locked = false; // Locks the state
 
+    [SerializeField] private TextMeshProUGUI debugText;
+
     private void Start()
     {
         Player = FindFirstObjectByType<PlayerController>()?.transform;
@@ -26,6 +29,7 @@ public class StateController : MonoBehaviour
         CurrentState?.OnExit(this);
         CurrentState = newState;
         CurrentState.OnEntry(this);
+        debugText.text = CurrentState.GetName();
     }
 
     private void Update()
@@ -48,11 +52,16 @@ public class StateController : MonoBehaviour
         if (attack.IsReady())
         {
             if (attack is Shoot)
+            {
                 CoroutineManager.Instance.Run(attack.Execute(transform.position, EnemyToPlayer));
-            else
+            }
+            else if (attack is Punch)
+            {
                 CoroutineManager.Instance.Run(attack.Execute(
                     origin: transform.position, 
-                    target: new Vector3(3,5,0))); // a lil aids but it does the job
+                    target: new Vector3(1,10,0))); // a lil aids but it does the job
+            }
+                
         }
     }
 

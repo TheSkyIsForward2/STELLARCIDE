@@ -28,7 +28,6 @@ public class LungeAttackState : IState
 
     public void OnEntry(StateController controller)
     {
-        Debug.Log("Entered lunge state");
         self = controller.gameObject;
         punch = new Punch(self,
             damage: new Damage(10, Damage.Type.PHYSICAL),
@@ -58,8 +57,8 @@ public class LungeAttackState : IState
 
     private IEnumerator Attack(StateController controller)
     {
-        Debug.Log("started attack");
-        Debug.Log("lerping from " + startPos + " to " + backPos);
+        // Debug.Log("started attack");
+        // Debug.Log("lerping from " + startPos + " to " + backPos);
         isAttacking = true;
 
         float t = 0.0f;
@@ -91,6 +90,11 @@ public class LungeAttackState : IState
         isAttacking = false;
 
         controller.ChangeState(ScoutState);
-        Debug.Log("finished attacking");
+        // Debug.Log("finished attacking");
+    }
+
+    public string GetName()
+    {
+        return "Lunge Attack";
     }
 }

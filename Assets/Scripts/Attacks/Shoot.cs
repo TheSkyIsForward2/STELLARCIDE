@@ -53,7 +53,6 @@ public class Shoot : Attack
         // lol 
         if (Doubling)
         {
-            Debug.Log("shooted twice");
             CreateProjectile(origin, target);
             AudioManager.Instance.PlayPlayerShootSFX();
             LastExecute = Time.time;
@@ -89,7 +88,6 @@ public class Shoot : Attack
         if (Doubling)
         {
             yield return new WaitForSeconds(0.06f);
-            Debug.Log("shooted twice");
             GameManager.Instance.ProjectileManager.CreateProjectile(Owner,
                                                                             Damage,
                                                                             TravelSpeed,

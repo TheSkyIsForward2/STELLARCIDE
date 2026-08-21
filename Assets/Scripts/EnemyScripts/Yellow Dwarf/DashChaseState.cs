@@ -14,9 +14,6 @@ public class DashChaseState : IState
     }
     public void OnEntry(StateController controller)
     {
-        // This will be called when first entering the state
-        UnityEngine.Debug.Log("Entering dash chase state");
-
         self = controller.gameObject;
         if (dash != null)
             return;
@@ -56,5 +53,10 @@ public class DashChaseState : IState
             v.x * Mathf.Cos(delta) - v.y * Mathf.Sin(delta),
             v.x * Mathf.Sin(delta) + v.y * Mathf.Cos(delta)
             );
+    }
+
+    public string GetName()
+    {
+        return "Dash Chase";
     }
 }

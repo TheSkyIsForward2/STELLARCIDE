@@ -14,9 +14,6 @@ public class DashAttackState : IState
     }
     public void OnEntry(StateController controller)
     {
-        // This will be called when first entering the state
-        UnityEngine.Debug.Log("Entering dash attack state");
-
         self = controller.gameObject;
         if (dash != null)
             return;
@@ -47,5 +44,10 @@ public class DashAttackState : IState
     public void OnExit(StateController controller)
     {
         // This will be called on leaving the state
+    }
+
+    public string GetName()
+    {
+        return "Dash Attack";
     }
 }

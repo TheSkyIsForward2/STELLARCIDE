@@ -10,11 +10,10 @@ public class IdleState : IState
     {
         ScoutState = scout;
     }
+    
     public void OnEntry(StateController controller)
     {
         controller.Animator.SetTrigger("triggerIdle");
-        // This will be called when first entering the state
-        UnityEngine.Debug.Log("Entering idle state");
     }
 
     public void OnUpdate(StateController controller)
@@ -23,6 +22,11 @@ public class IdleState : IState
         {
             controller.ChangeState(ScoutState);
         }
+    }
+
+    public string GetName()
+    {
+        return "Idle";
     }
 
     public void OnExit(StateController controller)
