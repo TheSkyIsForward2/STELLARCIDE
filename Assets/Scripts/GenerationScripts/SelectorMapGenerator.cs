@@ -1,10 +1,15 @@
+using System;
 using System.Collections.Generic;
+using System.IO;
 using MapScripts;
+using Newtonsoft.Json;
+using NUnit.Framework;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = System.Random;
 
-
+[Serializable]
 public sealed class GenNode {
     public string Id;
     public string Type;              			// "Room", "DialogResponse", etc.  Could also be a String as Tag
@@ -21,6 +26,21 @@ public sealed class GenNode {
     }
 }
 
+[Serializable]
+public class Root
+{
+    public List<GenNode> nodes;
+    public List<GenEdge> edges;
+
+    public Root(List<GenNode> nodes, List<GenEdge> edges)
+    {
+        this.nodes = nodes;
+        this.edges = edges;
+    }
+}
+
+
+[Serializable]
 public sealed class GenEdge {
     public string From;
     public string To;
@@ -32,12 +52,12 @@ public sealed class GenEdge {
     }
 }
 
+[Serializable]
 public sealed class GenGraph {
     public Dictionary<string, GenNode> Nodes = new();
     public List<GenEdge> Edges = new();
     public Dictionary<string, List<GenEdge>> Out = new();
-    // adjacency list: maps a node ID → all outgoing edges (valid transitions)
-
+    
     public void AddNode(GenNode node)
     {
         Nodes.Add(node.Id, node);
@@ -60,27 +80,30 @@ public class SelectorMapGenerator : MonoBehaviour
 {
     
     public GenGraph graph;
+    public Root currentRoot;
     [SerializeField] private int maxDepth = 8;
     [SerializeField] private int maxWidth = 4;
     [SerializeField] private int minWidth = 2;
 
     public TextAsset fileToReadWrite;
+    public string fullPathToFile = "Assets/Resources/SavedFiles/PlayerMapPosition.json";
     
     private void Start()
     {
-        graph = ReadFromFile();
+        currentRoot = ReadFromFile();
         Generate();
     }
     
     void Generate()
     {
         // SKIP IF ALREADY CREATED!!!!! Check through write to JSON?
-        if (graph != new GenGraph())
+        if (currentRoot.edges.Count == 0)
         {
             Random rand = new Random();
             GenNode root = new GenNode("0", "root", 0, 0);
             root.isPlayerPosition = true;
             graph.AddNode(root);
+            currentRoot.nodes.Add(root);
             int nodeId = 1;
 
             // create "columns" of nodes with depth, randomly creating 1 to max_width number of nodes
@@ -90,6 +113,7 @@ public class SelectorMapGenerator : MonoBehaviour
                 for (int width = 0; width < columnWidth; width++)
                 {
                     graph.AddNode(new GenNode($"{nodeId}", "Area", width, depth));
+                    currentRoot.nodes.Add(new GenNode($"{nodeId}", "Area", width, depth));
                     nodeId++;
                 }
 
@@ -109,6 +133,7 @@ public class SelectorMapGenerator : MonoBehaviour
 
             //create end node (id: ?, type: end, width: ?, depth: max_depth-1)
             graph.AddNode(new GenNode($"{nodeId}", "end", 0, maxDepth - 1));
+            currentRoot.nodes.Add(new GenNode($"{nodeId}", "end", 0, maxDepth - 1));
 
             // re-organize nodes based on depth
             Dictionary<int, List<GenNode>> nodesByDepth = new Dictionary<int, List<GenNode>>();
@@ -139,6 +164,7 @@ public class SelectorMapGenerator : MonoBehaviour
                     foreach (GenNode child in children)
                     {
                         graph.AddEdge(new GenEdge(parents[0].Id, child.Id));
+                            currentRoot.edges.Add(new GenEdge(parents[0].Id, child.Id));
                     }
 
                     continue;
@@ -154,6 +180,7 @@ public class SelectorMapGenerator : MonoBehaviour
                             if (child.Width == parent.Width || child.Width == parent.Width + 1)
                             {
                                 graph.AddEdge(new GenEdge(parent.Id, child.Id));
+                                currentRoot.edges.Add(new GenEdge(parent.Id, child.Id));
                             }
                         }
                     }
@@ -167,6 +194,7 @@ public class SelectorMapGenerator : MonoBehaviour
                             if (child.Width == parent.Width || child.Width == parent.Width - 1)
                             {
                                 graph.AddEdge(new GenEdge(parent.Id, child.Id));
+                                currentRoot.edges.Add(new GenEdge(parent.Id, child.Id));
                             }
                         }
                     }
@@ -178,15 +206,33 @@ public class SelectorMapGenerator : MonoBehaviour
             foreach (GenNode parent in nodesByDepth[maxDepth - 2])
             {
                 graph.AddEdge(new GenEdge(parent.Id, endNode.Id));
+                currentRoot.edges.Add(new GenEdge(parent.Id, endNode.Id));
             }
         }
+        else
+        {
+            // data of the JSON: Root -> List of Nodes and Edges
+            // Step 1: grab nodes
 
+            foreach (GenNode node in currentRoot.nodes)
+            {
+                graph.AddNode(node);
+            }
+
+            // Step 2: grab edges
+            foreach (GenEdge edge in currentRoot.edges)
+            {
+                graph.AddEdge(edge);    
+            }
+        }
+        WriteToFile(currentRoot);
         GetComponent<GraphUIRenderer>().DrawGraph(graph);
     }
 
     public void ChangePlayerLocation(string nodeId)
     {
-        foreach (GenNode node in graph.Nodes.Values)
+        // modify the root and re-write json
+        foreach (GenNode node in currentRoot.nodes)
         {
             if (node.isPlayerPosition)
             {
@@ -199,25 +245,48 @@ public class SelectorMapGenerator : MonoBehaviour
                 print($"position changed to {nodeId}");
             }
         }
+        WriteToFile(currentRoot);
     }
 
-    public GenGraph ReadFromFile()
+    public Root ReadFromFile()
     {
-        GenGraph genGraph;
-        try
-        {
-            genGraph = JsonUtility.FromJson<GenGraph>(fileToReadWrite.text);
-        }
-        catch
-        {
-            return new GenGraph();
-        }
+        if (!File.Exists(fullPathToFile))
+            return new Root(new List<GenNode>(), new List<GenEdge>());
         
-        return genGraph;
+        // break apart json into node and edges text
+        string json = fileToReadWrite.text;
+        
+        currentRoot = JsonConvert.DeserializeObject<Root>(json);
+
+        // debug prints
+        /*foreach (GenNode node in currentRoot.nodes)
+            print(node.Id);
+        foreach(GenEdge edge in currentRoot.edges)
+            print(edge.From + "->" + edge.To);
+        */
+        
+        print("found existing graph");
+        return currentRoot;
     }
 
-    public void WriteToFile()
+    public void WriteToFile(Root root)
     {
-        
+        // create the serializer
+        JsonSerializer serializer = new JsonSerializer();
+
+        // use StreamWriter and JSONWriter to create or overwrite file
+        StreamWriter sw = new StreamWriter(fullPathToFile, false);
+        using (JsonWriter writer = new JsonTextWriter(sw))
+        {
+            serializer.Serialize(writer, root);
+        }
+    }
+
+    public void ClearJson()
+    {
+        if (File.Exists(fullPathToFile))
+        {
+            File.Delete(fullPathToFile);
+        }
     }
 }

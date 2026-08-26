@@ -274,6 +274,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7334788869518321797, guid: 62657fc77cfebb34bba617d17f72607d, type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7334788869518321797, guid: 62657fc77cfebb34bba617d17f72607d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 6168549813884263338, guid: b77de5c388be8eb40832d6520fbb1442, type: 3}
+    - target: {fileID: 7561887283088099203, guid: 62657fc77cfebb34bba617d17f72607d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -3537299817502151833, guid: 0fd34dfc1c686f346a8512039ce4ab86, type: 3}
     - target: {fileID: 9074382639489475683, guid: 62657fc77cfebb34bba617d17f72607d, type: 3}
       propertyPath: m_Name
       value: UpgradeSlot (2)
@@ -293,6 +305,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 9074382639489475683, guid: 62657fc77cfebb34bba617d17f72607d, type: 3}
   m_PrefabInstance: {fileID: 691193931}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &691193934 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8776057988978852708, guid: 62657fc77cfebb34bba617d17f72607d, type: 3}
+  m_PrefabInstance: {fileID: 691193931}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 691193933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &784623685
 GameObject:
   m_ObjectHideFlags: 0
@@ -566,6 +589,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7334788869518321797, guid: 62657fc77cfebb34bba617d17f72607d, type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7334788869518321797, guid: 62657fc77cfebb34bba617d17f72607d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 6168549813884263338, guid: b77de5c388be8eb40832d6520fbb1442, type: 3}
+    - target: {fileID: 7561887283088099203, guid: 62657fc77cfebb34bba617d17f72607d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -3537299817502151833, guid: 0fd34dfc1c686f346a8512039ce4ab86, type: 3}
     - target: {fileID: 9074382639489475683, guid: 62657fc77cfebb34bba617d17f72607d, type: 3}
       propertyPath: m_Name
       value: UpgradeSlot (1)
@@ -696,6 +731,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 229024826}
     m_Modifications:
     - target: {fileID: 3513591321327941303, guid: 62657fc77cfebb34bba617d17f72607d, type: 3}
+      propertyPath: m_TargetGraphic
+      value: 
+      objectReference: {fileID: 691193934}
+    - target: {fileID: 3513591321327941303, guid: 62657fc77cfebb34bba617d17f72607d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1304522063}
@@ -779,6 +818,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7334788869518321797, guid: 62657fc77cfebb34bba617d17f72607d, type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7334788869518321797, guid: 62657fc77cfebb34bba617d17f72607d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 6168549813884263338, guid: b77de5c388be8eb40832d6520fbb1442, type: 3}
+    - target: {fileID: 7561887283088099203, guid: 62657fc77cfebb34bba617d17f72607d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -3537299817502151833, guid: 0fd34dfc1c686f346a8512039ce4ab86, type: 3}
     - target: {fileID: 9074382639489475683, guid: 62657fc77cfebb34bba617d17f72607d, type: 3}
       propertyPath: m_Name
       value: UpgradeSlot

@@ -22,7 +22,7 @@ namespace MapScripts
         public Font font = null;
         public int fontSize = 20;
     
-        // Button Prefab and Edge Prefab
+        [Header("Button and Edge Prefab")]
         public GameObject buttonPrefab;
         public Image edgePrefab;
 
@@ -53,6 +53,8 @@ namespace MapScripts
             {
                 int depth = kvp.Key;
                 List<GenNode> nodes = kvp.Value;
+                print(depth);
+                print(nodes.Count);
             
                 float x = margin.x + depth * xSpacing;
                 float startY = canvasRect.sizeDelta.y/4 - (nodes.Count-1)*ySpacing/2;
@@ -60,7 +62,8 @@ namespace MapScripts
                 for (int i = 0; i < nodes.Count; i++)
                 {
                     GenNode node = nodes[i];
-                
+                    print(node.Id);
+                    
                     float y = startY + i * ySpacing;
                     Vector2 pos = new Vector2(x,y);
 
@@ -123,17 +126,22 @@ namespace MapScripts
             sb.nodeId = node.Id;
             sb.mapGenerator = GetComponent<SelectorMapGenerator>();
 
+            print("made it");
             if (node.isPlayerPosition)
             {
                 playerPosition = node;
                 return rect;
             }
 
-            foreach (GenEdge edge in graphRef.Out[playerPosition.Id])
+            // change player adjacency
+            if (playerPosition != null)
             {
-                if (edge.To == node.Id)
+                foreach (GenEdge edge in graphRef.Out[playerPosition.Id])
                 {
-                    sb.isPlayerAdjacent = true;
+                    if (edge.To == node.Id)
+                    {
+                        sb.isPlayerAdjacent = true;
+                    }
                 }
             }
 
@@ -141,7 +149,7 @@ namespace MapScripts
         }
 
         /// <summary>
-        /// Create Edge creates a new CanvasUI element named "Edge" that will take two Rect Transforms
+        /// Create Edge creates a new UI element named "Edge" that will take two Rect Transforms
         /// in order to "draw" a line between them using itself
         /// </summary>
         /// <param name="from"></param>

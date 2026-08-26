@@ -13,7 +13,11 @@ public class SelectorButton : MonoBehaviour
         if (!isPlayerAdjacent) return;
 
         mapGenerator.ChangePlayerLocation(nodeId);
-        // SceneManager.LoadScene("Scenes/ShowcaseScene");
+    }
 
+    public void Selected()
+    {
+        // TODO needs code here that changes to the selected node's map scene.
+        SceneManager.LoadScene("Scenes/MapTestScene");
     }
 }
