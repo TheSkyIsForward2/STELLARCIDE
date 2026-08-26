@@ -15,6 +15,15 @@ public class PlayerAttacking : MonoBehaviour
 
     [SerializeField] public GameObject chargeUpIndicator;
 
+    public Punch punchAttack;
+    public Shoot shootAttack;
+    public Dash dashAttack;
+    public Slash slashAttack;
+    public Strafe strafeAttack;
+    public Missile missileAttack;
+
+    public bool ChargeUpActive = false;
+
     private PlayerControls inputActions;
 
     void Awake()
@@ -35,7 +44,7 @@ public class PlayerAttacking : MonoBehaviour
             if (UpgradeManager.Instance.PrimaryUpgrade == null) { return;  }
             if (UpgradeManager.Instance.PrimaryUpgrade.IsReady())
             {
-                UpgradeManager.Instance.PrimaryUpgrade.Execute();
+                StartCoroutine(UpgradeManager.Instance.PrimaryUpgrade.Execute(this));
             }
         };
         
@@ -44,7 +53,7 @@ public class PlayerAttacking : MonoBehaviour
             if (UpgradeManager.Instance.SecondaryUpgrade == null) { return; }
             if (UpgradeManager.Instance.SecondaryUpgrade.IsReady())
             {
-                UpgradeManager.Instance.SecondaryUpgrade.Execute();
+                StartCoroutine(UpgradeManager.Instance.SecondaryUpgrade.Execute(this));
             }
         };
     }
@@ -56,9 +65,71 @@ public class PlayerAttacking : MonoBehaviour
         EventBus.Instance.OnFormChange += (newMode) => SwapAttacks(newMode);
         pc = GetComponent<PlayerController>();
 
-        UpgradeManager.Instance.CreateAttacks(gameObject);
-        PrimaryAttack = UpgradeManager.Instance.shootAttack;
-        SecondaryAttack = null;
+        UpgradeManager instance = UpgradeManager.Instance;
+
+        if (instance != null)
+        {
+            if (instance.hasPunch)
+            {
+                punchAttack = new Punch(gameObject,
+                    damage: new Damage(10, Damage.Type.PHYSICAL),
+                    cooldown: 0.5f,
+                    travelSpeed: 10
+                );
+            }
+            if (instance.hasShoot)
+            {
+
+                shootAttack = new Shoot(gameObject,
+                    damage: new Damage(10, Damage.Type.PHYSICAL),
+                    cooldown: 1f,
+                    travelSpeed: 30,
+                    lifetime: 2,
+                    piercing: true
+                );
+            }
+            if (instance.hasDash)
+            {
+                dashAttack = new Dash(gameObject,
+                    damage: new Damage(10, Damage.Type.PHYSICAL),
+                    cooldown: 1f,
+                    travelSpeed: 0.25f, // looks like the max value before there is a pause after a dash
+                    lifetime: 1f
+                );
+            }
+            if (instance.hasSlash)
+            {
+                slashAttack = new Slash(gameObject,
+                    damage: new Damage(10, Damage.Type.PHYSICAL),
+                    cooldown: 1f,
+                    travelSpeed: 10,
+                    knockbackStrength: 10
+                );
+            }
+            if (instance.hasStrafe)
+            {
+                strafeAttack = new Strafe(gameObject,
+                    damage: new Damage(0, Damage.Type.PHYSICAL),
+                    cooldown: 1f,
+                    strafeStrength: 10f
+                );
+            }
+            if (instance.hasMissile)
+            {
+                missileAttack = new Missile(gameObject,
+                    damage: new Damage(10, Damage.Type.PHYSICAL),
+                    cooldown: 1f,
+                    travelSpeed: 10f,
+                    piercing: false,
+                    lifetime: 4f,
+                    homing: true
+                );
+            }
+        }
+        PrimaryAttack = shootAttack;
+        SecondaryAttack = strafeAttack;
+
+        ChargeUpActive = UpgradeManager.Instance.chargeUpUpgradeData != null;
     }
 
     void OnDestroy()
@@ -72,7 +143,7 @@ public class PlayerAttacking : MonoBehaviour
     {
         if (!pc.inputEnabled) {return;}
         // If chargeup upgrade is active
-        if (UpgradeManager.Instance.chargeUpUpgradeData != null)
+        if (ChargeUpActive)
         {
             // If primary attack 
             if (inputActions.Gameplay.PrimaryAttack.WasPressedThisFrame())
@@ -152,14 +223,22 @@ public class PlayerAttacking : MonoBehaviour
         switch (newMode)
         {
             case PlayerMode.SHIP:
-                PrimaryAttack = UpgradeManager.Instance.shootAttack;
-                SecondaryAttack = UpgradeManager.Instance.strafeAttack;
+                PrimaryAttack = shootAttack;
+                SecondaryAttack = strafeAttack;
                 break;
             default:
-                PrimaryAttack = UpgradeManager.Instance.punchAttack;
-                SecondaryAttack = UpgradeManager.Instance.dashAttack;
+                PrimaryAttack = punchAttack;
+                SecondaryAttack = dashAttack;
                 break;
         }
+    }
+
+    public void resetDoubling()
+    {
+        slashAttack.Doubling = false; // not the best but o well
+        punchAttack.Doubling = false;
+        shootAttack.Doubling = false;
+        missileAttack.Doubling = false;
     }
 
 

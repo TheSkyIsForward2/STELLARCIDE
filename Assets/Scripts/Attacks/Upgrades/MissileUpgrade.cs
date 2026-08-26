@@ -9,22 +9,29 @@ public class MissileUpgrade : UpgradeData
 
     }
 
-    public override IEnumerator Execute()
+    public override IEnumerator Execute(PlayerAttacking player)
     {
         UpgradeManager upgradeManager = UpgradeManager.Instance;
-        if (upgradeManager.PrimaryAttack is Shoot)
+        if (player.PrimaryAttack is Shoot)
         {
-            upgradeManager.missileUpgradeData.IsActive = true;
-            upgradeManager.missileUpgradeData.LastExecute = Time.time;
-            upgradeManager.PrimaryAttack = upgradeManager.missileAttack;
-            yield return new WaitForSeconds(upgradeManager.missileUpgradeData.Duration);
+            IsActive = true;
+            LastExecute = Time.time;
+            player.PrimaryAttack = player.missileAttack;
+            if (upgradeManager.doublingUpgradeData != null)
+            {
+                if (upgradeManager.doublingUpgradeData.IsActive) // check if doublingUpgrade is active
+                {
+                    player.PrimaryAttack.Doubling = true;
+                }
+            }
+            yield return new WaitForSeconds(Duration);
             while (inputActions.Gameplay.PrimaryAttack.IsPressed())
             {
                 yield return null;
             }
             yield return new WaitForEndOfFrame();
-            upgradeManager.PrimaryAttack = upgradeManager.shootAttack;
-            upgradeManager.missileUpgradeData.IsActive = false;
+            player.PrimaryAttack = player.shootAttack;
+            IsActive = false;
         }
     }
 }
