@@ -11,12 +11,12 @@ public class PlayerVisuals : MonoBehaviour
         mechSprite = transform.Find("MechVisual").gameObject.GetComponent<SpriteRenderer>();
         shipSprite.enabled = true;
         mechSprite.enabled = false;  
-        EventBus.Instance.OnFormChange += (newMode) => SwapSprites(newMode);
+        EventBus.Instance.OnFormChange += SwapSprites;
     }
 
     void OnDestroy()
     {
-        EventBus.Instance.OnFormChange -= (newMode) => SwapSprites(newMode);
+        EventBus.Instance.OnFormChange -= SwapSprites;
     }
 
     void SwapSprites(PlayerMode newMode)
