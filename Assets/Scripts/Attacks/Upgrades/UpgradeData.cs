@@ -23,8 +23,9 @@ public abstract class UpgradeData
         inputActions.Enable();
     }
 
-    public virtual IEnumerator Execute()
+    public virtual IEnumerator Execute(PlayerAttacking player)
     {
+        Debug.Log("like we're not even here????");
         IsActive = true;
         LastExecute = Time.time;
         yield return new WaitForSeconds(Duration);

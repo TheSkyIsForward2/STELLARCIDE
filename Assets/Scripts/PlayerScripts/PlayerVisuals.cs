@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 [RequireComponent(typeof(ShipMovement))]
 public class PlayerVisuals : MonoBehaviour
@@ -8,11 +7,23 @@ public class PlayerVisuals : MonoBehaviour
     [SerializeField]  private GameObject mechSprite;
     private PlayerController playerController;
 
-    void Start() {
+    void Awake()
+    {
         playerController = GetComponent<PlayerController>();
+        EventBus.Instance.OnFormChange += SwapSprites;
+    }
+    private void OnDestroy()
+    {
+        if (EventBus.Instance != null)
+        {
+            EventBus.Instance.OnFormChange -= SwapSprites;
+        }
+    }
+
+    void Start() 
+    {
         shipSprite.SetActive(true);
         mechSprite.SetActive(false);
-        EventBus.Instance.OnFormChange += (newMode) => SwapSprites(newMode);
     }
 
     void SwapSprites(PlayerMode newMode)
