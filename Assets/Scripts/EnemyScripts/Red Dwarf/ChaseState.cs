@@ -23,7 +23,9 @@ public class ChaseState : IState
         self = controller.gameObject;
         punch = new Punch(self,
             damage: new Damage(10, Damage.Type.PHYSICAL), 
-            cooldown: 2f
+            cooldown: 2f,
+            travelSpeed:0,
+            knockbackStrength:0
         );
     }
 

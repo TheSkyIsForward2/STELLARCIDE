@@ -16,7 +16,7 @@ public class Punch : Attack
                   Damage damage,
                   float cooldown,
                   float travelSpeed=0,
-                  float knockbackStrength=10) : base(owner, damage, cooldown)
+                  float knockbackStrength=5) : base(owner, damage, cooldown)
     {
         TravelSpeed = travelSpeed;
         KnockbackStrength = knockbackStrength;

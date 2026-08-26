@@ -82,7 +82,8 @@ public class UpgradeManager : MonoBehaviour
         punchAttack = new Punch(player,
             damage: new Damage(10, Damage.Type.PHYSICAL),
             cooldown: 0.5f,
-            travelSpeed: 10
+            travelSpeed: 10,
+            knockbackStrength: 5
         );
         shootAttack = new Shoot(player,
             damage: new Damage(10, Damage.Type.PHYSICAL),
