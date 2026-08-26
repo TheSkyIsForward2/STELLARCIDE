@@ -11,12 +11,11 @@ public class DoubleTimeUpgrade : UpgradeData
 
     public override IEnumerator Execute(PlayerAttacking player)
     {
-        UpgradeManager upgradeManager = UpgradeManager.Instance;
-        upgradeManager.doublingUpgradeData.IsActive = true;
-        upgradeManager.doublingUpgradeData.LastExecute = Time.time;
+        IsActive = true;
+        LastExecute = Time.time;
         player.PrimaryAttack.Doubling = true;
-        yield return new WaitForSeconds(upgradeManager.doublingUpgradeData.Duration);
+        yield return new WaitForSeconds(Duration);
         player.resetDoubling();
-        upgradeManager.doublingUpgradeData.IsActive = false;
+        IsActive = false;
     }
 }

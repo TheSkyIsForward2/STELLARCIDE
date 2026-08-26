@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(ShipMovement))]
 public class PlayerVisuals : MonoBehaviour
@@ -11,12 +12,13 @@ public class PlayerVisuals : MonoBehaviour
     {
         playerController = GetComponent<PlayerController>();
         EventBus.Instance.OnFormChange += (newMode) => SwapSprites(newMode);
+
     }
 
     void Start() 
     {
         shipSprite.SetActive(true);
-        mechSprite.SetActive(false);  
+        mechSprite.SetActive(false);
     }
 
     void SwapSprites(PlayerMode newMode)
