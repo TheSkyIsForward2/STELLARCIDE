@@ -8,11 +8,15 @@ public class PlayerVisuals : MonoBehaviour
     [SerializeField]  private GameObject mechSprite;
     private PlayerController playerController;
 
-    void Start() {
+    private void Awake()
+    {
         playerController = GetComponent<PlayerController>();
+        EventBus.Instance.OnFormChange += (newMode) => SwapSprites(newMode);
+    }
+
+    void Start() {
         shipSprite.SetActive(true);
         mechSprite.SetActive(false);
-        EventBus.Instance.OnFormChange += (newMode) => SwapSprites(newMode);
     }
 
     void SwapSprites(PlayerMode newMode)

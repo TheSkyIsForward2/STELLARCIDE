@@ -9,16 +9,14 @@ public class DoubleTimeUpgrade : UpgradeData
 
     }
 
-    public override IEnumerator Execute()
+    public override IEnumerator Execute(PlayerAttacking player)
     {
         UpgradeManager upgradeManager = UpgradeManager.Instance;
         upgradeManager.doublingUpgradeData.IsActive = true;
         upgradeManager.doublingUpgradeData.LastExecute = Time.time;
-        upgradeManager.PrimaryAttack.Doubling = true;
+        player.PrimaryAttack.Doubling = true;
         yield return new WaitForSeconds(upgradeManager.doublingUpgradeData.Duration);
-        upgradeManager.slashAttack.Doubling = false; // not the best but o well
-        upgradeManager.punchAttack.Doubling = false;
-        upgradeManager.shootAttack.Doubling = false;
+        player.resetDoubling();
         upgradeManager.doublingUpgradeData.IsActive = false;
     }
 }

@@ -193,7 +193,7 @@ PrefabInstance:
     - target: {fileID: 3513591321327941303, guid: 62657fc77cfebb34bba617d17f72607d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 691193933}
+      objectReference: {fileID: 691193934}
     - target: {fileID: 3627098746158863439, guid: 62657fc77cfebb34bba617d17f72607d, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -276,7 +276,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9074382639489475683, guid: 62657fc77cfebb34bba617d17f72607d, type: 3}
       propertyPath: m_Name
-      value: UpgradeSlot (2)
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -288,11 +288,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3627098746158863439, guid: 62657fc77cfebb34bba617d17f72607d, type: 3}
   m_PrefabInstance: {fileID: 691193931}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &691193933 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 9074382639489475683, guid: 62657fc77cfebb34bba617d17f72607d, type: 3}
+--- !u!114 &691193934 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 660171937542220609, guid: 62657fc77cfebb34bba617d17f72607d, type: 3}
   m_PrefabInstance: {fileID: 691193931}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e33ad2637634de4b9128926c257015e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &784623685
 GameObject:
   m_ObjectHideFlags: 0
@@ -304,6 +310,7 @@ GameObject:
   - component: {fileID: 784623688}
   - component: {fileID: 784623687}
   - component: {fileID: 784623686}
+  - component: {fileID: 784623689}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -372,11 +379,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1304522063 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 9074382639489475683, guid: 62657fc77cfebb34bba617d17f72607d, type: 3}
-  m_PrefabInstance: {fileID: 8475279948421148565}
+--- !u!114 &784623689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 784623685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e71c3df5b4146b64db60af3a4df9ea60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasPunch: 1
+  hasShoot: 1
+  hasDash: 1
+  hasSlash: 0
+  hasStrafe: 0
+  hasMissile: 0
+--- !u!114 &828174416 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1845101290837906090, guid: 62657fc77cfebb34bba617d17f72607d, type: 3}
+  m_PrefabInstance: {fileID: 1826650986}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &1304522064 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3627098746158863439, guid: 62657fc77cfebb34bba617d17f72607d, type: 3}
@@ -474,6 +505,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1788740162 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 154474968806570045, guid: 62657fc77cfebb34bba617d17f72607d, type: 3}
+  m_PrefabInstance: {fileID: 1826650986}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1826650986
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -482,10 +524,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 229024826}
     m_Modifications:
+    - target: {fileID: 660171937542220609, guid: 62657fc77cfebb34bba617d17f72607d, type: 3}
+      propertyPath: icon
+      value: 
+      objectReference: {fileID: 1788740162}
+    - target: {fileID: 660171937542220609, guid: 62657fc77cfebb34bba617d17f72607d, type: 3}
+      propertyPath: title
+      value: 
+      objectReference: {fileID: 1848488334}
+    - target: {fileID: 660171937542220609, guid: 62657fc77cfebb34bba617d17f72607d, type: 3}
+      propertyPath: description
+      value: 
+      objectReference: {fileID: 828174416}
     - target: {fileID: 3513591321327941303, guid: 62657fc77cfebb34bba617d17f72607d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1826650988}
+      objectReference: {fileID: 1826650989}
     - target: {fileID: 3627098746158863439, guid: 62657fc77cfebb34bba617d17f72607d, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -568,7 +622,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9074382639489475683, guid: 62657fc77cfebb34bba617d17f72607d, type: 3}
       propertyPath: m_Name
-      value: UpgradeSlot (1)
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -580,11 +634,28 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3627098746158863439, guid: 62657fc77cfebb34bba617d17f72607d, type: 3}
   m_PrefabInstance: {fileID: 1826650986}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1826650988 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 9074382639489475683, guid: 62657fc77cfebb34bba617d17f72607d, type: 3}
+--- !u!114 &1826650989 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 660171937542220609, guid: 62657fc77cfebb34bba617d17f72607d, type: 3}
   m_PrefabInstance: {fileID: 1826650986}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e33ad2637634de4b9128926c257015e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1848488334 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5424781459024040995, guid: 62657fc77cfebb34bba617d17f72607d, type: 3}
+  m_PrefabInstance: {fileID: 1826650986}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1978182466
 GameObject:
   m_ObjectHideFlags: 0
@@ -695,10 +766,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 229024826}
     m_Modifications:
-    - target: {fileID: 3513591321327941303, guid: 62657fc77cfebb34bba617d17f72607d, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1304522063}
     - target: {fileID: 3627098746158863439, guid: 62657fc77cfebb34bba617d17f72607d, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -781,7 +848,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9074382639489475683, guid: 62657fc77cfebb34bba617d17f72607d, type: 3}
       propertyPath: m_Name
-      value: UpgradeSlot
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -793,5 +860,5 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1421673021}
-  - {fileID: 1978182470}
   - {fileID: 784623688}
+  - {fileID: 1978182470}
