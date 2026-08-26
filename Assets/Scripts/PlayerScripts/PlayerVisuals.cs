@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(ShipMovement))]
 public class PlayerVisuals : MonoBehaviour
@@ -11,8 +10,14 @@ public class PlayerVisuals : MonoBehaviour
     void Awake()
     {
         playerController = GetComponent<PlayerController>();
-        EventBus.Instance.OnFormChange += (newMode) => SwapSprites(newMode);
-
+        EventBus.Instance.OnFormChange += SwapSprites;
+    }
+    private void OnDestroy()
+    {
+        if (EventBus.Instance != null)
+        {
+            EventBus.Instance.OnFormChange -= SwapSprites;
+        }
     }
 
     void Start() 
