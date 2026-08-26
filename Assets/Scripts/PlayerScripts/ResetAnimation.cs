@@ -11,6 +11,7 @@ public class ResetAnimation : MonoBehaviour
 
     void OnEnable()
     {
+        Debug.Log(gameObject.name + " triggered resetAnimations");
         animator.SetTrigger("resetAnimations");
         animator.Play("Idle", 0, 0f);
         animator.Update(0);
