@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Controller script for player attacks 
@@ -25,6 +26,7 @@ public class PlayerAttacking : MonoBehaviour
         inputActions.Gameplay.Heal.performed += (ctx) =>
         {
             GetComponent<PlayerHealth>().healthController.TakeDamage(new Damage(-100, Damage.Type.PHYSICAL));
+            SceneManager.LoadScene(1);
         };
 
         // Primary Upgrades
@@ -57,6 +59,11 @@ public class PlayerAttacking : MonoBehaviour
         UpgradeManager.Instance.CreateAttacks(gameObject);
         PrimaryAttack = UpgradeManager.Instance.shootAttack;
         SecondaryAttack = null;
+    }
+
+    void OnDestroy()
+    {
+        EventBus.Instance.OnFormChange -= (newMode) => SwapAttacks(newMode);
     }
     #endregion
 

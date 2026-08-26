@@ -1,22 +1,22 @@
 using UnityEngine;
 
-[RequireComponent(typeof(ShipMovement))]
 public class PlayerVisuals : MonoBehaviour
 {
-    [SerializeField] private GameObject shipSprite;
-    [SerializeField]  private GameObject mechSprite;
-    private PlayerController playerController;
-
-    void Awake()
-    {
-        playerController = GetComponent<PlayerController>();
-        EventBus.Instance.OnFormChange += (newMode) => SwapSprites(newMode);
-    }
+    [SerializeField] private SpriteRenderer shipSprite;
+    [SerializeField] private SpriteRenderer mechSprite;
 
     void Start() 
     {
-        shipSprite.SetActive(true);
-        mechSprite.SetActive(false);  
+        shipSprite = transform.Find("ShipVisual").gameObject.GetComponent<SpriteRenderer>();
+        mechSprite = transform.Find("MechVisual").gameObject.GetComponent<SpriteRenderer>();
+        shipSprite.enabled = true;
+        mechSprite.enabled = false;  
+        EventBus.Instance.OnFormChange += (newMode) => SwapSprites(newMode);
+    }
+
+    void OnDestroy()
+    {
+        EventBus.Instance.OnFormChange -= (newMode) => SwapSprites(newMode);
     }
 
     void SwapSprites(PlayerMode newMode)
@@ -24,12 +24,12 @@ public class PlayerVisuals : MonoBehaviour
         switch (newMode)
         {
             case PlayerMode.SHIP:
-                shipSprite.SetActive(true);
-                mechSprite.SetActive(false);
+                shipSprite.enabled = true;
+                mechSprite.enabled = false;  
                 break;
             case PlayerMode.MECH:
-                shipSprite.SetActive(false);
-                mechSprite.SetActive(true);
+                shipSprite.enabled = false;
+                mechSprite.enabled = true;  
                 break;
         }
     }
