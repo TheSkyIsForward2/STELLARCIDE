@@ -56,8 +56,6 @@ public class PlayerAttacking : MonoBehaviour
 
         UpgradeManager.Instance.CreateAttacks(gameObject);
         PrimaryAttack = UpgradeManager.Instance.shootAttack;
-        Debug.Log(PrimaryAttack);
-        Debug.Log(UpgradeManager.Instance.shootAttack);
         SecondaryAttack = null;
     }
     #endregion
