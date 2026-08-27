@@ -61,10 +61,9 @@ public class StateController : MonoBehaviour
             }
             else if (attack is Punch)
             {
-                Debug.Log("bug punch");
                 CoroutineManager.Instance.Run(attack.Execute(
                     origin: transform.position, 
-                    target: new Vector3(50,150))); // x is range, y is width
+                    target: new Vector3(55,155))); // x is range, y is width
             }
         }
     }

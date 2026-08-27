@@ -167,10 +167,11 @@ public class Punch : Attack
 
             AudioManager.Instance.PlayPunchingSFX();
             DamageArea(range: 3f, width: 3f);
-
-            LastExecute = Time.time;
-            yield return new WaitWhile(AnimatorIsPlaying);
         }
+
+        LastExecute = Time.time;
+        yield return new WaitWhile(AnimatorIsPlaying);
+
         Damage.Amount = temp;
     }
 }

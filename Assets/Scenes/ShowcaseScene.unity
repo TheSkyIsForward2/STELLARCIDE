@@ -631,6 +631,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e71c3df5b4146b64db60af3a4df9ea60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hasPunch: 1
+  hasShoot: 1
+  hasDash: 1
+  hasSlash: 0
+  hasStrafe: 0
+  hasMissile: 0
 --- !u!1 &551508686
 GameObject:
   m_ObjectHideFlags: 0
@@ -1633,6 +1639,14 @@ PrefabInstance:
     - target: {fileID: 8797113400631551818, guid: 1fef895c7dfca4342959e25e6fcfa900, type: 3}
       propertyPath: lockTime
       value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8797113400631551818, guid: 1fef895c7dfca4342959e25e6fcfa900, type: 3}
+      propertyPath: slideSpeed
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8797113400631551818, guid: 1fef895c7dfca4342959e25e6fcfa900, type: 3}
+      propertyPath: slideLength
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8797113400631551818, guid: 1fef895c7dfca4342959e25e6fcfa900, type: 3}
       propertyPath: mechTurnSpeed

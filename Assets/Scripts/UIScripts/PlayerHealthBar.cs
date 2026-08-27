@@ -11,16 +11,21 @@ public class PlayerHealthBar : MonoBehaviour
 
     void Awake()
     {
-        //maxHealth = playerHealth.healthController.maxHP;
         health = GameManager.Instance.Player.GetComponent<PlayerHealth>().healthController;
         healthBar = GetComponent<Slider>();
         healthBar.maxValue = health.maxHP;
-        numberLabel.text = $"{health.hp} / {health.maxHP}";
+    }
+
+    void Start()
+    {
+        // numberLabel.text = $"{health.hp} / {health.maxHP}";
+        numberLabel.SetText($"{health.hp} / {health.maxHP}");
     }
 
     void Update()
     {
         healthBar.value = (float) health.hp;
-        numberLabel.text = $"{health.hp} / {health.maxHP}";
+        // numberLabel.text = $"{health.hp} / {health.maxHP}";
+        numberLabel.SetText($"{health.hp} / {health.maxHP}");
     }
 }
