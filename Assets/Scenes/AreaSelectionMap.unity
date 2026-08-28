@@ -573,10 +573,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48fb2588eea142549959a13038309aa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  graph:
+    Edges: []
+  currentRoot:
+    nodes: []
+    edges: []
   maxDepth: 8
   maxWidth: 4
   minWidth: 2
   fileToReadWrite: {fileID: 4900000, guid: 394fcd785dcdc354fad8fc90036c481c, type: 3}
+  fullPathToFile: Assets/Resources/SavedFiles/PlayerMapPosition.json
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using NUnit.Framework;
 using UnityEngine;
 
 public enum UpgradeTarget
@@ -58,22 +59,19 @@ public class UpgradeManager : MonoBehaviour
 {
     public static UpgradeManager Instance;
 
-    public Punch punchAttack;
-    public Shoot shootAttack;
-    public Dash dashAttack;
-    public Slash slashAttack;
-    public Strafe strafeAttack;
-    public Missile missileAttack;
+    public bool hasPunch = true;
+    public bool hasShoot = true;
+    public bool hasDash = true;
+    public bool hasSlash;
+    public bool hasStrafe;
+    public bool hasMissile;
 
-    public UpgradeData slashUpgradeData;
-    public UpgradeData missileUpgradeData;
-    public UpgradeData chargeUpUpgradeData;
-    public UpgradeData doublingUpgradeData;
+    public SlashUpgrade slashUpgradeData;
+    public MissileUpgrade missileUpgradeData;
+    public ChargeUpUpgrade chargeUpUpgradeData;
+    public DoubleTimeUpgrade doublingUpgradeData;
 
     public List<UpgradeType> possibleUpgrades = new List<UpgradeType>();
-
-    public Attack PrimaryAttack;
-    public Attack SecondaryAttack;
 
     public UpgradeData PrimaryUpgrade;
     public UpgradeData SecondaryUpgrade;
@@ -81,13 +79,22 @@ public class UpgradeManager : MonoBehaviour
     public List<UpgradeType> selectedUpgrades = new List<UpgradeType>();
     void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(Instance);
+            return;
+        }
+
         Instance = this;
-        // Maybe load this from data?  I'm an idiot man I forgot about that
+
+        DontDestroyOnLoad(gameObject);
         possibleUpgrades.Add(new UpgradeType("Slash", "it slashes", UpgradeTarget.SLASH, UpgradeEffect.CREATE));
-        possibleUpgrades.Add(new UpgradeType("Missile", "it slashes", UpgradeTarget.MISSILE, UpgradeEffect.CREATE));
-        possibleUpgrades.Add(new UpgradeType("Strafe", "it slashes", UpgradeTarget.STRAFE, UpgradeEffect.CREATE));
-        possibleUpgrades.Add(new UpgradeType("Charge Up", "it slashes", UpgradeTarget.SLASH, UpgradeEffect.CREATE));
-        possibleUpgrades.Add(new UpgradeType("Double Time", "it slashes", UpgradeTarget.SLASH, UpgradeEffect.CREATE));
+        possibleUpgrades.Add(new UpgradeType("Missile", "it missiles", UpgradeTarget.MISSILE, UpgradeEffect.CREATE));
+        possibleUpgrades.Add(new UpgradeType("Strafe", "it strafes", UpgradeTarget.STRAFE, UpgradeEffect.CREATE));
+        possibleUpgrades.Add(new UpgradeType("Charge Up", "it charges... up!?", UpgradeTarget.CHARGE_UP, UpgradeEffect.CREATE));
+        possibleUpgrades.Add(new UpgradeType("Double Time", "time time", UpgradeTarget.DOUBLE_TIME, UpgradeEffect.CREATE));
+
+        shuffleUpgrades();
     }
 
     public void ApplyUpgrade(UpgradeType upgrade)
@@ -99,19 +106,10 @@ public class UpgradeManager : MonoBehaviour
                 switch (upgrade.upgradeTarget)
                 {
                     case UpgradeTarget.STRAFE:
-                        strafeAttack = new Strafe(GameObject.FindWithTag("Player"),
-                            damage: new Damage(10, Damage.Type.PHYSICAL),
-                            cooldown: 3f,
-                            strafeStrength: 10f
-                        );
+                        hasStrafe = true;
                         break;
                     case UpgradeTarget.SLASH:
-                        slashAttack = new Slash(GameObject.FindWithTag("Player"),
-                            damage: new Damage(10, Damage.Type.PHYSICAL),
-                            cooldown: 1f,
-                            travelSpeed: 10,
-                            knockbackStrength: 10
-                        );
+                        hasSlash = true;
                         slashUpgradeData = new SlashUpgrade(
                             cooldown: 10f,
                             duration: 5f
@@ -119,14 +117,7 @@ public class UpgradeManager : MonoBehaviour
                         createdUpgrade = slashUpgradeData;
                         break;
                     case UpgradeTarget.MISSILE:
-                        missileAttack = new Missile(GameObject.FindWithTag("Player"),
-                            damage: new Damage(10, Damage.Type.PHYSICAL),
-                            cooldown: 1f,
-                            travelSpeed: 10f,
-                            piercing: false,
-                            lifetime: 4f,
-                            homing: true
-                        );
+                        hasMissile = true;
                         missileUpgradeData = new MissileUpgrade(
                             cooldown: 10f,
                             duration: 5f
@@ -150,29 +141,33 @@ public class UpgradeManager : MonoBehaviour
                 }
 
                 possibleUpgrades.Remove(upgrade);
-                possibleUpgrades.Add(new UpgradeType(upgrade.upgradeName, upgrade.description,
-                    upgrade.icon, upgrade.upgradeTarget, UpgradeEffect.COOLDOWN_MINUS));
-                possibleUpgrades.Add(new UpgradeType(upgrade.upgradeName, upgrade.description,
-                    upgrade.icon, upgrade.upgradeTarget, UpgradeEffect.DURATION_PLUS));
                 if (PrimaryUpgrade == null)
                 {
                     PrimaryUpgrade = createdUpgrade;
+                    possibleUpgrades.Add(new UpgradeType(upgrade.upgradeName, upgrade.description,
+                        upgrade.icon, upgrade.upgradeTarget, UpgradeEffect.COOLDOWN_MINUS));
+                    possibleUpgrades.Add(new UpgradeType(upgrade.upgradeName, upgrade.description,
+                        upgrade.icon, upgrade.upgradeTarget, UpgradeEffect.DURATION_PLUS));
                 } else
                 {
                     SecondaryUpgrade = createdUpgrade;
+                    possibleUpgrades.Add(new UpgradeType(upgrade.upgradeName, upgrade.description,
+                        upgrade.icon, upgrade.upgradeTarget, UpgradeEffect.COOLDOWN_MINUS));
+                    possibleUpgrades.Add(new UpgradeType(upgrade.upgradeName, upgrade.description,
+                        upgrade.icon, upgrade.upgradeTarget, UpgradeEffect.DURATION_PLUS));
                     removeCreateUpgrades();
                 }
                 break;
             case UpgradeEffect.DURATION_PLUS:
                 switch (upgrade.upgradeTarget)
                 {
-                    case UpgradeTarget.STRAFE:
-                        strafeAttack.StrafeStrength += 5;
-                        if (strafeAttack.StrafeStrength >= 20)
-                        {
-                            possibleUpgrades.Remove(upgrade);
-                        }
-                        break;
+                    //case UpgradeTarget.STRAFE:
+                    //    strafeAttack.StrafeStrength += 5;
+                    //    if (strafeAttack.StrafeStrength >= 20)
+                    //    {
+                    //        possibleUpgrades.Remove(upgrade);
+                    //    }
+                    //    break;
                     case UpgradeTarget.SLASH:
                         slashUpgradeData.Duration += 0.5f;
                         if (slashUpgradeData.Duration == slashUpgradeData.Cooldown)
@@ -206,13 +201,13 @@ public class UpgradeManager : MonoBehaviour
             case UpgradeEffect.COOLDOWN_MINUS:
                 switch (upgrade.upgradeTarget)
                 {
-                    case UpgradeTarget.STRAFE:
-                        strafeAttack.Cooldown -= 1;
-                        if (strafeAttack.Cooldown <= 1)
-                        {
-                            possibleUpgrades.Remove(upgrade);
-                        }
-                        break;
+                    //case UpgradeTarget.STRAFE:
+                    //    strafeAttack.Cooldown -= 1;
+                    //    if (strafeAttack.Cooldown <= 1)
+                    //    {
+                    //        possibleUpgrades.Remove(upgrade);
+                    //    }
+                    //    break;
                     case UpgradeTarget.SLASH:
                         slashUpgradeData.Cooldown -= 0.5f;
                         if (slashUpgradeData.Duration == slashUpgradeData.Cooldown)
@@ -222,7 +217,7 @@ public class UpgradeManager : MonoBehaviour
                         break;
                     case UpgradeTarget.MISSILE:
                         missileUpgradeData.Cooldown -= 0.5f;
-                        if (missileUpgradeData.Duration == slashUpgradeData.Cooldown)
+                        if (missileUpgradeData.Duration == missileUpgradeData.Cooldown)
                         {
                             removeDurationAndCooldown(upgrade);
                         }
@@ -262,5 +257,20 @@ public class UpgradeManager : MonoBehaviour
             upgrade.upgradeEffect == UpgradeEffect.CREATE &&
             upgrade.upgradeTarget != UpgradeTarget.STRAFE
         );
+    }
+
+    private void shuffleUpgrades()
+    {
+        int n = possibleUpgrades.Count;
+        for (int i = n - 1; i > 0; i--)
+        {
+            // Pick a random index from 0 to i (inclusive)
+            int randomIndex = Random.Range(0, i + 1);
+
+            // Swap elements
+            UpgradeType temp = possibleUpgrades[i];
+            possibleUpgrades[i] = possibleUpgrades[randomIndex];
+            possibleUpgrades[randomIndex] = temp;
+        }
     }
 }

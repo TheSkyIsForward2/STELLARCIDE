@@ -21,7 +21,7 @@ public class Slash : Attack
         AttackType = Type.ARMED_MELEE;
         if (Owner.transform.Find("MechVisual").TryGetComponent<Animator>(out Animator a))
         {
-            Animator = a;  
+            Animator = a;
         }
         AnimationName = "Slash";
         playerRB = Owner.GetComponent<Rigidbody2D>();

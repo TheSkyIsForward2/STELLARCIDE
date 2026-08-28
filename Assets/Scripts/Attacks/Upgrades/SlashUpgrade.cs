@@ -9,26 +9,29 @@ public class SlashUpgrade : UpgradeData
 
     }
 
-    public override IEnumerator Execute()
+    public override IEnumerator Execute(PlayerAttacking player)
     {
         UpgradeManager upgradeManager = UpgradeManager.Instance;
-        if (upgradeManager.PrimaryAttack is Punch)
+        if (player.PrimaryAttack is Punch)
         {
-            upgradeManager.slashUpgradeData.IsActive = true;
-            upgradeManager.slashUpgradeData.LastExecute = Time.time;
-            upgradeManager.PrimaryAttack = upgradeManager.slashAttack;
-            if (upgradeManager.doublingUpgradeData.IsActive) // check if doublingUpgrade is active
+            IsActive = true;
+            LastExecute = Time.time;
+            player.PrimaryAttack = player.slashAttack;
+            if (upgradeManager.doublingUpgradeData != null)
             {
-                upgradeManager.PrimaryAttack.Doubling = true;
+                if (upgradeManager.doublingUpgradeData.IsActive) // check if doublingUpgrade is active
+                {
+                    player.PrimaryAttack.Doubling = true;
+                }
             }
-            yield return new WaitForSeconds(upgradeManager.slashUpgradeData.Duration);
+            yield return new WaitForSeconds(Duration);
             while (inputActions.Gameplay.PrimaryAttack.IsPressed())
             {
                 yield return null;
             }
             yield return new WaitForEndOfFrame();
-            upgradeManager.PrimaryAttack = upgradeManager.punchAttack;
-            upgradeManager.slashUpgradeData.IsActive = false;
+            player.PrimaryAttack = player.punchAttack;
+            IsActive = false;
         }
     }
 }
