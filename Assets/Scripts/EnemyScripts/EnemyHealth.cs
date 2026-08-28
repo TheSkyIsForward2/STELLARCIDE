@@ -13,4 +13,10 @@ public class EnemyHealth : Entity
         healthController = new HealthOwner(maxHealth, HealthOwner.Team.ENEMY, gameObject);
         healthBar.UpdateHealthBar(healthController.hp, maxHealth);
     }
+
+    private void OnDestroy()
+    {
+        Debug.Log("an enemy was killed!");
+        EventBus.Instance.EnemyDead();
+    }
 }

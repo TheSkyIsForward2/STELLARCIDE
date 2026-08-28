@@ -77,41 +77,8 @@ public class UpgradeManager : MonoBehaviour
 
     public UpgradeData PrimaryUpgrade;
     public UpgradeData SecondaryUpgrade;
-    public void CreateAttacks(GameObject player)
-    {
-        punchAttack = new Punch(player,
-            damage: new Damage(10, Damage.Type.PHYSICAL),
-            cooldown: 0.5f,
-            travelSpeed: 10
-        );
-        shootAttack = new Shoot(player,
-            damage: new Damage(10, Damage.Type.PHYSICAL),
-            cooldown: 1f,
-            travelSpeed: 30,
-            lifetime: 2,
-            piercing: true
-        );
-        dashAttack = new Dash(player,
-            damage: new Damage(10, Damage.Type.PHYSICAL),
-            cooldown: 1f,
-            travelSpeed: 0.25f, // looks like the max value before there is a pause after a dash
-            lifetime: 1f
-        );
-        slashAttack = new Slash(player,
-            damage: new Damage(10, Damage.Type.PHYSICAL),
-            cooldown: 1f,
-            travelSpeed: 10,
-            knockbackStrength: 10
-        );
-        missileAttack = new Missile(player,
-            damage: new Damage(10, Damage.Type.PHYSICAL),
-            cooldown: 1f,
-            travelSpeed: 10f,
-            piercing: false,
-            lifetime: 4f,
-            homing: true
-        );
-    }
+
+    public List<UpgradeType> selectedUpgrades = new List<UpgradeType>();
     void Awake()
     {
         Instance = this;
@@ -277,6 +244,8 @@ public class UpgradeManager : MonoBehaviour
                 }
                 break;
         }
+        shuffleUpgrades();
+        selectedUpgrades.Add(upgrade);
     }
 
     public void removeDurationAndCooldown(UpgradeType upgrade)

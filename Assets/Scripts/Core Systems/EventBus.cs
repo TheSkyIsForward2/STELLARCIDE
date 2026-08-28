@@ -51,12 +51,22 @@ public class EventBus
 
     #region Actions
     public event Action<PlayerMode> OnFormChange;
+    public event Action OnEnemyDead;
+    public event Action OnRoundEnd;
     #endregion
 
     #region Callers
     public void ChangeForm(PlayerMode newMode)
     {
         OnFormChange?.Invoke(newMode);
+    }
+
+    public void EnemyDead() {
+        OnEnemyDead?.Invoke();
+    }
+
+    public void RoundEnd() {
+        OnRoundEnd?.Invoke();
     }
     #endregion
 }
