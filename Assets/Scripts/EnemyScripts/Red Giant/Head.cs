@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Head : MonoBehaviour
@@ -25,5 +26,10 @@ public class Head : MonoBehaviour
         Scout.SetDistance(20, 3);
 
         Controller.ChangeState(Idle);
+    }
+
+    private void OnDestroy()
+    {
+        Destroy(transform.parent.gameObject);
     }
 }
