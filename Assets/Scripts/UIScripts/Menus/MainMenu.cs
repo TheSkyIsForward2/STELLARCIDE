@@ -1,15 +1,23 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    
+    private void Start()
+    {
+        if (!PlayerPrefs.HasKey("TutorialFinished"))
+        {
+            PlayerPrefs.SetString("TutorialFinished", "no");
+        }
+    }
+
     public void Play()
     {
         // check for tutorial flag
-        // if (PlayerPrefs.GetInt("Tutorial") == 0) SceneManager.LoadScene("Tutorial");
+        if (PlayerPrefs.GetString("TutorialFinished") == "no") SceneManager.LoadScene("Tutorial");
         // otherwise play game again
-        SceneManager.LoadScene("ShowcaseScene");
+        else SceneManager.LoadScene("ShowcaseScene");
     }
 
     public void Options()

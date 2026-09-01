@@ -30,7 +30,7 @@ public class GraphicsMenu : MonoBehaviour
     // return to options menu
     public void Return()
     {
-        optionsMenu.ExitVolume();
+        optionsMenu.ExitGraphics();
     }
     
     // TODO grab the graphics and change them!
