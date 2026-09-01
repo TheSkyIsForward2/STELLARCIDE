@@ -53,4 +53,8 @@ public class OptionsMenu : MonoBehaviour
         nested = false;
     }
 
+    public void ResetTutorial()
+    {
+        PlayerPrefs.SetString("TutorialFinished", "no");
+    }
 }
