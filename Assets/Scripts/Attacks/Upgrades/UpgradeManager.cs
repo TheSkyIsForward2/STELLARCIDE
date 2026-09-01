@@ -93,6 +93,9 @@ public class UpgradeManager : MonoBehaviour
         possibleUpgrades.Add(new UpgradeType("Double Time", "time time", UpgradeTarget.DOUBLE_TIME, UpgradeEffect.CREATE));
 
         shuffleUpgrades();
+        PrimaryUpgrade = new DoubleTimeUpgrade(999,1);
+        SecondaryUpgrade = new SlashUpgrade(999,1);
+        chargeUpUpgradeData = new ChargeUpUpgrade(1,1);
     }
 
     public void ApplyUpgrade(UpgradeType upgrade)

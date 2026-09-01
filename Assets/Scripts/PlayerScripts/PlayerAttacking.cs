@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Controller script for player attacks 
@@ -34,6 +35,7 @@ public class PlayerAttacking : MonoBehaviour
         inputActions.Gameplay.Heal.performed += (ctx) =>
         {
             GetComponent<PlayerHealth>().healthController.TakeDamage(new Damage(-100, Damage.Type.PHYSICAL));
+            SceneManager.LoadScene(1);
         };
 
         // Primary Upgrades
@@ -60,7 +62,7 @@ public class PlayerAttacking : MonoBehaviour
     void Start()
     {
         // this script now observes whenever the player changes forms and switches attacks accordingly
-        EventBus.Instance.OnFormChange += (newMode) => SwapAttacks(newMode);
+        EventBus.Instance.OnFormChange += SwapAttacks;
         pc = GetComponent<PlayerController>();
 
         UpgradeManager instance = UpgradeManager.Instance;
@@ -129,6 +131,11 @@ public class PlayerAttacking : MonoBehaviour
 
         ChargeUpActive = UpgradeManager.Instance.chargeUpUpgradeData != null;
     }
+
+    void OnDestroy()
+    {
+        EventBus.Instance.OnFormChange -= SwapAttacks;
+    }
     #endregion
 
     #region Input Polling
@@ -145,7 +152,6 @@ public class PlayerAttacking : MonoBehaviour
                 {
                     PrimaryAttack.ChargeStart = true;
                     StartCoroutine(PrimaryAttack.StartCharge());
-                    return;
                 }
             }
 
@@ -156,7 +162,6 @@ public class PlayerAttacking : MonoBehaviour
                     Vector3 _target = PrimaryAttack is Punch ? new Vector3(3,3) : gameObject.transform.right;
                     StartCoroutine(PrimaryAttack.EndCharge(gameObject.transform.position, _target));
                     PrimaryAttack.ChargeStart = false;
-                    return;
                 }
             }
         } else

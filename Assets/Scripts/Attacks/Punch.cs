@@ -43,18 +43,18 @@ public class Punch : Attack
     {
         if (Animator)
         {
+            Animator.SetBool("straightPunch", true);
             Animator.SetTrigger("executeWindup");
 
             LastExecute = Time.time;
             yield return new WaitWhile(AnimatorIsPlaying);
+            Animator.SetBool("straightPunch", false);
 
-            Animator.SetTrigger("executePunch");
             if (playerRB)
             {
                 playerRB.AddForce(Owner.transform.right * TravelSpeed, ForceMode2D.Impulse);
             }
         }
-        
         
         LastExecute = Time.time;
         yield return new WaitForSeconds(0.15f);
@@ -167,10 +167,11 @@ public class Punch : Attack
 
             AudioManager.Instance.PlayPunchingSFX();
             DamageArea(range: 3f, width: 3f);
-
-            LastExecute = Time.time;
-            yield return new WaitWhile(AnimatorIsPlaying);
         }
+
+        LastExecute = Time.time;
+        yield return new WaitWhile(AnimatorIsPlaying);
+
         Damage.Amount = temp;
     }
 }
