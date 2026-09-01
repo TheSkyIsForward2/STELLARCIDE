@@ -15,14 +15,16 @@ public sealed class GenNode {
     public string Type;              			// "Room", "DialogResponse", etc.  Could also be a String as Tag
     public int Width;
     public int Depth;
+    public int Difficulty;
     public bool isPlayerPosition = false;
     
-    public GenNode(string id, string type, int width, int depth)
+    public GenNode(string id, string type, int width, int depth, int difficulty)
     {
         Id = id;
         Type = type;
         Width = width;
         Depth = depth;
+        Difficulty = difficulty;
     }
 }
 
@@ -86,10 +88,13 @@ public class SelectorMapGenerator : MonoBehaviour
     [SerializeField] private int minWidth = 2;
 
     public TextAsset fileToReadWrite;
+    public string resourcePath = "SavedFiles/PlayerMapPosition";
     public string fullPathToFile = "Assets/Resources/SavedFiles/PlayerMapPosition.json";
     
     private void Start()
     {
+        
+        fileToReadWrite = Resources.Load<TextAsset>(resourcePath);
         currentRoot = ReadFromFile();
         Generate();
     }
@@ -100,11 +105,12 @@ public class SelectorMapGenerator : MonoBehaviour
         if (currentRoot.edges.Count == 0)
         {
             Random rand = new Random();
-            GenNode root = new GenNode("0", "root", 0, 0);
+            GenNode root = new GenNode("0", "root", 0, 0, 0);
             root.isPlayerPosition = true;
             graph.AddNode(root);
             currentRoot.nodes.Add(root);
             int nodeId = 1;
+            int difficulty = 0;
 
             // create "columns" of nodes with depth, randomly creating 1 to max_width number of nodes
             int columnWidth = minWidth;
@@ -112,8 +118,9 @@ public class SelectorMapGenerator : MonoBehaviour
             {
                 for (int width = 0; width < columnWidth; width++)
                 {
-                    graph.AddNode(new GenNode($"{nodeId}", "Area", width, depth));
-                    currentRoot.nodes.Add(new GenNode($"{nodeId}", "Area", width, depth));
+                    difficulty = rand.Next(0, 5);
+                    graph.AddNode(new GenNode($"{nodeId}", "Area", width, depth, difficulty));
+                    currentRoot.nodes.Add(new GenNode($"{nodeId}", "Area", width, depth, difficulty));
                     nodeId++;
                 }
 
@@ -131,9 +138,10 @@ public class SelectorMapGenerator : MonoBehaviour
                 }
             }
 
+            difficulty = 4;
             //create end node (id: ?, type: end, width: ?, depth: max_depth-1)
-            graph.AddNode(new GenNode($"{nodeId}", "end", 0, maxDepth - 1));
-            currentRoot.nodes.Add(new GenNode($"{nodeId}", "end", 0, maxDepth - 1));
+            graph.AddNode(new GenNode($"{nodeId}", "end", 0, maxDepth - 1, difficulty));
+            currentRoot.nodes.Add(new GenNode($"{nodeId}", "end", 0, maxDepth - 1, difficulty));
 
             // re-organize nodes based on depth
             Dictionary<int, List<GenNode>> nodesByDepth = new Dictionary<int, List<GenNode>>();
@@ -265,6 +273,10 @@ public class SelectorMapGenerator : MonoBehaviour
             print(edge.From + "->" + edge.To);
         */
         
+        // reached end of tree, so start with a new tree.
+        if(currentRoot.nodes[currentRoot.nodes.Count - 1].isPlayerPosition)
+            return new Root(new List<GenNode>(), new List<GenEdge>());
+        
         print("found existing graph");
         return currentRoot;
     }
@@ -280,6 +292,7 @@ public class SelectorMapGenerator : MonoBehaviour
         {
             serializer.Serialize(writer, root);
         }
+        sw.Close();
     }
 
     public void ClearJson()
