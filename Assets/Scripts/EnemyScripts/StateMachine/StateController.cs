@@ -48,7 +48,7 @@ public class StateController : MonoBehaviour
         DistanceToPlayer = EnemyToPlayer.magnitude;
 
         CurrentState.OnUpdate(this);
-        RotateToPlayer();
+        //RotateToPlayer();
     }
 
     public void AttackPlayer(Attack attack)

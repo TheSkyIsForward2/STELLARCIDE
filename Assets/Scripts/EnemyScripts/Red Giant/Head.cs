@@ -9,6 +9,7 @@ public class Head : MonoBehaviour
     private IdleState Idle;
     private ScoutState Scout;
     private LungeAttackState Lunge;
+    private RetreatState Retreat;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -18,10 +19,12 @@ public class Head : MonoBehaviour
         Idle = new IdleState();
         Scout = new ScoutState();
         Lunge = new LungeAttackState();
+        Retreat = new RetreatState();
 
         Idle.SetStates(Scout);
         Scout.SetStates(Idle, Lunge);
-        Lunge.SetStates(Scout);
+        Lunge.SetStates(Retreat);
+        Retreat.SetStates(Scout);
 
         Scout.SetDistance(20, 3);
 

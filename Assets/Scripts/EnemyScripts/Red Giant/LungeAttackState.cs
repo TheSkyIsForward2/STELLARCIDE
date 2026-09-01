@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LungeAttackState : IState
 {
-    private IState ScoutState;
+    private IState RetreatState;
 
     private bool isAttacking = false;
 
@@ -21,9 +21,9 @@ public class LungeAttackState : IState
 
     public Attack punch;
     private GameObject self;
-    public void SetStates(IState scout)
+    public void SetStates(IState retreat)
     {
-        ScoutState = scout;
+        RetreatState = retreat;
     }
 
     public void OnEntry(StateController controller)
@@ -35,19 +35,20 @@ public class LungeAttackState : IState
         );
 
         startPos = controller.transform.position;
-        backPos = startPos + controller.transform.up * windupDistance;
-        lungePos = backPos - controller.transform.up * lungeDistance;
+        backPos = startPos - controller.transform.right * windupDistance;
+        lungePos = backPos + controller.transform.right * lungeDistance;
     }
 
     public void OnUpdate(StateController controller)
     {
-        Debug.DrawRay(controller.transform.position, controller.transform.up, Color.green);
-        Debug.DrawRay(controller.transform.position, -controller.transform.up, Color.red);
+        Debug.DrawRay(controller.transform.position, -controller.transform.right, Color.green);
+        Debug.DrawRay(controller.transform.position, controller.transform.right, Color.red);
 
         if (!isAttacking)
         {
             controller.StartCoroutine(Attack(controller));
         }
+        controller.RotateToPlayer();
     }
 
     public void OnExit(StateController controller) 
@@ -73,7 +74,7 @@ public class LungeAttackState : IState
 
         t = 0.0f;
 
-        lungePos = backPos - controller.transform.up * lungeDistance;
+        lungePos = backPos + controller.transform.right * lungeDistance;
         while (t < 1.0f)
         {
             t += Time.deltaTime / lungeTime;
@@ -85,11 +86,11 @@ public class LungeAttackState : IState
             controller.AttackPlayer(punch);
         }
 
-        yield return new WaitForSeconds(attackCooldown);
+        //yield return new WaitForSeconds(attackCooldown);
 
         isAttacking = false;
 
-        controller.ChangeState(ScoutState);
+        controller.ChangeState(RetreatState);
         // Debug.Log("finished attacking");
     }
 

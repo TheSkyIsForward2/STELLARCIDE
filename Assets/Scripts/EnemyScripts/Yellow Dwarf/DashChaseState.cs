@@ -40,6 +40,7 @@ public class DashChaseState : IState
                 Random.Range(-45.0f, 45.0f) * Mathf.Deg2Rad).normalized * DashDistance;
             CoroutineManager.Instance.Run(dash.Execute(controller.transform.position, controller.transform.position + dashDirection));
         }
+        controller.RotateToPlayer();
     }
 
     public void OnExit(StateController controller)

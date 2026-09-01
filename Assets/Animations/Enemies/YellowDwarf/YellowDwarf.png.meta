@@ -181,13 +181,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: YellowDwarf_2
+      name: YellowDwarf_4
       rect:
         serializedVersion: 2
-        x: 525
-        y: 3825
-        width: 490
-        height: 1750
+        x: 1161
+        y: 4565
+        width: 1585
+        height: 496
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -196,8 +196,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 475d6626ac5f22890800000000000000
-      internalID: -7484149381153237644
+      spriteID: b65688799adea1810800000000000000
+      internalID: 1736961918952301931
       vertices: []
       indices: 
       edges: []
@@ -206,10 +206,10 @@ TextureImporter:
       name: YellowDwarf_5
       rect:
         serializedVersion: 2
-        x: 2186
-        y: 3865
-        width: 515
-        height: 1640
+        x: 3825
+        y: 4553
+        width: 1750
+        height: 490
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -225,13 +225,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: YellowDwarf_6
+      name: YellowDwarf_13
       rect:
         serializedVersion: 2
-        x: 4012
-        y: 3632
-        width: 491
-        height: 1967
+        x: 3865
+        y: 2867
+        width: 1640
+        height: 515
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -240,20 +240,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3838932335cb338d0800000000000000
-      internalID: -2867741472193936509
+      spriteID: c47aec457fbf036f0800000000000000
+      internalID: -706788101798844596
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: YellowDwarf_17
+      name: YellowDwarf_14
       rect:
         serializedVersion: 2
-        x: 507
-        y: 1161
-        width: 496
-        height: 1585
+        x: 899
+        y: 2813
+        width: 1836
+        height: 504
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -262,8 +262,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7bce0f7ab3c6d5dd0800000000000000
-      internalID: -2495719615016932169
+      spriteID: 54c816c64a53b7840800000000000000
+      internalID: 5222827173175462981
       vertices: []
       indices: 
       edges: []
@@ -272,10 +272,10 @@ TextureImporter:
       name: YellowDwarf_20
       rect:
         serializedVersion: 2
-        x: 2251
-        y: 899
-        width: 504
-        height: 1836
+        x: 907
+        y: 1136
+        width: 1644
+        height: 517
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -291,13 +291,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: YellowDwarf_21
+      name: YellowDwarf_24
       rect:
         serializedVersion: 2
-        x: 3915
-        y: 907
-        width: 517
-        height: 1644
+        x: 3632
+        y: 1065
+        width: 1967
+        height: 491
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -306,8 +306,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4de7f04728de76960800000000000000
-      internalID: 7595300441132334804
+      spriteID: a0b881c8db71211e0800000000000000
+      internalID: -2228692762728297718
       vertices: []
       indices: 
       edges: []
@@ -316,7 +316,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 90908133625870341b7ba460c8bdc274
+    spriteID: 565675b56e495364b9fc13f446938f7a
     internalID: 0
     vertices: []
     indices: 
@@ -347,6 +347,7 @@ TextureImporter:
       YellowDwarf_25: 2185335681438613391
       YellowDwarf_26: 8083230540296392146
       YellowDwarf_27: -4929670923085477420
+      YellowDwarf_28: -1114458956
       YellowDwarf_3: 2500888939205723543
       YellowDwarf_4: 1736961918952301931
       YellowDwarf_5: -7102235848488510231

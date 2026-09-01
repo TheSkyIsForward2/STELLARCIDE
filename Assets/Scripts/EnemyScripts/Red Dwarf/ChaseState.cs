@@ -44,6 +44,7 @@ public class ChaseState : IState
         {
             controller.AttackPlayer(punch);
         }
+        controller.RotateToPlayer();
     }
 
     public void OnExit(StateController controller)

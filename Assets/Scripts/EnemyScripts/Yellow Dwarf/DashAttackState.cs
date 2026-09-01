@@ -33,12 +33,12 @@ public class DashAttackState : IState
         {
             controller.ChangeState(DashChaseState);
         }
-
         if (dash.IsReady())
         {
             Vector3 dashDirection = controller.EnemyToPlayer.normalized * DashDistance;
             CoroutineManager.Instance.Run(dash.Execute(controller.transform.position, controller.transform.position + dashDirection));
         }
+        controller.RotateToPlayer();
     }
 
     public void OnExit(StateController controller)
