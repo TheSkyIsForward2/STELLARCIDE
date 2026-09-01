@@ -18,14 +18,12 @@ public class PlayerHealthBar : MonoBehaviour
 
     void Start()
     {
-        // numberLabel.text = $"{health.hp} / {health.maxHP}";
         numberLabel.SetText($"{health.hp} / {health.maxHP}");
     }
 
     void Update()
     {
         healthBar.value = (float) health.hp;
-        // numberLabel.text = $"{health.hp} / {health.maxHP}";
         numberLabel.SetText($"{health.hp} / {health.maxHP}");
     }
 }
