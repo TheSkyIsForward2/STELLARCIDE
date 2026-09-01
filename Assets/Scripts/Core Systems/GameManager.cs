@@ -9,6 +9,7 @@ public class GameManager
     public bool GameActive;
     public XMLManager xmlManager;
     public ScoreManager scoreManager;
+    public TextPrompt textPrompt;
 
 
     public static GameManager Instance
