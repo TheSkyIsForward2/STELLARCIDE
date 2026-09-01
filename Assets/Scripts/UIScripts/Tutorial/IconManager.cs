@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class IconManager : MonoBehaviour
+public class TutorialManager : MonoBehaviour
 {
     [Header("References")]
     public PlayerController playerController;
@@ -12,6 +12,7 @@ public class IconManager : MonoBehaviour
     public Image wasdIcon;
     public TMP_Text controlsText;
     public TMP_Text explanationText;
+    public TutorialSpawn spawner;
 
     // Update is called once per frame
     void Update()
