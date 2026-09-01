@@ -33,8 +33,8 @@ Transform:
   m_GameObject: {fileID: 490058913558637734}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -1.51, y: -3.23, z: 0}
+  m_LocalScale: {x: 3, y: 3, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5690097595082831780}
@@ -54,6 +54,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9612a334fb3c55409c321bb7416fc9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sc: {fileID: 0}
   health: 100
 --- !u!114 &8797113400631551818
 MonoBehaviour:
@@ -70,13 +71,12 @@ MonoBehaviour:
   thrustCamSpeed: 2
   shipMinCameraDist: 1
   shipMaxCameraDist: 4
-  shipTurnSpeed: 30
+  shipTurnSpeed: 200
   mechCameraDist: 1
   mechTransitionLayer:
     serializedVersion: 2
     m_Bits: 8
-  mechTurnSpeed: 100
-  lockTime: 5
+  mechTurnSpeed: 500
 --- !u!114 &6359159038041925148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -105,9 +105,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 769cda19035c4af47b050cfa698703c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 6
-  acceleration: 7
-  dragFactor: 25
+  speed: 12
+  acceleration: 9
+  dragFactor: 50
 --- !u!114 &4609194696940913261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,6 +134,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25b0ff47fc8a03c4a930a5635e5f5233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  chargeUpIndicator: {fileID: 0}
+  ChargeUpActive: 0
 --- !u!50 &5108155307476787186
 Rigidbody2D:
   serializedVersion: 5
@@ -208,15 +210,15 @@ GameObject:
   m_Component:
   - component: {fileID: 7997210310692675840}
   - component: {fileID: 4183817709701007563}
-  - component: {fileID: 3074749124217239840}
   - component: {fileID: 983441308282870505}
+  - component: {fileID: 550544183004434363}
   m_Layer: 0
   m_Name: MechVisual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7997210310692675840
 Transform:
   m_ObjectHideFlags: 0
@@ -275,7 +277,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -8975621686167234773, guid: 4caee71918c50174f9daa2a9b8423b04, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -287,7 +289,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &3074749124217239840
+--- !u!114 &983441308282870505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 667713443579867682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e1bced6e8bd4824495ae9ae886e869d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!95 &550544183004434363
 Animator:
   serializedVersion: 7
   m_ObjectHideFlags: 0
@@ -309,18 +323,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &983441308282870505
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 667713443579867682}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e1bced6e8bd4824495ae9ae886e869d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5198350462391669007
 GameObject:
   m_ObjectHideFlags: 0
@@ -385,7 +387,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6889264764620674575
 Transform:
   m_ObjectHideFlags: 0
@@ -444,7 +446,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7878662070774388376, guid: 2a459471d54408743aab6dadf42c85e3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
