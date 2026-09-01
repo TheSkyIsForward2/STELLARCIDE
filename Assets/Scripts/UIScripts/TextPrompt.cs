@@ -1,14 +1,13 @@
 using TMPro;
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class TextPrompt : MonoBehaviour
 {
     private TextMeshProUGUI textLabel;
     public int returnTime = 10;
-
-    [Tooltip("DEBUG, DONT TOUCH")]
-    [SerializeField] private int counter;
+    private int counter;
 
     public bool isVisible 
     {
@@ -41,6 +40,9 @@ public class TextPrompt : MonoBehaviour
             textLabel.text = $"RETURN TO MISSION ZONE IN {counter--}";
             yield return new WaitForSeconds(1);
         }
-        // TODO: start a coroutine to slowly dmg player then break;
+        Debug.Log("player died");
+        // TODO: start a coroutine to slowly dmg player then break
+        // but this will do for now lol
+        SceneManager.LoadScene("GameOver");
     }
 }

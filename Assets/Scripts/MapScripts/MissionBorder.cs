@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class MissionBorder : MonoBehaviour
@@ -14,7 +13,6 @@ public class MissionBorder : MonoBehaviour
             {
                 StopCoroutine(coroutine);
             }
-            
         }
     }
 

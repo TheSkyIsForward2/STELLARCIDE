@@ -1,7 +1,5 @@
 using System.Collections;
-using System.Runtime.InteropServices;
 using UnityEngine;
-using FMODUnity;
 
 public class Shoot : Attack
 {
@@ -89,13 +87,13 @@ public class Shoot : Attack
         {
             yield return new WaitForSeconds(0.06f);
             GameManager.Instance.ProjectileManager.CreateProjectile(Owner,
-                                                                            Damage,
-                                                                            TravelSpeed,
-                                                                            Lifetime,
-                                                                            Piercing,
-                                                                            false,
-                                                                            sizeScalar: size,
-                                                                            origin, target);
+                                                                    Damage,
+                                                                    TravelSpeed,
+                                                                    Lifetime,
+                                                                    Piercing,
+                                                                    false,
+                                                                    sizeScalar: size,
+                                                                    origin, target);
             AudioManager.Instance.PlayPlayerShootSFX();
             LastExecute = Time.time;
             yield return new WaitForSeconds(0.01f);

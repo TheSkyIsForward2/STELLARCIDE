@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Stores an entity's team type and HP. Come to definition to find
@@ -57,12 +58,24 @@ public class HealthOwner : Component
 
         if (team == Team.PLAYER)
         {
+            SceneManager.LoadScene("GameOver");
             return true;
         }
         
         Destroy(owner);
         return true;
     }
+
+    // TODO: for mission walls (maybe)
+    // public bool TakeDOT(float totalTime, Damage totalDamage)
+    // {
+    //     return true;
+    // }
+
+    // public bool TakeDOT(float interval, Damage dmgPerTick)
+    // {
+    //     return true;
+    // }
 
     /// <summary>
     /// When increasing an entity's max hp by [int amount], their current hp amount relative to their new max hp
