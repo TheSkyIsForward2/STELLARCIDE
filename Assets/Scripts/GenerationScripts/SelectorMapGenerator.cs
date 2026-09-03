@@ -17,14 +17,16 @@ public sealed class GenNode {
     public int Depth;
     public int Difficulty;
     public bool isPlayerPosition = false;
+    public string Description;
     
-    public GenNode(string id, string type, int width, int depth, int difficulty)
+    public GenNode(string id, string type, int width, int depth, int difficulty, string description)
     {
         Id = id;
         Type = type;
         Width = width;
         Depth = depth;
         Difficulty = difficulty;
+        Description = description;
     }
 }
 
@@ -105,7 +107,7 @@ public class SelectorMapGenerator : MonoBehaviour
         if (currentRoot.edges.Count == 0)
         {
             Random rand = new Random();
-            GenNode root = new GenNode("0", "root", 0, 0, 0);
+            GenNode root = new GenNode("0", "root", 0, 0, 0, "test description");
             root.isPlayerPosition = true;
             graph.AddNode(root);
             currentRoot.nodes.Add(root);
@@ -119,8 +121,8 @@ public class SelectorMapGenerator : MonoBehaviour
                 for (int width = 0; width < columnWidth; width++)
                 {
                     difficulty = rand.Next(0, 5);
-                    graph.AddNode(new GenNode($"{nodeId}", "Area", width, depth, difficulty));
-                    currentRoot.nodes.Add(new GenNode($"{nodeId}", "Area", width, depth, difficulty));
+                    graph.AddNode(new GenNode($"{nodeId}", "Area", width, depth, difficulty, "test description"));
+                    currentRoot.nodes.Add(new GenNode($"{nodeId}", "Area", width, depth, difficulty, "test description"));
                     nodeId++;
                 }
 
@@ -140,8 +142,8 @@ public class SelectorMapGenerator : MonoBehaviour
 
             difficulty = 4;
             //create end node (id: ?, type: end, width: ?, depth: max_depth-1)
-            graph.AddNode(new GenNode($"{nodeId}", "end", 0, maxDepth - 1, difficulty));
-            currentRoot.nodes.Add(new GenNode($"{nodeId}", "end", 0, maxDepth - 1, difficulty));
+            graph.AddNode(new GenNode($"{nodeId}", "end", 0, maxDepth - 1, difficulty, "test description"));
+            currentRoot.nodes.Add(new GenNode($"{nodeId}", "end", 0, maxDepth - 1, difficulty, "test description"));
 
             // re-organize nodes based on depth
             Dictionary<int, List<GenNode>> nodesByDepth = new Dictionary<int, List<GenNode>>();

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using TMPro.EditorUtilities;
@@ -24,15 +25,26 @@ namespace MapScripts
         public Font font = null;
         public int fontSize = 20;
     
-        [Header("Button and Edge Prefab")]
+        [Header("Prefabs")]
         public GameObject buttonPrefab;
         public Image edgePrefab;
+        public GameObject playerMarkerPrefab;
+        public GameObject ringPrefab;
+        public GameObject missionPanelPrefab;
 
         // References
         private Dictionary<string, RectTransform> nodeRects = new();
         private GenGraph graphRef;
         private GenNode playerPosition;
-    
+        private GameObject ring;
+        private MissionPanel missionPanel;
+
+        private void Start()
+        {
+            ring = Instantiate(ringPrefab, gameObject.transform);
+            ring.SetActive(false);
+        }
+
         public void DrawGraph(GenGraph graph)
         {
             RectTransform canvasRect = GetComponent<RectTransform>();
@@ -133,6 +145,7 @@ namespace MapScripts
             if (node.isPlayerPosition)
             {
                 playerPosition = node;
+                Instantiate(playerMarkerPrefab, go.transform);
                 return rect;
             }
 
@@ -177,6 +190,28 @@ namespace MapScripts
             rect.sizeDelta = new Vector2(length - nodeSize, 3f);
             rect.anchoredPosition = a + dir * 0.5f;
             rect.rotation = Quaternion.Euler(0, 0, angle);
+        }
+
+        public void MissionChange(GameObject go, string id)
+        {
+            if (missionPanel == null)
+            {
+                GameObject temp = Instantiate(missionPanelPrefab, transform);
+                missionPanel = temp.GetComponent<MissionPanel>();
+                missionPanel.gameObject.SetActive(false);
+            }
+            
+            // ring changes
+            ring.transform.position = go.transform.position; 
+            ring.SetActive(true);
+            
+            // mission panel changes
+            GenNode selected = graphRef.Nodes[id];
+            
+            // grab difficulty and description
+            missionPanel.description.text =  $"{selected.Description}";
+            missionPanel.scoreMult.text =  $"DIFFICULTY\nMULTIPLIER:\n{1 + selected.Difficulty * .5}X";
+            missionPanel.gameObject.SetActive(true);  
         }
     }
 }
