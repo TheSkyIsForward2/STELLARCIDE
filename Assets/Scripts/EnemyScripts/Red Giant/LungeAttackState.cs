@@ -75,6 +75,7 @@ public class LungeAttackState : IState
         t = 0.0f;
 
         lungePos = backPos + controller.transform.right * lungeDistance;
+        controller.Animator.SetTrigger("triggerBite");
         while (t < 1.0f)
         {
             t += Time.deltaTime / lungeTime;
