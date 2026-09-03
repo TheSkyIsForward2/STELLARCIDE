@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class DashChaseState : IState
@@ -6,6 +7,7 @@ public class DashChaseState : IState
     private GameObject self;
 
     private float DashDistance = 3.0f;
+    private bool attacking = false;
 
     private IState DashAttackState;
     public void SetStates(IState dashAttack)
@@ -34,13 +36,14 @@ public class DashChaseState : IState
             controller.ChangeState(DashAttackState);
         }
 
-        if (dash.IsReady())
+        if (dash.IsReady() && !attacking)
         {
-            Vector3 dashDirection = rotate(controller.EnemyToPlayer, 
-                Random.Range(-45.0f, 45.0f) * Mathf.Deg2Rad).normalized * DashDistance;
-            CoroutineManager.Instance.Run(dash.Execute(controller.transform.position, controller.transform.position + dashDirection));
+            CoroutineManager.Instance.StartCoroutine(Attack(controller));
         }
-        controller.RotateToPlayer();
+        if (!attacking)
+        {
+            controller.RotateToPlayer();
+        }
     }
 
     public void OnExit(StateController controller)
@@ -59,5 +62,15 @@ public class DashChaseState : IState
     public string GetName()
     {
         return "Dash Chase";
+    }
+
+    private IEnumerator Attack(StateController controller)
+    {
+        attacking = true;
+        Vector3 dashDirection = rotate(controller.EnemyToPlayer,
+            Random.Range(-45.0f, 45.0f) * Mathf.Deg2Rad).normalized * DashDistance;
+        yield return new WaitForSeconds(5);
+        CoroutineManager.Instance.Run(dash.Execute(controller.transform.position, controller.transform.position + dashDirection));
+        attacking = false;
     }
 }

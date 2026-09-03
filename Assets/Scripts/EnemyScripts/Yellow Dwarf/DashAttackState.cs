@@ -1,11 +1,13 @@
+using System.Collections;
 using UnityEngine;
-
 public class DashAttackState : IState
 {
     public Attack dash;
     private GameObject self;
 
     private float DashDistance = 5.0f;
+    private bool attacking = false;
+    private bool canAttack = true;
 
     private IState DashChaseState;
     public void SetStates(IState dashChase)
@@ -33,12 +35,22 @@ public class DashAttackState : IState
         {
             controller.ChangeState(DashChaseState);
         }
-        if (dash.IsReady())
+        if (dash.IsReady() && canAttack)
         {
-            Vector3 dashDirection = controller.EnemyToPlayer.normalized * DashDistance;
-            CoroutineManager.Instance.Run(dash.Execute(controller.transform.position, controller.transform.position + dashDirection));
+            CoroutineManager.Instance.StartCoroutine(Attack(controller));
         }
-        controller.RotateToPlayer();
+        if (!attacking)
+        {
+            controller.RotateToPlayer();
+        }
+    }
+
+    public static Vector2 rotate(Vector2 v, float delta)
+    {
+        return new Vector2(
+            v.x * Mathf.Cos(delta) - v.y * Mathf.Sin(delta),
+            v.x * Mathf.Sin(delta) + v.y * Mathf.Cos(delta)
+            );
     }
 
     public void OnExit(StateController controller)
@@ -50,4 +62,21 @@ public class DashAttackState : IState
     {
         return "Dash Attack";
     }
+
+    private IEnumerator Attack(StateController controller)
+    {
+        attacking = true;
+        canAttack = false;
+        Vector3 dashDirection = controller.EnemyToPlayer.normalized * DashDistance;
+        controller.Animator.SetTrigger("triggerDashWindup");
+        yield return new WaitForSeconds(0.25f);
+
+        CoroutineManager.Instance.Run(dash.Execute(controller.transform.position, controller.transform.position + dashDirection));
+        attacking = false;
+        controller.Animator.SetTrigger("triggerDash");
+        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(1.5f);
+        canAttack = true;
+    }
+
 }

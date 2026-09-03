@@ -79,6 +79,4 @@ public class StateController : MonoBehaviour
 
         transform.rotation = Quaternion.Slerp(transform.rotation, rotation, RotateSpeed * Time.deltaTime);
     }
-
-
 }

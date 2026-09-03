@@ -181,7 +181,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: YellowDwarf_4
+      name: YellowDwarf_2
       rect:
         serializedVersion: 2
         x: 1161
@@ -203,7 +203,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: YellowDwarf_5
+      name: YellowDwarf_1
       rect:
         serializedVersion: 2
         x: 3825
@@ -225,7 +225,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: YellowDwarf_13
+      name: YellowDwarf_3
       rect:
         serializedVersion: 2
         x: 3865
@@ -247,7 +247,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: YellowDwarf_14
+      name: YellowDwarf_4
       rect:
         serializedVersion: 2
         x: 899
@@ -269,7 +269,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: YellowDwarf_20
+      name: YellowDwarf_6
       rect:
         serializedVersion: 2
         x: 907
@@ -291,7 +291,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: YellowDwarf_24
+      name: YellowDwarf_5
       rect:
         serializedVersion: 2
         x: 3632
@@ -327,31 +327,27 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       YellowDwarf_0: -7065450585766752803
-      YellowDwarf_1: -2370548812010622760
+      YellowDwarf_1: -7102235848488510231
       YellowDwarf_10: 5702786644632982058
       YellowDwarf_11: -7707946572718941362
       YellowDwarf_12: 265431231398382708
-      YellowDwarf_13: -706788101798844596
-      YellowDwarf_14: 5222827173175462981
       YellowDwarf_15: -9145024011738061460
       YellowDwarf_16: -6479659962872323828
       YellowDwarf_17: -2495719615016932169
       YellowDwarf_18: -490569733113348045
       YellowDwarf_19: -5154246011133802993
-      YellowDwarf_2: -7484149381153237644
-      YellowDwarf_20: 4671972806636000770
+      YellowDwarf_2: 1736961918952301931
       YellowDwarf_21: 7595300441132334804
       YellowDwarf_22: -2545587253860701872
       YellowDwarf_23: -7031416571303045981
-      YellowDwarf_24: -2228692762728297718
       YellowDwarf_25: 2185335681438613391
       YellowDwarf_26: 8083230540296392146
       YellowDwarf_27: -4929670923085477420
       YellowDwarf_28: -1114458956
-      YellowDwarf_3: 2500888939205723543
-      YellowDwarf_4: 1736961918952301931
-      YellowDwarf_5: -7102235848488510231
-      YellowDwarf_6: -2867741472193936509
+      YellowDwarf_3: -706788101798844596
+      YellowDwarf_4: 5222827173175462981
+      YellowDwarf_5: -2228692762728297718
+      YellowDwarf_6: 4671972806636000770
       YellowDwarf_7: 3721817396142318974
       YellowDwarf_8: 6034105037875031809
       YellowDwarf_9: 871956179498987700
