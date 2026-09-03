@@ -40,8 +40,9 @@ public class ChaseState : IState
             controller.transform.position = Vector2.MoveTowards(controller.transform.position, controller.Player.position, chaseSpeed * Time.deltaTime);
         }
 
-        if (controller.DistanceToPlayer < 4.5 && punch != null)
+        if (controller.DistanceToPlayer < 4.5 && punch != null && punch.IsReady())
         {
+            controller.Animator.SetTrigger("triggerBite");
             controller.AttackPlayer(punch);
         }
         controller.RotateToPlayer();
