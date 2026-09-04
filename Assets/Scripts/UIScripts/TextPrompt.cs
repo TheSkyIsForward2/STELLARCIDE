@@ -40,9 +40,10 @@ public class TextPrompt : MonoBehaviour
             textLabel.text = $"RETURN TO MISSION ZONE IN {counter--}";
             yield return new WaitForSeconds(1);
         }
-        Debug.Log("player died");
-        // TODO: start a coroutine to slowly dmg player then break
-        // but this will do for now lol
-        SceneManager.LoadScene("GameOver");
+        GameManager.Instance.Player.GetComponent<HealthOwner>().TakeDOT(
+            -1,
+            new Damage(20,Damage.Type.PHYSICAL),
+            1
+        );
     }
 }
