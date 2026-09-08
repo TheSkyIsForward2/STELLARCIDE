@@ -20,6 +20,7 @@ public class SelectorButton : MonoBehaviour
     {
         if (!isPlayerAdjacent) return;
 
+        GameManager.Instance.difficultySum += mapGenerator.graph.Nodes[nodeId].Difficulty;
         graphUIRenderer.MissionChange(gameObject, nodeId);
     }
 

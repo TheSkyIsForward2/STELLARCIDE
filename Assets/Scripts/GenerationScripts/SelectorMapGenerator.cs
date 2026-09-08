@@ -18,6 +18,7 @@ public sealed class GenNode {
     public int Difficulty;
     public bool isPlayerPosition = false;
     public string Description;
+    public int RedDwarfNumber;
     
     public GenNode(string id, string type, int width, int depth, int difficulty, string description)
     {
@@ -27,6 +28,13 @@ public sealed class GenNode {
         Depth = depth;
         Difficulty = difficulty;
         Description = description;
+        DifficultyRandomization();
+    }
+
+    public void DifficultyRandomization()
+    {
+        // rand
+        // change numbers with rand based on stored difficulty value (check for nulls)
     }
 }
 
