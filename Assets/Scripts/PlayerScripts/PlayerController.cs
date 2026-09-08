@@ -21,6 +21,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask mechTransitionLayer;
     [SerializeField] private float mechTurnSpeed = 100f;
     
+    [Header("Slide Settings")]
+    [SerializeField] private float slideSpeed = 15;
+    [SerializeField] private float slideLength = 0.5f;
+
     [NonSerialized] public bool inputEnabled;
 
     private PlayerMode currentMode = PlayerMode.SHIP;
@@ -138,7 +142,6 @@ public class PlayerController : MonoBehaviour
             FlyIn();
             currentMode = PlayerMode.MECH;
             EventBus.Instance.ChangeForm(currentMode);
-            ToggleControls(true);
         }
     }
 
@@ -147,7 +150,6 @@ public class PlayerController : MonoBehaviour
             FlyOut();
             currentMode = PlayerMode.SHIP;
             EventBus.Instance.ChangeForm(currentMode);
-            ToggleControls(true);
         }
     }
 
@@ -155,7 +157,9 @@ public class PlayerController : MonoBehaviour
     {
         shipMovement.enabled = false;
         mechMovement.enabled = true;
-        
+
+        StartCoroutine(LockControls(slideLength));
+        rb.AddForce(transform.right * slideSpeed, ForceMode2D.Impulse);
         // transformation animation (ship to mech)
         
         // sound effect
@@ -165,7 +169,19 @@ public class PlayerController : MonoBehaviour
     {
         shipMovement.enabled = true;
         mechMovement.enabled = false;
-    
+
+        StartCoroutine(LockControls(slideLength));
+        // addforce ( direction of movement * speed)
+        Vector2 wishDir = inputActions.Gameplay.Move.ReadValue<Vector2>().normalized;
+        if (wishDir.magnitude > 0.001f)
+        {
+            rb.AddForce(wishDir * (slideSpeed/2), ForceMode2D.Impulse);
+        }
+        else
+        {
+            rb.AddForce(transform.right * (slideSpeed/2), ForceMode2D.Impulse);
+        }
+        
         // transformation animation (mech to ship)
 
         // sound effect

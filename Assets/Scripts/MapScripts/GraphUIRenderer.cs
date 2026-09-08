@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using TMPro;
+using TMPro.EditorUtilities;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,21 +19,32 @@ namespace MapScripts
 
         [Header("Button Colors and Font")]
         public Color rootColor = new Color(0.5f, 0.75f, 1f);
-        public Color areaColor = Color.gray;
+        public List<Color> areaColor = new List<Color> { Color.green , Color.blue, Color.yellow, new Color(1, .5f, .13f), Color.red};
         public Color endColor = new Color(1f, 0.5f, 0.5f);
         public Color edgeColor = Color.black;
         public Font font = null;
         public int fontSize = 20;
     
-        [Header("Button and Edge Prefab")]
+        [Header("Prefabs")]
         public GameObject buttonPrefab;
         public Image edgePrefab;
+        public GameObject playerMarkerPrefab;
+        public GameObject ringPrefab;
+        public GameObject missionPanelPrefab;
 
         // References
         private Dictionary<string, RectTransform> nodeRects = new();
         private GenGraph graphRef;
         private GenNode playerPosition;
-    
+        private GameObject ring;
+        private MissionPanel missionPanel;
+
+        private void Start()
+        {
+            ring = Instantiate(ringPrefab, gameObject.transform);
+            ring.SetActive(false);
+        }
+
         public void DrawGraph(GenGraph graph)
         {
             RectTransform canvasRect = GetComponent<RectTransform>();
@@ -67,7 +81,7 @@ namespace MapScripts
                     float y = startY + i * ySpacing;
                     Vector2 pos = new Vector2(x,y);
 
-                    RectTransform rect = CreateNode(node, pos+startPoint);
+                    RectTransform rect = CreateNode(node, pos+startPoint, node.Difficulty);
                     nodeRects[node.Id] = rect;
                 }
             }
@@ -85,12 +99,13 @@ namespace MapScripts
         /// <summary>
         /// Create Node creates an instance of the buttonPrefab at a position (that aligns with the algorithm above).
         /// This buttonPrefab will be passed all node information corresponding to it from the SelectorMapGenerator
-        /// class.
+        /// class. Difficulty changes node color
         /// </summary>
         /// <param name="node"></param>
         /// <param name="position"></param>
+        /// <param name="difficulty"></param>
         /// <returns></returns>
-        RectTransform CreateNode(GenNode node, Vector2 position)
+        RectTransform CreateNode(GenNode node, Vector2 position, int difficulty)
         {
             GameObject go = Instantiate(buttonPrefab, transform, false);
 
@@ -100,7 +115,7 @@ namespace MapScripts
             {
                 "root" => rootColor,
                 "end" => endColor,
-                _ => areaColor
+                _ => areaColor[difficulty]
             };
 
             // determine position
@@ -108,28 +123,29 @@ namespace MapScripts
             rect.sizeDelta = new Vector2(nodeSize, nodeSize);
             rect.anchoredPosition = position;
 
+            // removed text on buttons
+            /*print("pre text");
             // label
-            GameObject label = new GameObject("Label", typeof(Text));
-            label.transform.SetParent(go.transform, false);
-            Text txt = label.GetComponent<Text>();
-            txt.text = node.Id;
-            txt.alignment = TextAnchor.MiddleCenter;
-            txt.font = font;
-            txt.fontSize = fontSize;
-            txt.color = Color.black;
-            txt.rectTransform.sizeDelta = rect.sizeDelta;
-        
+            TMP_Text label = go.GetComponentInChildren<TMP_Text>();
+            print(label);
+            label.text = node.Id;
+            label.alignment = TextAlignmentOptions.Center;
+            label.fontSize = fontSize;
+            label.color = Color.white;
+            label.rectTransform.sizeDelta = rect.sizeDelta;
+            print("post text");*/
+            
             // pass node information
-            // TODO: use adjacency matrix to tell SelectorButton code that the node is adjacent and therefore selectable
             SelectorButton sb = go.GetComponent<SelectorButton>();
 
             sb.nodeId = node.Id;
             sb.mapGenerator = GetComponent<SelectorMapGenerator>();
 
-            print("made it");
+            //print("made it");
             if (node.isPlayerPosition)
             {
                 playerPosition = node;
+                Instantiate(playerMarkerPrefab, go.transform);
                 return rect;
             }
 
@@ -174,6 +190,28 @@ namespace MapScripts
             rect.sizeDelta = new Vector2(length - nodeSize, 3f);
             rect.anchoredPosition = a + dir * 0.5f;
             rect.rotation = Quaternion.Euler(0, 0, angle);
+        }
+
+        public void MissionChange(GameObject go, string id)
+        {
+            if (missionPanel == null)
+            {
+                GameObject temp = Instantiate(missionPanelPrefab, transform);
+                missionPanel = temp.GetComponent<MissionPanel>();
+                missionPanel.gameObject.SetActive(false);
+            }
+            
+            // ring changes
+            ring.transform.position = go.transform.position; 
+            ring.SetActive(true);
+            
+            // mission panel changes
+            GenNode selected = graphRef.Nodes[id];
+            
+            // grab difficulty and description
+            missionPanel.description.text =  $"{selected.Description}";
+            missionPanel.scoreMult.text =  $"DIFFICULTY\nMULTIPLIER:\n{1 + selected.Difficulty * .5}X";
+            missionPanel.gameObject.SetActive(true);  
         }
     }
 }

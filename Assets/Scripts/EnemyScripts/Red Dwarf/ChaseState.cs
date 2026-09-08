@@ -25,7 +25,7 @@ public class ChaseState : IState
             damage: new Damage(10, Damage.Type.PHYSICAL), 
             cooldown: 2f,
             travelSpeed:0,
-            knockbackStrength:0
+            knockbackStrength:6 // i guess this is the min b4 it bugs out
         );
     }
 
