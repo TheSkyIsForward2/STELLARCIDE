@@ -19,6 +19,8 @@ public sealed class GenNode {
     public bool isPlayerPosition = false;
     public string Description;
     public int RedDwarfNumber;
+    public int YellowDwarfNumber;
+    public int RedGiantNumber;
     
     public GenNode(string id, string type, int width, int depth, int difficulty, string description)
     {

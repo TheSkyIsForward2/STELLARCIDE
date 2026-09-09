@@ -37,7 +37,6 @@ public class HealthOwner : Component
     /// <returns> True if the healthowner dies as a result of this damage </returns>
     public bool TakeDamage(Damage damage)
     {
-        Debug.Log("is this thingy taking damage??");
         // heal on negatives & account for overhealth
         if (hp - damage.Amount > maxHP)
         {
