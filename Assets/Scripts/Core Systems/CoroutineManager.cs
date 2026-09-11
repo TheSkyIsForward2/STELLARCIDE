@@ -10,8 +10,8 @@ public class CoroutineManager : MonoBehaviour
         Instance = this;
     }
 
-    public void Run(IEnumerator coroutine)
+    public Coroutine Run(IEnumerator coroutine)
     {
-        StartCoroutine(coroutine);
+        return StartCoroutine(coroutine);
     }
 }
