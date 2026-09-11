@@ -19,11 +19,9 @@ public class TutorialManager : MonoBehaviour
     {
         if (qeIcon.enabled)
         {
-            print("why");
             return;
         }
-
-        print(playerController);
+        
         if (playerController.GetPlayerMode() == PlayerMode.SHIP) // TODO add additional checks for progress through tutorial
         {
             wasdIcon.enabled = false;
@@ -37,12 +35,15 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
+    // spawn the enemy
     public void Enemy()
     {
         explanationText.text = "THIS IS A STANDARD ENEMY. DEFEAT ALL ENEMIES IN AN AREA TO MOVE ON.";
         controlsText.text = "MOUSE1 TO ATTACK";
+        spawner.Spawn();
     }
 
+    // hypothetical tutorial where we talk about the q and e buttons
     public void SwapQE()
     {
         wasdIcon.enabled = false;
