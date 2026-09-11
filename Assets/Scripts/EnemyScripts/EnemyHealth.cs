@@ -5,7 +5,7 @@ using UnityEngine;
 /// </summary>
 public class EnemyHealth : Entity
 {
-    [SerializeField] private int maxHealth;
+    public int maxHealth;
     public EnemyHealthBar  healthBar;
     
     void Start()

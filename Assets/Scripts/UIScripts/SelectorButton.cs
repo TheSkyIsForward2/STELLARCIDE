@@ -20,7 +20,11 @@ public class SelectorButton : MonoBehaviour
     {
         if (!isPlayerAdjacent) return;
 
-        GameManager.Instance.difficultySum += mapGenerator.graph.Nodes[nodeId].Difficulty;
+        GameManager.Instance.difficultySum += mapGenerator.graph.Nodes[nodeId].Difficulty + 1;
+        SpawnerManager.Instance.initialRedDwarfWeight = mapGenerator.graph.Nodes[nodeId].RedDwarfWeight;
+        SpawnerManager.Instance.initialRedGiantWeight = mapGenerator.graph.Nodes[nodeId].RedGiantWeight;
+        SpawnerManager.Instance.initialYellowDwarfWeight = mapGenerator.graph.Nodes[nodeId].YellowDwarfWeight;
+        SpawnerManager.Instance.InitializeSpawner();
         graphUIRenderer.MissionChange(gameObject, nodeId);
     }
 
