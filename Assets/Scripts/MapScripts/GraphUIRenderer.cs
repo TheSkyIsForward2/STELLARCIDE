@@ -211,6 +211,7 @@ namespace MapScripts
             // grab difficulty and description
             missionPanel.description.text =  $"{selected.Description}";
             missionPanel.scoreMult.text =  $"DIFFICULTY\nMULTIPLIER:\n{1 + selected.Difficulty * .5}X";
+            missionPanel.currentNodeID = id;
             missionPanel.gameObject.SetActive(true);  
         }
     }

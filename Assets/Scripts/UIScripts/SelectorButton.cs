@@ -20,14 +20,7 @@ public class SelectorButton : MonoBehaviour
     {
         if (!isPlayerAdjacent) return;
 
-        GameManager.Instance.difficultySum += mapGenerator.graph.Nodes[nodeId].Difficulty;
+        
         graphUIRenderer.MissionChange(gameObject, nodeId);
-    }
-
-    public void Selected()
-    {
-        // TODO needs code here that changes to the selected node's map scene.
-        mapGenerator.ChangePlayerLocation(nodeId);
-        SceneManager.LoadScene("Scenes/MapTestScene");
     }
 }

@@ -12,7 +12,7 @@ using Random = System.Random;
 [Serializable]
 public sealed class GenNode {
     public string Id;
-    public string Type;              			// "Room", "DialogResponse", etc.  Could also be a String as Tag
+    public string Type;              			// "Combat", "Survival", more(?)
     public int Width;
     public int Depth;
     public int Difficulty;
