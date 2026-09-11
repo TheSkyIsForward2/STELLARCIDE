@@ -21,7 +21,8 @@ namespace UIScripts.Leaderboard
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
-            prompt.SetActive(false);
+            // TODO update start code so that everything appears correctly
+            /*prompt.SetActive(false);
             int enemyPoints = GameManager.Instance.scoreManager.enemiesDefeated * 20;
             enemyCounter.text = "ENEMIES SLAIN: " + GameManager.Instance.scoreManager.enemiesDefeated + " [" + enemyPoints + "]";
             finalScore = enemyPoints;
@@ -30,7 +31,7 @@ namespace UIScripts.Leaderboard
             if (targets.Count < GameManager.Instance.xmlManager.leaderboard.leaderboardMaximum || targets[^1].score < finalScore)
             {
                 PromptName();
-            }
+            }*/
         }
 
         public void Continue()
@@ -43,7 +44,7 @@ namespace UIScripts.Leaderboard
         {
             nameToSave = name;
             returnButton.interactable = true;
-            GameManager.Instance.xmlManager.AddNewScore(nameToSave, finalScore);
+            //GameManager.Instance.xmlManager.AddNewScore(nameToSave, finalScore);
             prompt.SetActive(false);
         }
 

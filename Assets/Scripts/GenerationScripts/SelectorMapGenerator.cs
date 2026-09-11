@@ -262,6 +262,13 @@ public class SelectorMapGenerator : MonoBehaviour
                 node.isPlayerPosition = true;
                 print($"position changed to {nodeId}");
             }
+
+            if (node.Id == nodeId && node.Type == "end")
+            {
+                // clearing the json effectively wipes the map and lets the next instance create it anew
+                ClearJson();
+                return;
+            }
         }
         WriteToFile(currentRoot);
     }
