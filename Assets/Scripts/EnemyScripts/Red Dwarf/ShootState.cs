@@ -43,6 +43,7 @@ public class ShootState : IState
         }
         // Scouting out enemy
         controller.AttackPlayer(shoot);
+        controller.RotateToPlayer();
     }
 
     public void OnExit(StateController controller)

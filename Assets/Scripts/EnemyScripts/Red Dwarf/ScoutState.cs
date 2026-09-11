@@ -38,7 +38,10 @@ public class ScoutState : IState
             controller.ChangeState(ShootState);
         }
 
-        controller.transform.position = Vector2.MoveTowards(controller.transform.position, controller.Player.position, MoveSpeed * Time.deltaTime);
+        controller.transform.position +=
+            controller.transform.right * MoveSpeed * Time.deltaTime;
+
+        controller.RotateToPlayer();
 
 
     }

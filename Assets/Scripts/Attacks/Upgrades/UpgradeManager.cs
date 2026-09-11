@@ -75,6 +75,8 @@ public class UpgradeManager : MonoBehaviour
 
     public UpgradeData PrimaryUpgrade;
     public UpgradeData SecondaryUpgrade;
+
+    public List<UpgradeType> selectedUpgrades = new List<UpgradeType>();
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -241,6 +243,7 @@ public class UpgradeManager : MonoBehaviour
                 break;
         }
         shuffleUpgrades();
+        selectedUpgrades.Add(upgrade);
     }
 
     public void removeDurationAndCooldown(UpgradeType upgrade)

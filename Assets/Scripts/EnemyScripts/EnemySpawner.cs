@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Security.Cryptography;
@@ -5,29 +6,24 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    private float spawnTimer = 0f;
-    private float spawnInterval = 8f;
-    public GameObject enemyPrefab;
 
-    [SerializeField] private bool spawnEnemy = true;
+    private SpawnerManager spawnerManager;
 
 
-    // void Start()
-    // {
-    //     // UnityEngine.Debug.Log(transform.childCount);
-    //     foreach(Transform child in transform)
-    //     {
-    //         // UnityEngine.Debug.Log(child.transform.position);
-    //     }
-    // }
-
-    void Update()
+    private void Start()
     {
-        spawnTimer += Time.deltaTime;
-        if (spawnTimer >= spawnInterval && spawnEnemy)
-        {
+        spawnerManager = SpawnerManager.Instance;
+        spawnerManager.InitializeSpawner();
+        StartCoroutine(SpawnCoroutine());
+    }
+
+    private IEnumerator SpawnCoroutine()
+    {
+        while (spawnerManager.ContinueSpawning()) {
             SpawnEnemy();
-            spawnTimer = 0;
+
+            yield return new WaitForSeconds(spawnerManager.spawnInterval);
+            spawnerManager.elapsedTime += spawnerManager.spawnInterval;
         }
     }
 
@@ -35,13 +31,12 @@ public class EnemySpawner : MonoBehaviour
     {
         foreach(Transform child in transform)
         {
-            if (child.transform.childCount == 0)
+            if (spawnerManager.ContinueSpawning())
             {
-                // UnityEngine.Debug.Log("spawning enemy");
-                GameObject enemy = Instantiate(enemyPrefab, child.transform.position, child.transform.rotation);
+                GameObject enemy = Instantiate(spawnerManager.GetNextEnemy(), child.transform.position, child.transform.rotation);
                 enemy.transform.SetParent(child.transform);
-            } else {
-                // UnityEngine.Debug.Log("enemy not dead");
+                spawnerManager.enemiesAlive += 1;
+                spawnerManager.numEnemiesSpawned += 1;
             }
         }
     }
