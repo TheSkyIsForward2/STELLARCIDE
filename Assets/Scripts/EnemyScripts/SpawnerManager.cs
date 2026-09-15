@@ -40,24 +40,36 @@ public class SpawnerManager
 
     private List<EnemySpawnData> enemyTypes; // Stores enemy spawn weights + corresponding prefab
 
+    public int healthMult = 1;
+
 
     // Call this when you transfer the variable information from .json, but for now we're doing this in enemyspawner
     public void InitializeSpawner()
     {
         EventBus.Instance.OnEnemyDead += EnemyDead;
         EventBus.Instance.OnRoundEnd += RoundEnd;
+        ResetVariables();
         CalculateDifficulty();
     }
 
-    private void CalculateDifficulty()
+    // Since this is a public class and will always persist, we need to manually reset the values
+    private void ResetVariables()
     {
-        totalEnemies = 1;
+        initialRedDwarfWeight = 0;
+        initialRedGiantWeight = 0;
+        initialYellowDwarfWeight = 0;
+        totalEnemies = 2;
         numEnemiesSpawned = 0;
         enemiesAlive = 0;
         elapsedTime = 0;
         roundTime = 60;
         spawnInterval = 10f;
-        int healthMult = 10;
+        healthMult = 1;
+    }
+
+    private void CalculateDifficulty()
+    {
+        healthMult = 1;
         if (GameManager.Instance.difficultySum >= 7)
         {
             initialRedDwarfWeight += (initialRedDwarfWeight == 0) ? 0 : 10;
