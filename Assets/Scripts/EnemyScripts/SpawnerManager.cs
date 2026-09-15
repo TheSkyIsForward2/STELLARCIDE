@@ -13,6 +13,12 @@ public class EnemySpawnData
     public int spawnWeight;
 }
 
+public enum RoundType
+{
+    CLEAR,
+    SURVIVAL
+}
+
 public class SpawnerManager
 {
     static SpawnerManager thisInstance;
@@ -22,19 +28,22 @@ public class SpawnerManager
         get { return thisInstance ??= new SpawnerManager(); }
     }
 
-    public int initialRedGiantWeight;
-    public int initialYellowDwarfWeight;
-    public int initialRedDwarfWeight;
+    public RoundType roundType = RoundType.SURVIVAL;
+
+    public int initialRedGiantWeight = 0;
+    public int initialYellowDwarfWeight = 0;
+    public int initialRedDwarfWeight = 0;
 
     // If numEnemiesSpawned == totalEnemies, stop spawning enemies & clear remaining enemies
     private int totalEnemies = 2; // Will be calclulated based on difficulty
     public int numEnemiesSpawned = 0;
 
     public int enemiesAlive = 0;
+    public int enemiesKilled = 0;
 
     // For making the win condition based on time.  If roundTime > elapsedTime, stop spawning enemies & clear remaining enemies
     public float elapsedTime = 0;
-    public int roundTime = 100;
+    public int roundTime = 10;
 
     public float spawnInterval = 10f;
 
@@ -50,6 +59,7 @@ public class SpawnerManager
         EventBus.Instance.OnRoundEnd += RoundEnd;
         ResetVariables();
         CalculateDifficulty();
+        UpdateUI();
     }
 
     // Since this is a public class and will always persist, we need to manually reset the values
@@ -61,10 +71,12 @@ public class SpawnerManager
         totalEnemies = 2;
         numEnemiesSpawned = 0;
         enemiesAlive = 0;
+        enemiesKilled = 0;
         elapsedTime = 0;
-        roundTime = 60;
+        roundTime = 10;
         spawnInterval = 10f;
         healthMult = 1;
+        roundType = RoundType.SURVIVAL;
     }
 
     private void CalculateDifficulty()
@@ -92,9 +104,6 @@ public class SpawnerManager
         // Very hardcoded.... ;-;
         GameObject[] prefabs = Resources.LoadAll<GameObject>("Prefabs/Enemy Prefabs");
 
-        prefabs[0].GetComponent<EnemyHealth>().maxHealth *= healthMult;
-        prefabs[2].GetComponent<EnemyHealth>().maxHealth *= healthMult;
-
         enemyTypes = new List<EnemySpawnData>();
 
         enemyTypes.Add(new EnemySpawnData { prefab = prefabs[0], spawnWeight = initialRedDwarfWeight });
@@ -106,7 +115,14 @@ public class SpawnerManager
     // Returns true if elapsed time is 
     public bool ContinueSpawning()
     {
-        return (numEnemiesSpawned < totalEnemies) && (elapsedTime < roundTime);
+        switch (roundType)
+        {
+            case RoundType.SURVIVAL:
+                return (elapsedTime < roundTime);
+            case RoundType.CLEAR:
+                return (numEnemiesSpawned < totalEnemies);
+        }
+        return false;
     }
     
 
@@ -139,9 +155,11 @@ public class SpawnerManager
     {
         Debug.Log("we killed something right?");
         enemiesAlive -= 1;
+        enemiesKilled += 1;
+        UpdateUI();
         if (enemiesAlive == 0)
         {
-            if ((totalEnemies == numEnemiesSpawned) || (elapsedTime >= roundTime))
+            if ((totalEnemies == numEnemiesSpawned))
             {
                 Debug.Log("all enemies are dead and the conditions for winning are satisfied");
                 EventBus.Instance.RoundEnd();
@@ -155,6 +173,21 @@ public class SpawnerManager
         EventBus.Instance.OnRoundEnd -= RoundEnd;
         Debug.Log("beep beep");
         SceneManager.LoadScene("Scenes/UpgradeSelectorTesting");
+    }
+
+    public void UpdateUI()
+    {
+        switch (roundType)
+        {
+            case RoundType.SURVIVAL:
+                GameManager.Instance.MissionGoalUI.objective.text = "OBJECTIVE: SURVIVE";
+                GameManager.Instance.MissionGoalUI.counter.text = ($"Time left: {(roundTime - elapsedTime):F2}");
+                break;
+            case RoundType.CLEAR:
+                GameManager.Instance.MissionGoalUI.objective.text = "OBJECTIVE: CLEAR ALL ENEMIES";
+                GameManager.Instance.MissionGoalUI.counter.text = ($"Enemies left: {totalEnemies - enemiesKilled}");
+                break;
+        };
     }
 
 

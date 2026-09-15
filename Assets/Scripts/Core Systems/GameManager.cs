@@ -5,6 +5,7 @@ public class GameManager
 {
     static GameManager thisInstance;
 
+    public MissionGoalUI MissionGoalUI;
     public GameObject Player;
     public ProjectileManager ProjectileManager;
     public SpawnerManager SpawnerManager;

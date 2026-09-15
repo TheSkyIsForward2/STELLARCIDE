@@ -12,6 +12,7 @@ public class EnemySpawner : MonoBehaviour
     private void Start()
     {
         spawnerManager = SpawnerManager.Instance;
+        spawnerManager.InitializeSpawner();
         StartCoroutine(SpawnCoroutine());
     }
 
@@ -27,11 +28,12 @@ public class EnemySpawner : MonoBehaviour
 
     private void Update()
     {
-        if (spawnerManager.ContinueSpawning() == false)
+        if (spawnerManager.roundType == RoundType.CLEAR || spawnerManager.ContinueSpawning() == false)
         {
             return;
         }
         spawnerManager.elapsedTime += Time.deltaTime;
+        spawnerManager.UpdateUI();
 
         if (spawnerManager.elapsedTime > spawnerManager.roundTime)
         {
