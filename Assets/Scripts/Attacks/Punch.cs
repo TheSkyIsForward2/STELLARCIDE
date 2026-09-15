@@ -21,14 +21,22 @@ public class Punch : Attack
         TravelSpeed = travelSpeed;
         KnockbackStrength = knockbackStrength;
         AttackType = Type.UNARMED_MELEE;
-        if (Owner.transform.Find("MechVisual"))
+
+        Transform mechVis = Owner.transform.Find("MechVisual");
+        if (mechVis)
         {
-            if (Owner.transform.Find("MechVisual").TryGetComponent<Animator>(out Animator a))
+            if (mechVis.TryGetComponent<Animator>(out Animator a))
             {
                 Animator = a;  
             }
-            AnimationName = "Punch";
         }
+
+        if (Owner.TryGetComponent<Animator>(out Animator b))
+        {
+            Animator = b;
+            Animator.SetBool("attackIsPunch", true);
+        }
+
         playerRB = Owner.GetComponent<Rigidbody2D>();
         pc = Owner.GetComponent<PlayerController>();
         entity = Owner.GetComponent<Entity>();
@@ -43,16 +51,28 @@ public class Punch : Attack
     {
         if (Animator)
         {
-            Animator.SetBool("straightPunch", true);
-            Animator.SetTrigger("executeWindup");
-
-            LastExecute = Time.time;
-            yield return new WaitWhile(AnimatorIsPlaying);
-            Animator.SetBool("straightPunch", false);
-
-            if (playerRB)
+            // player animations
+            if (entity.healthController.team == HealthOwner.Team.PLAYER)
             {
-                playerRB.AddForce(Owner.transform.right * TravelSpeed, ForceMode2D.Impulse);
+                Animator.SetBool("straightPunch", true);
+                Animator.SetTrigger("executeWindup");
+
+                LastExecute = Time.time;
+                yield return new WaitWhile(AnimatorIsPlaying);
+                Animator.SetBool("straightPunch", false);
+
+                if (playerRB)
+                {
+                    playerRB.AddForce(Owner.transform.right * TravelSpeed, ForceMode2D.Impulse);
+                }
+            }
+            // enemy animations
+            if (entity.healthController.team == HealthOwner.Team.ENEMY)
+            {
+                Animator.SetTrigger("triggerAttack");
+
+                LastExecute = Time.time;
+                yield return new WaitWhile(AnimatorIsPlaying);
             }
         }
         

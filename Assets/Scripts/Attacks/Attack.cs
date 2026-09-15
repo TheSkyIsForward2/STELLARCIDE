@@ -11,7 +11,6 @@ public abstract class Attack
 {
     public GameObject Owner;
     public Animator Animator;
-    public string AnimationName;
     public string Name;
     public Damage Damage;
     public float Cooldown;
@@ -138,10 +137,13 @@ public abstract class Attack
     public bool AnimatorIsPlaying()
     {
         if (Animator)
-            return Animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1 && 
-                Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimationName);
-        else
-            return false;
+        {
+            AnimatorStateInfo currentState = Animator.GetCurrentAnimatorStateInfo(0);
+            return currentState.normalizedTime > 1 && 
+                !(currentState.IsName("Idle") || currentState.IsName("Walk"));
+        }
+
+        return false;
     }
 
     public int CurrentAnimationFrame()

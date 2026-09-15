@@ -23,7 +23,6 @@ public class Slash : Attack
         {
             Animator = a;
         }
-        AnimationName = "Slash";
         playerRB = Owner.GetComponent<Rigidbody2D>();
     }
 

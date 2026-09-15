@@ -1,7 +1,4 @@
 using System.Collections;
-using System.Collections.Specialized;
-using System.Diagnostics;
-using System.Security.Cryptography;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour

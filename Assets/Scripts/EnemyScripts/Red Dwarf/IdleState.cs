@@ -14,6 +14,7 @@ public class IdleState : IState
     public void OnEntry(StateController controller)
     {
         try { controller.Animator.SetTrigger("triggerIdle"); } catch{}
+        controller.CurrentAttack = null;
     }
 
     public void OnUpdate(StateController controller)

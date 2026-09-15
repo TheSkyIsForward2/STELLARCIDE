@@ -6,6 +6,7 @@ using UnityEngine.Rendering.Universal;
 public class StateController : MonoBehaviour
 {
     public IState CurrentState {  get; private set; }
+    public Attack CurrentAttack;
 
     public Transform Player { get; private set; }
     
@@ -56,23 +57,18 @@ public class StateController : MonoBehaviour
         //RotateToPlayer();
     }
 
-    public void AttackPlayer(Attack attack)
+    public void AttackPlayer()
     {
-        if (!attack.IsReady()) {return;}
-
-        StartCoroutine(LerpLight());
-
-        // actual attack
-        if (attack is Shoot)
+        if (CurrentAttack is Shoot)
         {
-            StartCoroutine(attack.Execute(transform.position, EnemyToPlayer));
+            StartCoroutine(CurrentAttack.Execute(transform.position, EnemyToPlayer));
         }
-        else if (attack is Punch)
+        else if (CurrentAttack is Punch)
         {
-            StartCoroutine(attack.Execute(
+            StartCoroutine(CurrentAttack.Execute(
                 origin: transform.position, 
-                target: new Vector3(55,155)) // x is range, y is width
-            ); 
+                target: new Vector3(60,160) // x is range, y is width
+            )); 
         }
     }
 
@@ -87,28 +83,33 @@ public class StateController : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, rotation, RotateSpeed * Time.deltaTime);
     }
 
-    public IEnumerator LerpLight()
-    {
-        float elapsedTime = 0;
-        float duration = 0.5f;
+    // private IEnumerator _LerpLight(float duration = 0.5f)
+    // {
+    //     if (AttackIndicator == null) 
+    //     {
+    //         Debug.Log(gameObject + " doesnt have attack indicator yet");
+    //         yield break;
+    //     }
 
-        while (elapsedTime < duration)
-        {
-            elapsedTime += Time.deltaTime;
+    //     float elapsedTime = 0;
 
-            AttackIndicator.intensity = Mathf.Lerp(
-                a: 0, 
-                b: 4, 
-                t: EaseInQuad(elapsedTime/duration) 
-            );
+    //     while (elapsedTime < duration)
+    //     {
+    //         elapsedTime += Time.deltaTime;
 
-            yield return new WaitForEndOfFrame();
-        }
-        AttackIndicator.intensity = 0;
-    }
+    //         AttackIndicator.intensity = Mathf.Lerp(
+    //             a: 0, 
+    //             b: 4, 
+    //             t: EaseInQuad(elapsedTime/duration) 
+    //         );
 
-    private float EaseInQuad(float t)
-    {
-        return t * t * t * t;
-    }
+    //         yield return new WaitForEndOfFrame();
+    //     }
+    //     AttackIndicator.intensity = 0;
+    // }
+
+    // private float EaseInQuad(float t)
+    // {
+    //     return t * t * t * t;
+    // }
 }

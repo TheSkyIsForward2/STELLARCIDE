@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using UnityEngine;
 
 public class ChaseState : IState
@@ -8,7 +7,6 @@ public class ChaseState : IState
     float chaseSpeed = 5;
     float loseDistance = 8;
 
-    public Attack punch;
     private GameObject self;
 
     public void SetStates(IState scout)
@@ -21,7 +19,7 @@ public class ChaseState : IState
     {
         controller.Animator.SetTrigger("triggerWalk");
         self = controller.gameObject;
-        punch = new Punch(self,
+        controller.CurrentAttack = new Punch(self,
             damage: new Damage(10, Damage.Type.PHYSICAL), 
             cooldown: 2f,
             travelSpeed:0,
@@ -40,12 +38,15 @@ public class ChaseState : IState
             controller.transform.position = Vector2.MoveTowards(controller.transform.position, controller.Player.position, chaseSpeed * Time.deltaTime);
         }
 
-        if (controller.DistanceToPlayer < 4.5 && punch != null && punch.IsReady())
-        {
-            controller.Animator.SetTrigger("triggerBite");
-            controller.AttackPlayer(punch);
-        }
         controller.RotateToPlayer();
+
+        if (controller.CurrentAttack == null) {return;}
+
+        if (controller.DistanceToPlayer < 4.5 && controller.CurrentAttack.IsReady())
+        {
+            controller.AttackPlayer();
+        }
+        
     }
 
     public void OnExit(StateController controller)

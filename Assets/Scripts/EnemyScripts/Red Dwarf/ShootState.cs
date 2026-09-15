@@ -23,7 +23,7 @@ public class ShootState : IState
         if (shoot != null)
             return;
         
-        shoot = new Shoot(self,
+        controller.CurrentAttack = new Shoot(self,
             damage: new Damage(10, Damage.Type.PHYSICAL),
             cooldown: 1f,
             travelSpeed: 10,
@@ -42,8 +42,16 @@ public class ShootState : IState
             controller.ChangeState(ChaseState);
         }
         // Scouting out enemy
-        controller.AttackPlayer(shoot);
+
         controller.RotateToPlayer();
+
+        if (controller.CurrentAttack == null) {return;}
+
+        if (controller.CurrentAttack.IsReady())
+        {
+            controller.Animator.SetBool("attackIsPunch", false);
+            controller.AttackPlayer();
+        }
     }
 
     public void OnExit(StateController controller)
