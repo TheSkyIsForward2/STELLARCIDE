@@ -20,11 +20,6 @@ public class SelectorButton : MonoBehaviour
     {
         if (!isPlayerAdjacent) return;
 
-        GameManager.Instance.difficultySum += mapGenerator.graph.Nodes[nodeId].Difficulty + 1;
-        SpawnerManager.Instance.initialRedDwarfWeight = mapGenerator.graph.Nodes[nodeId].RedDwarfWeight;
-        SpawnerManager.Instance.initialRedGiantWeight = mapGenerator.graph.Nodes[nodeId].RedGiantWeight;
-        SpawnerManager.Instance.initialYellowDwarfWeight = mapGenerator.graph.Nodes[nodeId].YellowDwarfWeight;
-        SpawnerManager.Instance.InitializeSpawner();
         graphUIRenderer.MissionChange(gameObject, nodeId);
     }
 
@@ -32,6 +27,12 @@ public class SelectorButton : MonoBehaviour
     {
         // TODO needs code here that changes to the selected node's map scene.
         mapGenerator.ChangePlayerLocation(nodeId);
+        GameManager.Instance.difficultySum += mapGenerator.graph.Nodes[nodeId].Difficulty + 1;
+        SpawnerManager.Instance.initialRedDwarfWeight = mapGenerator.graph.Nodes[nodeId].RedDwarfWeight;
+        SpawnerManager.Instance.initialRedGiantWeight = mapGenerator.graph.Nodes[nodeId].RedGiantWeight;
+        SpawnerManager.Instance.initialYellowDwarfWeight = mapGenerator.graph.Nodes[nodeId].YellowDwarfWeight;
+        SpawnerManager.Instance.roundType = mapGenerator.graph.Nodes[nodeId].Type == "Survival" ? RoundType.SURVIVAL : RoundType.EXTERMINATE;
+        SpawnerManager.Instance.InitializeSpawner();
         SceneManager.LoadScene("Scenes/MapTestScene");
     }
 }

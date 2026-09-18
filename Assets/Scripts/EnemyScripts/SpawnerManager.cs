@@ -15,7 +15,7 @@ public class EnemySpawnData
 
 public enum RoundType
 {
-    CLEAR,
+    EXTERMINATE,
     SURVIVAL
 }
 
@@ -34,22 +34,21 @@ public class SpawnerManager
     public int initialYellowDwarfWeight = 0;
     public int initialRedDwarfWeight = 0;
 
-    // If numEnemiesSpawned == totalEnemies, stop spawning enemies & clear remaining enemies
+    // EXTERMINATE VARIABLES
     private int totalEnemies = 2; // Will be calclulated based on difficulty
     public int numEnemiesSpawned = 0;
-
     public int enemiesAlive = 0;
     public int enemiesKilled = 0;
 
-    // For making the win condition based on time.  If roundTime > elapsedTime, stop spawning enemies & clear remaining enemies
+    // SURVIVAL VARIABLES
     public float elapsedTime = 0;
     public int roundTime = 10;
 
+    // General variables that can be modified by difficulty
+    public int healthMult = 1;
     public float spawnInterval = 10f;
 
     private List<EnemySpawnData> enemyTypes; // Stores enemy spawn weights + corresponding prefab
-
-    public int healthMult = 1;
 
 
     // Call this when you transfer the variable information from .json, but for now we're doing this in enemyspawner
@@ -65,23 +64,16 @@ public class SpawnerManager
     // Since this is a public class and will always persist, we need to manually reset the values
     private void ResetVariables()
     {
-        initialRedDwarfWeight = 0;
-        initialRedGiantWeight = 0;
-        initialYellowDwarfWeight = 0;
+        initialRedDwarfWeight = initialRedGiantWeight = initialYellowDwarfWeight = numEnemiesSpawned = enemiesAlive = enemiesKilled = 0;
+        elapsedTime = 0f;
         totalEnemies = 2;
-        numEnemiesSpawned = 0;
-        enemiesAlive = 0;
-        enemiesKilled = 0;
-        elapsedTime = 0;
         roundTime = 10;
         spawnInterval = 10f;
         healthMult = 1;
-        roundType = RoundType.SURVIVAL;
     }
 
     private void CalculateDifficulty()
     {
-        healthMult = 1;
         if (GameManager.Instance.difficultySum >= 7)
         {
             initialRedDwarfWeight += (initialRedDwarfWeight == 0) ? 0 : 10;
@@ -111,15 +103,13 @@ public class SpawnerManager
         enemyTypes.Add(new EnemySpawnData { prefab = prefabs[2], spawnWeight = initialYellowDwarfWeight });
     }
 
-    // Returns true if number of enemies spawned is less than total enemies
-    // Returns true if elapsed time is 
     public bool ContinueSpawning()
     {
         switch (roundType)
         {
             case RoundType.SURVIVAL:
                 return (elapsedTime < roundTime);
-            case RoundType.CLEAR:
+            case RoundType.EXTERMINATE:
                 return (numEnemiesSpawned < totalEnemies);
         }
         return false;
@@ -129,25 +119,6 @@ public class SpawnerManager
     public GameObject GetNextEnemy()
     {
         return enemyTypes[GetRandomWeightedIndex()].prefab;
-    }
-
-    private int GetRandomWeightedIndex()
-    {
-        int totalWeight = enemyTypes.Sum(enemy => enemy.spawnWeight);
-
-        int randomValue = Random.Range(0, totalWeight);
-
-        for (int i = 0; i < enemyTypes.Count; i++)
-        {
-            randomValue -= enemyTypes[i].spawnWeight;
-
-            if (randomValue < 0)
-            {
-                return i;
-            }
-        }
-
-        return 0;
     }
 
     // "Signals"
@@ -171,7 +142,6 @@ public class SpawnerManager
     {
         EventBus.Instance.OnEnemyDead -= EnemyDead;
         EventBus.Instance.OnRoundEnd -= RoundEnd;
-        Debug.Log("beep beep");
         SceneManager.LoadScene("Scenes/UpgradeSelectorTesting");
     }
 
@@ -181,15 +151,33 @@ public class SpawnerManager
         {
             case RoundType.SURVIVAL:
                 GameManager.Instance.MissionGoalUI.objective.text = "OBJECTIVE: SURVIVE";
-                GameManager.Instance.MissionGoalUI.counter.text = ($"Time left: {(roundTime - elapsedTime):F2}");
+                GameManager.Instance.MissionGoalUI.counter.text = ($"Time left: {Mathf.Max(roundTime - elapsedTime, 0f):F2}");
                 break;
-            case RoundType.CLEAR:
-                GameManager.Instance.MissionGoalUI.objective.text = "OBJECTIVE: CLEAR ALL ENEMIES";
+            case RoundType.EXTERMINATE:
+                GameManager.Instance.MissionGoalUI.objective.text = "OBJECTIVE: EXTERMINATE ALL ENEMIES";
                 GameManager.Instance.MissionGoalUI.counter.text = ($"Enemies left: {totalEnemies - enemiesKilled}");
                 break;
         };
     }
 
+    private int GetRandomWeightedIndex()
+    {
+        int totalWeight = enemyTypes.Sum(enemy => enemy.spawnWeight);
+
+        int randomValue = Random.Range(0, totalWeight);
+
+        for (int i = 0; i < enemyTypes.Count; i++)
+        {
+            randomValue -= enemyTypes[i].spawnWeight;
+
+            if (randomValue < 0)
+            {
+                return i;
+            }
+        }
+
+        return 0;
+    }
 
 
 }

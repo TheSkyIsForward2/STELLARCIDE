@@ -154,8 +154,9 @@ public class SelectorMapGenerator : MonoBehaviour
                 for (int width = 0; width < columnWidth; width++)
                 {
                     difficulty = rand.Next(0, 5);
-                    graph.AddNode(new GenNode($"{nodeId}", "Area", width, depth, difficulty, "test description"));
-                    currentRoot.nodes.Add(new GenNode($"{nodeId}", "Area", width, depth, difficulty, "test description"));
+                    string roomType = rand.Next(0, 2) == 0 ? "Survival" : "Exterminate";
+                    currentRoot.nodes.Add(new GenNode($"{nodeId}", roomType, width, depth, difficulty, "test description"));
+                    graph.AddNode(new GenNode($"{nodeId}", roomType, width, depth, difficulty, "test description"));
                     nodeId++;
                 }
 
