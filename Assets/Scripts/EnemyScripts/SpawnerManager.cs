@@ -102,13 +102,13 @@ public class SpawnerManager
     // "Signals"
     private void EnemyDead()
     {
-        Debug.Log("we killed something right?");
+        // Debug.Log("we killed something right?");
         enemiesAlive -= 1;
         if (enemiesAlive == 0)
         {
             if ((totalEnemies == numEnemiesSpawned) || (elapsedTime >= roundTime))
             {
-                Debug.Log("all enemies are dead and the conditions for winning are satisfied");
+                // Debug.Log("all enemies are dead and the conditions for winning are satisfied");
                 EventBus.Instance.OnEnemyDead -= EnemyDead;
                 EventBus.Instance.RoundEnd();
             }
