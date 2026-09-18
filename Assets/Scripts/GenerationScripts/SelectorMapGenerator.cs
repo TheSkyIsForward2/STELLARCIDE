@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using MapScripts;
 using Newtonsoft.Json;
-using NUnit.Framework;
-using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = System.Random;
 
 [Serializable]
