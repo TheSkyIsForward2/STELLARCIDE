@@ -20,6 +20,7 @@ public class MissionBorder : MonoBehaviour
     {
         if (collider.CompareTag("Player"))
         {
+            if (GameManager.Instance.textPrompt == null) {return;}
             coroutine = StartCoroutine(GameManager.Instance.textPrompt.StartCountDown());
         }
     }

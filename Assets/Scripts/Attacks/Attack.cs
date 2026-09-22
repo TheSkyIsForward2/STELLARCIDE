@@ -141,6 +141,8 @@ public abstract class Attack
             AnimatorStateInfo currentState = Animator.GetCurrentAnimatorStateInfo(0);
             return currentState.normalizedTime > 1 && 
                 !(currentState.IsName("Idle") || currentState.IsName("Walk"));
+
+            // return currentState.IsName("Idle") || currentState.IsName("Walk");
         }
 
         return false;

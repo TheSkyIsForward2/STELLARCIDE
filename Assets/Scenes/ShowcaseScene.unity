@@ -1354,7 +1354,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1125042855742496568, guid: ebaa13c3c750b6142a29c9227288837b, type: 3}
       propertyPath: SegmentCount
-      value: 3
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 6422063865834460428, guid: ebaa13c3c750b6142a29c9227288837b, type: 3}
       propertyPath: m_LocalPosition.x

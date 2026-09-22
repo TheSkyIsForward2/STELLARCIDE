@@ -22,6 +22,7 @@ public class Punch : Attack
         KnockbackStrength = knockbackStrength;
         AttackType = Type.UNARMED_MELEE;
 
+        // init player animator
         Transform mechVis = Owner.transform.Find("MechVisual");
         if (mechVis)
         {
@@ -31,12 +32,13 @@ public class Punch : Attack
             }
         }
 
+        // init enemy animator
         if (Owner.TryGetComponent<Animator>(out Animator b))
         {
             Animator = b;
             Animator.SetBool("attackIsPunch", true);
         }
-
+        
         playerRB = Owner.GetComponent<Rigidbody2D>();
         pc = Owner.GetComponent<PlayerController>();
         entity = Owner.GetComponent<Entity>();
