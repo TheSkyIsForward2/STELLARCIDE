@@ -17,7 +17,7 @@ public class ChaseState : IState
     // This will be called when first entering the state
     public void OnEntry(StateController controller)
     {
-        controller.Animator.SetTrigger("triggerWalk");
+        controller.TryTriggerAnimation("triggerWalk");
         self = controller.gameObject;
         controller.CurrentAttack = new Punch(self,
             damage: new Damage(10, Damage.Type.PHYSICAL), 

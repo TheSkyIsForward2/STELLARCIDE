@@ -83,33 +83,16 @@ public class StateController : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, rotation, RotateSpeed * Time.deltaTime);
     }
 
-    // private IEnumerator _LerpLight(float duration = 0.5f)
-    // {
-    //     if (AttackIndicator == null) 
-    //     {
-    //         Debug.Log(gameObject + " doesnt have attack indicator yet");
-    //         yield break;
-    //     }
+    public void TryTriggerAnimation(string triggerName)
+    {
+        if (Animator == null) {return;}
 
-    //     float elapsedTime = 0;
-
-    //     while (elapsedTime < duration)
-    //     {
-    //         elapsedTime += Time.deltaTime;
-
-    //         AttackIndicator.intensity = Mathf.Lerp(
-    //             a: 0, 
-    //             b: 4, 
-    //             t: EaseInQuad(elapsedTime/duration) 
-    //         );
-
-    //         yield return new WaitForEndOfFrame();
-    //     }
-    //     AttackIndicator.intensity = 0;
-    // }
-
-    // private float EaseInQuad(float t)
-    // {
-    //     return t * t * t * t;
-    // }
+        for (int i=0; i<Animator.parameterCount; i++)
+        {
+            if (Animator.parameters[i].name == triggerName)
+            {
+                Animator.SetTrigger(triggerName);
+            }
+        }
+    }
 }

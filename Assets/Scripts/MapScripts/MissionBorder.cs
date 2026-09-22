@@ -18,6 +18,11 @@ public class MissionBorder : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D collider)
     {
+        if (!isActiveAndEnabled)
+        {
+            return;
+        }
+
         if (collider.CompareTag("Player"))
         {
             if (GameManager.Instance.textPrompt == null) {return;}

@@ -52,8 +52,13 @@ public class ProjectileController : MonoBehaviour
         if (otherObject.CompareTag("Entity") || otherObject.CompareTag("Player"))
         {
             // make sure the entity hit isnt on the same team
-            if (owner.GetComponent<Entity>().healthController.team == otherObject.GetComponent<Entity>().healthController.team)
-                return;
+            if (otherObject.TryGetComponent<Entity>(out Entity entity))
+            {
+                if (owner.GetComponent<Entity>().healthController.team == entity.healthController.team)
+                {
+                    return;
+                }
+            }
             
             // deal damage
             other.GetComponent<Entity>().healthController.TakeDamage(damage);

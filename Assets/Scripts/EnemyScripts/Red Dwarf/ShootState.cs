@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics;
 using UnityEngine;
 
@@ -17,8 +18,8 @@ public class ShootState : IState
 
     public void OnEntry(StateController controller)
     {
-        controller.Animator.SetTrigger("triggerIdle");
-        
+        controller.TryTriggerAnimation("triggerIdle");
+
         self = controller.gameObject;
         if (shoot != null)
             return;
@@ -49,7 +50,6 @@ public class ShootState : IState
 
         if (controller.CurrentAttack.IsReady())
         {
-            controller.Animator.SetBool("attackIsPunch", false);
             controller.AttackPlayer();
         }
     }
@@ -63,4 +63,6 @@ public class ShootState : IState
     {
         return "Shoot";
     }
+
+    
 }

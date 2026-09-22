@@ -36,7 +36,6 @@ public class Punch : Attack
         if (Owner.TryGetComponent<Animator>(out Animator b))
         {
             Animator = b;
-            Animator.SetBool("attackIsPunch", true);
         }
         
         playerRB = Owner.GetComponent<Rigidbody2D>();
@@ -71,7 +70,7 @@ public class Punch : Attack
             // enemy animations
             if (entity.healthController.team == HealthOwner.Team.ENEMY)
             {
-                Animator.SetTrigger("triggerAttack");
+                TryTriggerAnimation("triggerBite");
 
                 LastExecute = Time.time;
                 yield return new WaitWhile(AnimatorIsPlaying);
@@ -84,6 +83,7 @@ public class Punch : Attack
         AudioManager.Instance.PlayPunchingSFX();
 
         // knocking back enemies
+        // Debug.Log(Owner.name + " reached knockback stage of dmg calc");
         foreach (Entity entity in DamageArea(range: (float)target.x, width: (float)target.y))
         {
             if (entity.healthController.team != this.entity.healthController.team)

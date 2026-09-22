@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Security.Cryptography;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class IdleState : IState
@@ -13,7 +14,7 @@ public class IdleState : IState
     
     public void OnEntry(StateController controller)
     {
-        try { controller.Animator.SetTrigger("triggerIdle"); } catch{}
+        controller.TryTriggerAnimation("triggerIdle");
         controller.CurrentAttack = null;
     }
 

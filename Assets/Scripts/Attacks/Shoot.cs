@@ -32,7 +32,6 @@ public class Shoot : Attack
         if (Owner.TryGetComponent<Animator>(out Animator a))
         {
             Animator = a;
-            Animator.SetBool("attackIsPunch", false);
         }
     }
 
@@ -54,7 +53,7 @@ public class Shoot : Attack
         {
             if (entity.healthController.team == HealthOwner.Team.ENEMY)
             {
-                Animator.SetTrigger("triggerAttack");
+                TryTriggerAnimation("triggerShoot");
 
                 LastExecute = Time.time;
                 yield return new WaitWhile(AnimatorIsPlaying);

@@ -156,4 +156,19 @@ public abstract class Attack
         return (int) (Animator.GetCurrentAnimatorStateInfo(0).normalizedTime 
                      * (clip[0].clip.length * clip[0].clip.frameRate));
     }
+
+    public bool TryTriggerAnimation(string triggerName)
+    {
+        if (Animator == null) {return false;}
+
+        for (int i=0; i<Animator.parameterCount; i++)
+        {
+            if (Animator.parameters[i].name == triggerName)
+            {
+                Animator.SetTrigger(triggerName);
+                return true;
+            }
+        }
+        return false;
+    }
 }

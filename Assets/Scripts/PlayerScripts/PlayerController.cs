@@ -60,6 +60,11 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    void OnDestroy()
+    {
+        StopAllCoroutines();
+    }
+
     void Start() {
         camTarget = GetComponentInChildren<ClampedFollower>();
         initialCamTargetDist = camTarget.maxDistance;
