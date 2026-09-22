@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class MissionPanel : MonoBehaviour
 {
-    public string currentNodeID;
     public TMP_Text description;
     public TMP_Text scoreMult;
     private SelectorMapGenerator mapGenerator;
@@ -23,8 +22,6 @@ public class MissionPanel : MonoBehaviour
 
     public void MissionSelected()
     {
-        GameManager.Instance.difficultySum += mapGenerator.graph.Nodes[currentNodeID].Difficulty;
-        mapGenerator.ChangePlayerLocation(currentNodeID);
         SceneManager.LoadScene("Mission");
     }
 }

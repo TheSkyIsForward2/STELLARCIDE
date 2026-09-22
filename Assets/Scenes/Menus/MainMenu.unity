@@ -463,22 +463,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 397290458269103389, guid: d0c3b2a64cd9fc044b9a7b096eb3b915, type: 3}
-      propertyPath: m_Type
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 397290458269103389, guid: d0c3b2a64cd9fc044b9a7b096eb3b915, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 6168549813884263338, guid: b77de5c388be8eb40832d6520fbb1442, type: 3}
-    - target: {fileID: 1335089892531439415, guid: d0c3b2a64cd9fc044b9a7b096eb3b915, type: 3}
-      propertyPath: m_Type
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1335089892531439415, guid: d0c3b2a64cd9fc044b9a7b096eb3b915, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 6168549813884263338, guid: b77de5c388be8eb40832d6520fbb1442, type: 3}
     - target: {fileID: 1588732999622771108, guid: d0c3b2a64cd9fc044b9a7b096eb3b915, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -491,34 +475,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: MainMenu, Assembly-CSharp
       objectReference: {fileID: 0}
-    - target: {fileID: 1925636278836259256, guid: d0c3b2a64cd9fc044b9a7b096eb3b915, type: 3}
-      propertyPath: m_Type
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1925636278836259256, guid: d0c3b2a64cd9fc044b9a7b096eb3b915, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 6168549813884263338, guid: b77de5c388be8eb40832d6520fbb1442, type: 3}
-    - target: {fileID: 1925636278836259256, guid: d0c3b2a64cd9fc044b9a7b096eb3b915, type: 3}
-      propertyPath: m_Color.b
-      value: 0.7607844
-      objectReference: {fileID: 0}
-    - target: {fileID: 1925636278836259256, guid: d0c3b2a64cd9fc044b9a7b096eb3b915, type: 3}
-      propertyPath: m_Color.g
-      value: 0.52156866
-      objectReference: {fileID: 0}
-    - target: {fileID: 1925636278836259256, guid: d0c3b2a64cd9fc044b9a7b096eb3b915, type: 3}
-      propertyPath: m_Color.r
-      value: 0.10980393
-      objectReference: {fileID: 0}
-    - target: {fileID: 3415539318273082547, guid: d0c3b2a64cd9fc044b9a7b096eb3b915, type: 3}
-      propertyPath: m_Type
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3415539318273082547, guid: d0c3b2a64cd9fc044b9a7b096eb3b915, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 6168549813884263338, guid: b77de5c388be8eb40832d6520fbb1442, type: 3}
     - target: {fileID: 5480585839602610686, guid: d0c3b2a64cd9fc044b9a7b096eb3b915, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -559,14 +515,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -490
       objectReference: {fileID: 0}
-    - target: {fileID: 7041049491574558973, guid: d0c3b2a64cd9fc044b9a7b096eb3b915, type: 3}
-      propertyPath: m_Type
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7041049491574558973, guid: d0c3b2a64cd9fc044b9a7b096eb3b915, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 6168549813884263338, guid: b77de5c388be8eb40832d6520fbb1442, type: 3}
     - target: {fileID: 7295185042312451694, guid: d0c3b2a64cd9fc044b9a7b096eb3b915, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

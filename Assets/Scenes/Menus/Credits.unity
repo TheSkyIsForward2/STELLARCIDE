@@ -1236,7 +1236,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: VINNA CHEN
+  m_text: VINNA
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b878a509dae03574bae48025feaf5e9f, type: 2}
   m_sharedMaterial: {fileID: 2002026343076685006, guid: b878a509dae03574bae48025feaf5e9f, type: 2}
@@ -1934,7 +1934,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: DANI DE LA CRUZ
+  m_text: 'DANI '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b878a509dae03574bae48025feaf5e9f, type: 2}
   m_sharedMaterial: {fileID: 2002026343076685006, guid: b878a509dae03574bae48025feaf5e9f, type: 2}
@@ -3002,14 +3002,6 @@ PrefabInstance:
       propertyPath: m_text
       value: RETURN
       objectReference: {fileID: 0}
-    - target: {fileID: 7101479206129238459, guid: 8c477db9da24c0545a6429e95fcaeee2, type: 3}
-      propertyPath: m_Type
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7101479206129238459, guid: 8c477db9da24c0545a6429e95fcaeee2, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 6168549813884263338, guid: b77de5c388be8eb40832d6520fbb1442, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3152,7 +3144,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: VINNA CHEN
+  m_text: VINNA
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b878a509dae03574bae48025feaf5e9f, type: 2}
   m_sharedMaterial: {fileID: 2002026343076685006, guid: b878a509dae03574bae48025feaf5e9f, type: 2}

@@ -13,8 +13,7 @@ public class TutorialManager : MonoBehaviour
     public TMP_Text controlsText;
     public TMP_Text explanationText;
     public TutorialSpawn spawner;
-    private bool stageTwo = false;
-    
+
     // Update is called once per frame
     void Update()
     {
@@ -33,11 +32,6 @@ public class TutorialManager : MonoBehaviour
             wasdIcon.enabled = true;
             spaceIcon.enabled = false;
             controlsText.text = "MECH CONTROLS";
-            if (!stageTwo)
-            {
-                Enemy();
-                stageTwo = true;
-            }
         }
     }
 

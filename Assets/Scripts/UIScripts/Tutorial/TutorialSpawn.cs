@@ -19,7 +19,7 @@ public class TutorialSpawn : MonoBehaviour
         if (enemyAlive)
         {
             // enemy cleared
-            if (enemyList[0] == null)
+            if (enemyList.Count < 1)
             {
                 UpgradeCall();
             }

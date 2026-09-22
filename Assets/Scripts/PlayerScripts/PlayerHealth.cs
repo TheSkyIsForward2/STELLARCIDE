@@ -13,4 +13,12 @@ public class PlayerHealth : Entity
     {
         healthController = new HealthOwner(health, HealthOwner.Team.PLAYER, gameObject);
     }
+
+    private void Update()
+    {
+        if (healthController.hp <= 0)
+        {
+            SceneManager.LoadScene("GameOver");
+        } 
+    }
 }
