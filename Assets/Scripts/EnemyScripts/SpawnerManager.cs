@@ -142,6 +142,13 @@ public class SpawnerManager
     {
         EventBus.Instance.OnEnemyDead -= EnemyDead;
         EventBus.Instance.OnRoundEnd -= RoundEnd;
+        CoroutineManager.Instance.StartCoroutine(EndGameTransition());
+    }
+
+    private IEnumerator EndGameTransition()
+    {
+        GameManager.Instance.MissionGoalUI.UIAnimator.Play("UIOut");
+        yield return new WaitForSeconds(1.25f);
         SceneManager.LoadScene("Scenes/UpgradeSelectorTesting");
     }
 
