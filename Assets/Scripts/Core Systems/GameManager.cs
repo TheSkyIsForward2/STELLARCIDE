@@ -12,6 +12,7 @@ public class GameManager
     public bool GameActive;
     public XMLManager xmlManager;
     public ScoreManager scoreManager;
+    public TextPrompt textPrompt;
     public int difficultySum;
 
     public static GameManager Instance
