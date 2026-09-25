@@ -1,10 +1,12 @@
+using System.Collections;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class StateController : MonoBehaviour
 {
     public IState CurrentState {  get; private set; }
+    public Attack CurrentAttack;
 
     public Transform Player { get; private set; }
     
@@ -14,6 +16,9 @@ public class StateController : MonoBehaviour
     public Animator Animator { get; private set; }
 
     public bool locked = false; // Locks the state
+
+    public Light2D AttackIndicator;
+
 
     [SerializeField] private TextMeshProUGUI debugText;
 
@@ -25,7 +30,18 @@ public class StateController : MonoBehaviour
     private void Start()
     {
         Player = FindFirstObjectByType<PlayerController>()?.transform;
+        AttackIndicator = transform.Find("AttackIndicator").GetComponent<Light2D>();
         //Player = GameObject.FindGameObjectWithTag("Player")?.transform;
+    }
+
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+    }
+
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
     }
 
     public void ChangeState(IState newState)
@@ -51,20 +67,18 @@ public class StateController : MonoBehaviour
         //RotateToPlayer();
     }
 
-    public void AttackPlayer(Attack attack)
+    public void AttackPlayer()
     {
-        if (attack.IsReady())
+        if (CurrentAttack is Shoot)
         {
-            if (attack is Shoot)
-            {
-                CoroutineManager.Instance.Run(attack.Execute(transform.position, EnemyToPlayer));
-            }
-            else if (attack is Punch)
-            {
-                CoroutineManager.Instance.Run(attack.Execute(
-                    origin: transform.position, 
-                    target: new Vector3(55,155))); // x is range, y is width
-            }
+            StartCoroutine(CurrentAttack.Execute(transform.position, EnemyToPlayer));
+        }
+        else if (CurrentAttack is Punch)
+        {
+            StartCoroutine(CurrentAttack.Execute(
+                origin: transform.position, 
+                target: new Vector3(60,160) // x is range, y is width
+            )); 
         }
     }
 
@@ -77,5 +91,18 @@ public class StateController : MonoBehaviour
         Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
         transform.rotation = Quaternion.Slerp(transform.rotation, rotation, RotateSpeed * Time.deltaTime);
+    }
+
+    public void TryTriggerAnimation(string triggerName)
+    {
+        if (Animator == null) {return;}
+
+        for (int i=0; i<Animator.parameterCount; i++)
+        {
+            if (Animator.parameters[i].name == triggerName)
+            {
+                Animator.SetTrigger(triggerName);
+            }
+        }
     }
 }

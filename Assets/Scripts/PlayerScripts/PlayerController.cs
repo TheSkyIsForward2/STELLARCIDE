@@ -58,6 +58,17 @@ public class PlayerController : MonoBehaviour
         mechMovement = GetComponent<MechMovement>();
         mechMovement.enabled = false;
 
+        ToggleControls(true);
+    }
+
+    void OnDisable()
+    {
+        StopAllCoroutines();
+    }
+
+    void OnDestroy()
+    {
+        StopAllCoroutines();
     }
 
     void Start() {
@@ -138,6 +149,8 @@ public class PlayerController : MonoBehaviour
 
     // very simple state transitions
     void OnTriggerEnter2D(Collider2D other) {
+        if (gameObject == null ) {return;}
+
         if ((mechTransitionLayer & (1 << other.gameObject.layer)) != 0) {
             FlyIn();
             currentMode = PlayerMode.MECH;
@@ -146,6 +159,8 @@ public class PlayerController : MonoBehaviour
     }
 
     void OnTriggerExit2D(Collider2D other) {
+        if (gameObject == null ) {return;}
+
         if ((mechTransitionLayer & (1 << other.gameObject.layer)) != 0) {
             FlyOut();
             currentMode = PlayerMode.SHIP;
@@ -157,7 +172,7 @@ public class PlayerController : MonoBehaviour
     {
         shipMovement.enabled = false;
         mechMovement.enabled = true;
-
+        
         StartCoroutine(LockControls(slideLength));
         rb.AddForce(transform.right * slideSpeed, ForceMode2D.Impulse);
         // transformation animation (ship to mech)
@@ -169,7 +184,7 @@ public class PlayerController : MonoBehaviour
     {
         shipMovement.enabled = true;
         mechMovement.enabled = false;
-
+        
         StartCoroutine(LockControls(slideLength));
         // addforce ( direction of movement * speed)
         Vector2 wishDir = inputActions.Gameplay.Move.ReadValue<Vector2>().normalized;

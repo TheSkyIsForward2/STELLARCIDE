@@ -27,6 +27,12 @@ public class Shoot : Attack
         Lifetime = lifetime;
         Piercing = piercing;
         AttackType = Type.RANGED;
+        entity = Owner.GetComponent<Entity>();
+
+        if (Owner.TryGetComponent<Animator>(out Animator a))
+        {
+            Animator = a;
+        }
     }
 
     private void CreateProjectile(Vector3 o, Vector3 t)
@@ -43,6 +49,17 @@ public class Shoot : Attack
 
     public override IEnumerator Execute(Vector3 origin, Vector3 target)
     {
+        if (Animator)
+        {
+            if (entity.healthController.team == HealthOwner.Team.ENEMY)
+            {
+                TryTriggerAnimation("triggerShoot");
+
+                LastExecute = Time.time;
+                yield return new WaitWhile(AnimatorIsPlaying);
+            }
+        }
+
         CreateProjectile(origin, target);
         AudioManager.Instance.PlayPlayerShootSFX();
         LastExecute = Time.time;

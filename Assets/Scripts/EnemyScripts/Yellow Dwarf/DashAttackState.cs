@@ -65,15 +65,17 @@ public class DashAttackState : IState
 
     private IEnumerator Attack(StateController controller)
     {
+        if (controller == null){yield break;}
+        
         attacking = true;
         canAttack = false;
         Vector3 dashDirection = controller.EnemyToPlayer.normalized * DashDistance;
-        controller.Animator.SetTrigger("triggerDashWindup");
+        controller.TryTriggerAnimation("triggerDashWindup");
         yield return new WaitForSeconds(0.25f);
 
         CoroutineManager.Instance.Run(dash.Execute(controller.transform.position, controller.transform.position + dashDirection));
         attacking = false;
-        controller.Animator.SetTrigger("triggerDash");
+        controller.TryTriggerAnimation("triggerDash");
         yield return new WaitForSeconds(0.25f);
         yield return new WaitForSeconds(1.5f);
         canAttack = true;

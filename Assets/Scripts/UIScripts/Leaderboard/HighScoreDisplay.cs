@@ -17,8 +17,8 @@ namespace UIScripts.Leaderboard
 
         public void HideEntryDisplay()
         {
-            nameText.text = "";
-            scoreText.text = "";
+            nameText.text = "NONE";
+            scoreText.text = "0";
         }
     }
 }

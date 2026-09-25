@@ -16,6 +16,16 @@ public class EnemySpawner : MonoBehaviour
         StartCoroutine(SpawnCoroutine());
     }
 
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+    }
+
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+    }
+
     private IEnumerator SpawnCoroutine()
     {
         while (spawnerManager.ContinueSpawning()) {

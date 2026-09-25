@@ -29,6 +29,7 @@ public abstract class Entity : MonoBehaviour
         while (elapsedTime < 0.5f)
         {
             if (transform == null){yield break;}
+            if (gameObject == null) {yield break;}
             transform.position = Vector3.Lerp(transform.position, 
                 origin + directionVector, 
                 elapsedTime / 0.5f

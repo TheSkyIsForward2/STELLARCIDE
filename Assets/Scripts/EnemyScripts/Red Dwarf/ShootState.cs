@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics;
 using UnityEngine;
 
@@ -17,13 +18,13 @@ public class ShootState : IState
 
     public void OnEntry(StateController controller)
     {
-        controller.Animator.SetTrigger("triggerIdle");
-        
+        controller.TryTriggerAnimation("triggerIdle");
+
         self = controller.gameObject;
         if (shoot != null)
             return;
         
-        shoot = new Shoot(self,
+        controller.CurrentAttack = new Shoot(self,
             damage: new Damage(10, Damage.Type.PHYSICAL),
             cooldown: 1f,
             travelSpeed: 10,
@@ -42,8 +43,15 @@ public class ShootState : IState
             controller.ChangeState(ChaseState);
         }
         // Scouting out enemy
-        controller.AttackPlayer(shoot);
+
         controller.RotateToPlayer();
+
+        if (controller.CurrentAttack == null) {return;}
+
+        if (controller.CurrentAttack.IsReady())
+        {
+            controller.AttackPlayer();
+        }
     }
 
     public void OnExit(StateController controller)
@@ -55,4 +63,6 @@ public class ShootState : IState
     {
         return "Shoot";
     }
+
+    
 }

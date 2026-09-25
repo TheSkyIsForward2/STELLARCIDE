@@ -24,7 +24,7 @@ public class ScoutState : IState
 
     public void OnEntry(StateController controller)
     {
-        controller.Animator.SetTrigger("triggerWalk");
+        controller.TryTriggerAnimation("triggerWalk");
     }
 
     public void OnUpdate(StateController controller)

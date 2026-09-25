@@ -17,7 +17,7 @@ public class UpgradeSelector : MonoBehaviour
     {
         manager = UpgradeManager.Instance;
         string name = gameObject.name;
-        Debug.Log(name);
+        // Debug.Log(name);
         if (int.TryParse(name, out int num)) {
             upgrade = manager.possibleUpgrades[num];
         } else
@@ -39,7 +39,7 @@ public class UpgradeSelector : MonoBehaviour
     public void Select()
     {
         manager.ApplyUpgrade(upgrade);
-        Debug.Log("applying upgrade!?");
+        // Debug.Log("applying upgrade!?");
         // Go back to game scene
         // Cameron note: should move the player to map select scene (working on making sure that scene is completely functional)
         SceneManager.LoadScene(1);
@@ -49,7 +49,7 @@ public class UpgradeSelector : MonoBehaviour
     public void TutorialSelect()
     {
         manager.ApplyUpgrade(upgrade);
-        Debug.Log("applying upgrade!?");
+        // Debug.Log("applying upgrade!?");
         // Move to map 
         SceneManager.LoadScene("TutorialMapSelect");
     }

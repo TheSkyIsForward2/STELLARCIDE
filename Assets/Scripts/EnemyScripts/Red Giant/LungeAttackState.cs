@@ -29,7 +29,7 @@ public class LungeAttackState : IState
     public void OnEntry(StateController controller)
     {
         self = controller.gameObject;
-        punch = new Punch(self,
+        controller.CurrentAttack = new Punch(self,
             damage: new Damage(10, Damage.Type.PHYSICAL),
             cooldown: 2f
         );
@@ -75,16 +75,20 @@ public class LungeAttackState : IState
         t = 0.0f;
 
         lungePos = backPos + controller.transform.right * lungeDistance;
-        controller.Animator.SetTrigger("triggerBite");
+
         while (t < 1.0f)
         {
             t += Time.deltaTime / lungeTime;
             controller.transform.position = Vector3.Lerp(backPos, lungePos, t);
             yield return null;
         }
-        if (punch != null)
+
+        if (controller.CurrentAttack != null)
         {
-            controller.AttackPlayer(punch);
+            if (controller.CurrentAttack.IsReady())
+            {
+                controller.AttackPlayer();
+            }
         }
 
         //yield return new WaitForSeconds(attackCooldown);

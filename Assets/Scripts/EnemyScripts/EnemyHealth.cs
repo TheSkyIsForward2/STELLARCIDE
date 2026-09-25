@@ -16,7 +16,7 @@ public class EnemyHealth : Entity
 
     private void OnDestroy()
     {
-        Debug.Log("an enemy was killed!");
+        // Debug.Log("an enemy was killed!");
         EventBus.Instance.EnemyDead();
     }
 }

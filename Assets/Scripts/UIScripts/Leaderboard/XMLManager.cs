@@ -12,6 +12,7 @@ namespace UIScripts.Leaderboard
 
         private void Awake()
         {
+            if (GameManager.Instance.xmlManager == null) GameManager.Instance.xmlManager = this;
             // create highscore file if it doesn't exist
             if (!Directory.Exists(Application.persistentDataPath + "/HighScores/"))
             {

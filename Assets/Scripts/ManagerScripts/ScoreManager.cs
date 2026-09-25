@@ -9,6 +9,7 @@ public class ScoreManager : MonoBehaviour
     
     public void EnemyDefeated(Entity e)
     {
+        // determine type of enemy killed and add it
         enemiesDefeated++;
     }
 }

@@ -21,14 +21,23 @@ public class Punch : Attack
         TravelSpeed = travelSpeed;
         KnockbackStrength = knockbackStrength;
         AttackType = Type.UNARMED_MELEE;
-        if (Owner.transform.Find("MechVisual"))
+
+        // init player animator
+        Transform mechVis = Owner.transform.Find("MechVisual");
+        if (mechVis)
         {
-            if (Owner.transform.Find("MechVisual").TryGetComponent<Animator>(out Animator a))
+            if (mechVis.TryGetComponent<Animator>(out Animator a))
             {
                 Animator = a;  
             }
-            AnimationName = "Punch";
         }
+
+        // init enemy animator
+        if (Owner.TryGetComponent<Animator>(out Animator b))
+        {
+            Animator = b;
+        }
+        
         playerRB = Owner.GetComponent<Rigidbody2D>();
         pc = Owner.GetComponent<PlayerController>();
         entity = Owner.GetComponent<Entity>();
@@ -43,16 +52,28 @@ public class Punch : Attack
     {
         if (Animator)
         {
-            Animator.SetBool("straightPunch", true);
-            Animator.SetTrigger("executeWindup");
-
-            LastExecute = Time.time;
-            yield return new WaitWhile(AnimatorIsPlaying);
-            Animator.SetBool("straightPunch", false);
-
-            if (playerRB)
+            // player animations
+            if (entity.healthController.team == HealthOwner.Team.PLAYER)
             {
-                playerRB.AddForce(Owner.transform.right * TravelSpeed, ForceMode2D.Impulse);
+                Animator.SetBool("straightPunch", true);
+                Animator.SetTrigger("executeWindup");
+
+                LastExecute = Time.time;
+                yield return new WaitWhile(AnimatorIsPlaying);
+                Animator.SetBool("straightPunch", false);
+
+                if (playerRB)
+                {
+                    playerRB.AddForce(Owner.transform.right * TravelSpeed, ForceMode2D.Impulse);
+                }
+            }
+            // enemy animations
+            if (entity.healthController.team == HealthOwner.Team.ENEMY)
+            {
+                TryTriggerAnimation("triggerBite");
+
+                LastExecute = Time.time;
+                yield return new WaitWhile(AnimatorIsPlaying);
             }
         }
         
@@ -62,6 +83,7 @@ public class Punch : Attack
         AudioManager.Instance.PlayPunchingSFX();
 
         // knocking back enemies
+        // Debug.Log(Owner.name + " reached knockback stage of dmg calc");
         foreach (Entity entity in DamageArea(range: (float)target.x, width: (float)target.y))
         {
             if (entity.healthController.team != this.entity.healthController.team)

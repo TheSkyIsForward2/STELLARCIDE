@@ -9,7 +9,7 @@ namespace UIScripts.Leaderboard
         public List<HighScoreEntry> scores = new List<HighScoreEntry>();
         public int leaderboardMaximum = 10;
 
-        void Start()
+        void OnEnable()
         {
             GetScores();
             UpdateDisplay();
