@@ -3,16 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using MapScripts;
 using Newtonsoft.Json;
-using NUnit.Framework;
-using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = System.Random;
 
 [Serializable]
 public sealed class GenNode {
     public string Id;
-    public string Type;              			// "Room", "DialogResponse", etc.  Could also be a String as Tag
+    public string Type;              			// "Combat", "Survival", more(?)
     public int Width;
     public int Depth;
     public int Difficulty;
@@ -263,6 +260,13 @@ public class SelectorMapGenerator : MonoBehaviour
             {
                 node.isPlayerPosition = true;
                 print($"position changed to {nodeId}");
+            }
+
+            if (node.Id == nodeId && node.Type == "end")
+            {
+                // clearing the json effectively wipes the map and lets the next instance create it anew
+                ClearJson();
+                return;
             }
         }
         WriteToFile(currentRoot);
