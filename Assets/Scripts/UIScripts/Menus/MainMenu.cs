@@ -35,6 +35,8 @@ public class MainMenu : MonoBehaviour
 
     public void Play()
     {
+        SelectorMapGenerator smg = gameObject.AddComponent<SelectorMapGenerator>();
+        smg.ClearJson();
         // check for tutorial flag
         if (PlayerPrefs.GetString("TutorialFinished") == "no") SceneManager.LoadScene("Tutorial");
         // otherwise play game again
