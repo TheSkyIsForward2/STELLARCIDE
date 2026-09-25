@@ -42,7 +42,7 @@ public class UpgradeSelector : MonoBehaviour
         // Debug.Log("applying upgrade!?");
         // Go back to game scene
         // Cameron note: should move the player to map select scene (working on making sure that scene is completely functional)
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("AreaSelectionMap");
     }
 
     // tutorial only method. Functionally the same but loads a different scene

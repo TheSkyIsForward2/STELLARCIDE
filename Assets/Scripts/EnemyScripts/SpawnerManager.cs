@@ -66,6 +66,7 @@ public class SpawnerManager
     {
         initialRedDwarfWeight = initialRedGiantWeight = initialYellowDwarfWeight = numEnemiesSpawned = enemiesAlive = enemiesKilled = 0;
         elapsedTime = 0f;
+        enemiesKilled = 0;
         totalEnemies = 2;
         roundTime = 10;
         spawnInterval = 10f;
@@ -124,6 +125,7 @@ public class SpawnerManager
     // "Signals"
     private void EnemyDead()
     {
+        if (roundType == RoundType.SURVIVAL) { return; }
         Debug.Log("we killed something right?");
         enemiesAlive -= 1;
         enemiesKilled += 1;
@@ -154,6 +156,7 @@ public class SpawnerManager
 
     public void UpdateUI()
     {
+        if (GameManager.Instance.MissionGoalUI == null) { return; }
         switch (roundType)
         {
             case RoundType.SURVIVAL:
