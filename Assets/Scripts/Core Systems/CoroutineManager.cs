@@ -10,6 +10,16 @@ public class CoroutineManager : MonoBehaviour
         Instance = this;
     }
 
+    void OnDisable()
+    {
+        StopAllCoroutines();
+    }
+
+    void OnDestroy()
+    {
+        StopAllCoroutines();
+    }
+
     public Coroutine Run(IEnumerator coroutine)
     {
         return StartCoroutine(coroutine);

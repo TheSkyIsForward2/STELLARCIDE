@@ -23,6 +23,16 @@ public class ProjectileController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
+    void OnDisable()
+    {
+        StopAllCoroutines();
+    }
+
+    void OnDestroy()
+    {
+        StopAllCoroutines();
+    }
+
     // TODO: pool projectiles
     void Update()
     {
@@ -58,10 +68,9 @@ public class ProjectileController : MonoBehaviour
                 {
                     return;
                 }
+
+                entity.healthController.TakeDamage(damage);
             }
-            
-            // deal damage
-            other.GetComponent<Entity>().healthController.TakeDamage(damage);
             
             // update health
             if (other.TryGetComponent(out EnemyHealth enemyHealth))
@@ -123,6 +132,7 @@ public class ProjectileController : MonoBehaviour
     IEnumerator Expire(float time)
     {
         yield return new WaitForSeconds(time);
+        StopAllCoroutines();
         Destroy(gameObject);
     }
 }

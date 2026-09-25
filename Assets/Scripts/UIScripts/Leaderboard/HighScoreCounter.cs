@@ -28,8 +28,20 @@ namespace UIScripts.Leaderboard
  
             // scoring + activating high score prompt
             prompt.SetActive(false);
-            int enemyPoints = GameManager.Instance.scoreManager.enemiesDefeated * 20;
-            enemyCounter.text = "ENEMIES SLAIN: " + GameManager.Instance.scoreManager.enemiesDefeated + " [" + enemyPoints + "]";
+            int enemyPoints = 0;
+            int _enemiesDefeated = 0;
+
+            if (GameManager.Instance.scoreManager != null)
+            {
+                _enemiesDefeated = GameManager.Instance.scoreManager.enemiesDefeated;
+
+                if (_enemiesDefeated != 0)
+                {
+                    enemyPoints = _enemiesDefeated * 20;
+                }
+            }
+            
+            enemyCounter.text = "ENEMIES SLAIN: " + _enemiesDefeated + " [" + enemyPoints + "]";
             finalScore = enemyPoints;
             List<HighScoreEntry> targets = GameManager.Instance.xmlManager.LoadScores();
             finalScoreCounter.text = "TOTAL SCORE: " + finalScore;

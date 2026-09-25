@@ -34,6 +34,16 @@ public class StateController : MonoBehaviour
         //Player = GameObject.FindGameObjectWithTag("Player")?.transform;
     }
 
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+    }
+
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+    }
+
     public void ChangeState(IState newState)
     {
         CurrentState?.OnExit(this);

@@ -65,6 +65,8 @@ public class DashAttackState : IState
 
     private IEnumerator Attack(StateController controller)
     {
+        if (controller == null){yield break;}
+        
         attacking = true;
         canAttack = false;
         Vector3 dashDirection = controller.EnemyToPlayer.normalized * DashDistance;

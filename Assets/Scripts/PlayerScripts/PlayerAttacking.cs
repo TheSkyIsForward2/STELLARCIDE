@@ -134,7 +134,13 @@ public class PlayerAttacking : MonoBehaviour
 
     void OnDestroy()
     {
+        StopAllCoroutines();
         EventBus.Instance.OnFormChange -= SwapAttacks;
+    }
+
+    void OnDisable()
+    {
+        StopAllCoroutines();
     }
     #endregion
 
@@ -238,57 +244,4 @@ public class PlayerAttacking : MonoBehaviour
         shootAttack.Doubling = false;
         missileAttack.Doubling = false;
     }
-
-
-    //IEnumerator ExecuteSlashUpgrade()
-    //{
-    //    if (PrimaryAttack is Punch)
-    //    {
-    //        slashUpgradeData.IsActive = true;
-    //        slashUpgradeData.LastExecute = Time.time;
-    //        PrimaryAttack = slashAttack;
-    //        if (doublingUpgradeData.IsActive) // check if doublingUpgrade is active
-    //        {
-    //            PrimaryAttack.Doubling = true;
-    //        }
-    //        yield return new WaitForSeconds(slashUpgradeData.Duration);
-    //        while (inputActions.Gameplay.PrimaryAttack.IsPressed())
-    //        {
-    //            yield return null;
-    //        }
-    //        yield return new WaitForEndOfFrame();
-    //        PrimaryAttack = punchAttack;
-    //        slashUpgradeData.IsActive = false;
-    //    } 
-    //}
-    
-    //IEnumerator ExecuteMissileUpgrade()
-    //{
-    //    if (PrimaryAttack is Shoot)
-    //    {
-    //        missileUpgradeData.IsActive = true;
-    //        missileUpgradeData.LastExecute = Time.time;
-    //        PrimaryAttack = missileAttack;
-    //        yield return new WaitForSeconds(missileUpgradeData.Duration);
-    //        while (inputActions.Gameplay.PrimaryAttack.IsPressed())
-    //        {
-    //            yield return null;
-    //        }
-    //        yield return new WaitForEndOfFrame();
-    //        PrimaryAttack = shootAttack;
-    //        missileUpgradeData.IsActive = false;
-    //    } 
-    //}
-
-    //IEnumerator ExecuteDoublingUpgrade()
-    //{
-    //    doublingUpgradeData.IsActive = true;
-    //    doublingUpgradeData.LastExecute = Time.time;
-    //    PrimaryAttack.Doubling = true;
-    //    yield return new WaitForSeconds(doublingUpgradeData.Duration);
-    //    slashAttack.Doubling = false; // not the best but o well
-    //    punchAttack.Doubling = false;
-    //    shootAttack.Doubling = false;
-    //    doublingUpgradeData.IsActive = false;
-    //}
 }

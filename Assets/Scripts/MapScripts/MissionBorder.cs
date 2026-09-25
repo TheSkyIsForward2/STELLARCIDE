@@ -4,6 +4,16 @@ public class MissionBorder : MonoBehaviour
 {
     private Coroutine coroutine;
 
+    void OnDisable()
+    {
+        StopAllCoroutines();
+    }
+
+    void OnDestroy()
+    {
+        StopAllCoroutines();
+    }
+
     void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.CompareTag("Player"))
