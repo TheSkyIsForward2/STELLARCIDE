@@ -38,7 +38,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void Update()
     {
-        if (spawnerManager.roundType == RoundType.EXTERMINATE || spawnerManager.ContinueSpawning() == false)
+        if (spawnerManager.roundType == RoundType.EXTERMINATE)
         {
             return;
         }

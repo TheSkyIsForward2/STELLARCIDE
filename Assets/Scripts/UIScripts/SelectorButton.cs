@@ -28,11 +28,11 @@ public class SelectorButton : MonoBehaviour
         Debug.Log(SpawnerManager.Instance.roundType);
     }
 
-    public void Selected()
-    {
-        // TODO needs code here that changes to the selected node's map scene.
-        mapGenerator.ChangePlayerLocation(nodeId);
-        GameManager.Instance.difficultySum += mapGenerator.graph.Nodes[nodeId].Difficulty + 1;
-        SceneManager.LoadScene("Scenes/MapTestScene");
-    }
+    // public void Selected()
+    // {
+    //     // TODO needs code here that changes to the selected node's map scene.
+    //     mapGenerator.ChangePlayerLocation(nodeId);
+    //     GameManager.Instance.difficultySum += mapGenerator.graph.Nodes[nodeId].Difficulty + 1;
+    //     SceneManager.LoadScene("Scenes/MapTestScene");
+    // }
 }
