@@ -110,20 +110,20 @@ public abstract class Attack
 
         for (int i = 0; i < entitiesInRange.Length; i++)
         {
-            Entity other;
-            try { other = entitiesInRange[i].GetComponent<Entity>(); } catch { other = null; }
+            if (entitiesInRange[i].TryGetComponent(out Entity entity))
+            {
+                if (entity && entity.healthController.team != Owner.GetComponent<Entity>().healthController.team)
+                {
+                    if (!entity.healthController.TakeDamage(Damage))
+                        gameObjectsHit.Add(entity);
+                }
 
-            if (other && other.healthController.team != Owner.GetComponent<Entity>().healthController.team)
-            {
-                if (!other.healthController.TakeDamage(Damage))
-                    gameObjectsHit.Add(other);
-            }
-            
-            // update health bar
-            if (other && other.TryGetComponent(out EnemyHealth enemyHealth))
-            {
-                enemyHealth.healthBar.UpdateHealthBar(other.GetComponent<Entity>().healthController.hp,
-                    other.GetComponent<Entity>().healthController.maxHP);
+                // update health bar
+                if (entity && entity.TryGetComponent(out EnemyHealth enemyHealth))
+                {
+                    enemyHealth.healthBar.UpdateHealthBar(entity.healthController.hp,
+                        entity.GetComponent<Entity>().healthController.maxHP);
+                }
             }
         }
 
