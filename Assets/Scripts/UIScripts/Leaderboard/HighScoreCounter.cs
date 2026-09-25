@@ -76,6 +76,8 @@ namespace UIScripts.Leaderboard
 
         public void Restart()
         {
+            SelectorMapGenerator smg = gameObject.AddComponent<SelectorMapGenerator>();
+            smg.ClearJson();
             // TODO should the game be started on the map screen or on a first mission?
             //SceneManager.LoadScene("");
         }
