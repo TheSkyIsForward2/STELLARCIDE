@@ -12,7 +12,7 @@ public class EnemySpawner : MonoBehaviour
     private void Start()
     {
         spawnerManager = SpawnerManager.Instance;
-        spawnerManager.InitializeSpawner();
+        spawnerManager.UpdateUI();
         StartCoroutine(SpawnCoroutine());
     }
 
