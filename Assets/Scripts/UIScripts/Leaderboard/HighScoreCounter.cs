@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace UIScripts.Leaderboard
@@ -17,12 +19,15 @@ namespace UIScripts.Leaderboard
 
         private string nameToSave;
         public int finalScore;
-
+        
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
-            // TODO update start code so that everything appears correctly
-            /*prompt.SetActive(false);
+            // catch for menu version of scene
+            if (!topLayer.activeInHierarchy) return;
+ 
+            // scoring + activating high score prompt
+            prompt.SetActive(false);
             int enemyPoints = GameManager.Instance.scoreManager.enemiesDefeated * 20;
             enemyCounter.text = "ENEMIES SLAIN: " + GameManager.Instance.scoreManager.enemiesDefeated + " [" + enemyPoints + "]";
             finalScore = enemyPoints;
@@ -31,27 +36,41 @@ namespace UIScripts.Leaderboard
             if (targets.Count < GameManager.Instance.xmlManager.leaderboard.leaderboardMaximum || targets[^1].score < finalScore)
             {
                 PromptName();
-            }*/
+            }
         }
 
+        // move from scoring to leaderboard
         public void Continue()
         {
             leaderboardgrid.SetActive(true);
             topLayer.SetActive(false);
         }
         
+        // prompt change name method
         public void ChangeName(string name)
         {
             nameToSave = name;
             returnButton.interactable = true;
-            //GameManager.Instance.xmlManager.AddNewScore(nameToSave, finalScore);
+            GameManager.Instance.xmlManager.AddNewScore(nameToSave, finalScore);
             prompt.SetActive(false);
         }
 
+        // turn prompt on method
         public void PromptName()
         {
             returnButton.interactable = false;
             prompt.SetActive(true);
+        }
+
+        public void Restart()
+        {
+            // TODO should the game be started on the map screen or on a first mission?
+            //SceneManager.LoadScene("");
+        }
+
+        public void ReturnToMainMenu()
+        {
+            SceneManager.LoadScene("MainMenu");
         }
     }
 }

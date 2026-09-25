@@ -23,7 +23,7 @@ public class PlayerHealthBar : MonoBehaviour
 
     void Update()
     {
-        healthBar.value = (float) health.hp;
+        healthBar.value = health.hp;
         numberLabel.SetText($"{health.hp} / {health.maxHP}");
     }
 }
