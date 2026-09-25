@@ -93,17 +93,18 @@ public class SelectorMapGenerator : MonoBehaviour
     [SerializeField] private int maxDepth = 8;
     [SerializeField] private int maxWidth = 4;
     [SerializeField] private int minWidth = 2;
-
+    public bool isScene = false;
+ 
     public TextAsset fileToReadWrite;
     public string resourcePath = "SavedFiles/PlayerMapPosition";
     public string fullPathToFile = "Assets/Resources/SavedFiles/PlayerMapPosition.json";
     
     private void Start()
     {
-        
         fileToReadWrite = Resources.Load<TextAsset>(resourcePath);
         currentRoot = ReadFromFile();
-        Generate();
+        if(isScene)
+            Generate();
     }
     
     void Generate()
