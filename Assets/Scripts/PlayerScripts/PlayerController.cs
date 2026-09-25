@@ -58,6 +58,7 @@ public class PlayerController : MonoBehaviour
         mechMovement = GetComponent<MechMovement>();
         mechMovement.enabled = false;
 
+        ToggleControls(true);
     }
 
     void OnDestroy()
