@@ -44,6 +44,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Menus/LeaderboardMenu.unity
     guid: 07131766fb8c36e4b8f41058bf4b05d0
+  - enabled: 1
+    path: Assets/Scenes/Missions/AsteroidHeavy.unity
+    guid: 8cbe040de15ac094588122938d15f368
+  - enabled: 1
+    path: Assets/Scenes/Missions/AsteroidLight.unity
+    guid: 13397a55e4c68e54c8a1a21fbc3ffc9f
+  - enabled: 1
+    path: Assets/Scenes/Missions/Central.unity
+    guid: 9282a1c44d903844a88822721552a042
+  - enabled: 1
+    path: Assets/Scenes/Missions/HalfNHalf.unity
+    guid: bf02986099dfd08459d06b18264d5da8
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: af7c18e6c6b58cc4a8fe904c4394dbc2, type: 3}
   m_UseUCBPForAssetBundles: 0
