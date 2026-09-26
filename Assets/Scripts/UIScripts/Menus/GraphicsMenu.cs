@@ -68,6 +68,8 @@ public class GraphicsMenu : MonoBehaviour
     {
         selectedResolution = resolutionDropdown.value;
         Screen.SetResolution(selectedResolutionList[selectedResolution].width, selectedResolutionList[selectedResolution].height, fullscreenToggle.isOn);
+        PlayerPrefs.SetInt("ResolutionWidth", selectedResolutionList[selectedResolution].width);
+        PlayerPrefs.SetInt("ResolutionHeight", selectedResolutionList[selectedResolution].height);
     }
 
     public void FullscreenSelect()
@@ -83,6 +85,7 @@ public class GraphicsMenu : MonoBehaviour
         {
             Screen.fullScreenMode = FullScreenMode.Windowed;
         }
+        PlayerPrefs.Save();
     }
 
     public void VsyncSelect()
@@ -91,6 +94,7 @@ public class GraphicsMenu : MonoBehaviour
         PlayerPrefs.SetInt("Vsync", temp);
         VsyncToggle.isOn = PlayerPrefs.GetInt("Vsync") == 1;
         QualitySettings.vSyncCount = PlayerPrefs.GetInt("VSync");
+        PlayerPrefs.Save();
     }
     
 }

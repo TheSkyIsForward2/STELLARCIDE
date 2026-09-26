@@ -25,6 +25,14 @@ public class MissionPanel : MonoBehaviour
     {
         GameManager.Instance.difficultySum += mapGenerator.graph.Nodes[currentNodeID].Difficulty;
         mapGenerator.ChangePlayerLocation(currentNodeID);
-        SceneManager.LoadScene("Mission");
+        SceneManager.LoadScene("BasicMission");
+    }
+
+    public void TutorialFinish()
+    {
+        GameManager.Instance.difficultySum += mapGenerator.graph.Nodes[currentNodeID].Difficulty;
+        mapGenerator.ChangePlayerLocation(currentNodeID);
+        PlayerPrefs.SetString("TutorialFinished", "yes");
+        SceneManager.LoadScene("BasicMission");
     }
 }

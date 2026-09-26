@@ -4,6 +4,9 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+    int resolutionWidth;
+    int resolutionHeight;
+    bool fullscreenToggled;
     private void Start()
     {
         // set tutorial preferences
@@ -16,21 +19,31 @@ public class MainMenu : MonoBehaviour
         if (!PlayerPrefs.HasKey("ResolutionWidth"))
         {
             PlayerPrefs.SetInt("ResolutionWidth", Screen.width);
+            resolutionWidth = PlayerPrefs.GetInt("ResolutionWidth");
         }
+        resolutionWidth = PlayerPrefs.GetInt("ResolutionWidth");
         if (!PlayerPrefs.HasKey("ResolutionHeight"))
         {
             PlayerPrefs.SetInt("ResolutionHeight", Screen.height);
+            
         }
+        resolutionHeight = PlayerPrefs.GetInt("ResolutionHeight");
+        
+        
         
         if (!PlayerPrefs.HasKey("Fullscreen"))
         {
             PlayerPrefs.SetInt("Fullscreen", 1);
         }
+        fullscreenToggled = PlayerPrefs.GetInt("Fullscreen") == 1;
+        
+        Screen.SetResolution(resolutionWidth, resolutionHeight, fullscreenToggled);
 
         if (!PlayerPrefs.HasKey("Vsync"))
         {
             PlayerPrefs.SetInt("Vsync", 1);
         }
+        PlayerPrefs.Save();
     }
 
     public void Play()
@@ -40,7 +53,8 @@ public class MainMenu : MonoBehaviour
         // check for tutorial flag
         if (PlayerPrefs.GetString("TutorialFinished") == "no") SceneManager.LoadScene("Tutorial");
         // otherwise play game again
-        else SceneManager.LoadScene("ShowcaseScene");
+        else SceneManager.LoadScene("AreaSelectionMap");
+        
     }
 
     public void Options()
