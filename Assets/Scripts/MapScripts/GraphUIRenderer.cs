@@ -142,7 +142,7 @@ namespace MapScripts
             sb.mapGenerator = GetComponent<SelectorMapGenerator>();
 
             //print("made it");
-            if (node.isPlayerPosition)
+            if (node.Id == PlayerPrefs.GetString("PlayerPosition"))
             {
                 playerPosition = node;
                 Instantiate(playerMarkerPrefab, go.transform);

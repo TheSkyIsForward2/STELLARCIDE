@@ -13,7 +13,6 @@ public sealed class GenNode {
     public int Width;
     public int Depth;
     public int Difficulty;
-    public bool isPlayerPosition = false;
     public string Description;
     public int RedDwarfNumber;
     public int YellowDwarfNumber;
@@ -95,17 +94,18 @@ public class SelectorMapGenerator : MonoBehaviour
     [SerializeField] private int maxDepth = 8;
     [SerializeField] private int maxWidth = 4;
     [SerializeField] private int minWidth = 2;
-
+    public bool isScene = false;
+ 
     public TextAsset fileToReadWrite;
     public string resourcePath = "SavedFiles/PlayerMapPosition";
     public string fullPathToFile = "Assets/Resources/SavedFiles/PlayerMapPosition.json";
     
     private void Start()
     {
-        
         fileToReadWrite = Resources.Load<TextAsset>(resourcePath);
         currentRoot = ReadFromFile();
-        Generate();
+        if(isScene)
+            Generate();
     }
     
     void Generate()
@@ -115,7 +115,6 @@ public class SelectorMapGenerator : MonoBehaviour
         {
             Random rand = new Random();
             GenNode root = new GenNode("0", "root", 0, 0, 0, "test description");
-            root.isPlayerPosition = true;
             graph.AddNode(root);
             currentRoot.nodes.Add(root);
             int nodeId = 1;
@@ -248,20 +247,11 @@ public class SelectorMapGenerator : MonoBehaviour
 
     public void ChangePlayerLocation(string nodeId)
     {
+        PlayerPrefs.SetString("PlayerPosition", nodeId);
+        PlayerPrefs.Save();
         // modify the root and re-write json
         foreach (GenNode node in currentRoot.nodes)
         {
-            if (node.isPlayerPosition)
-            {
-                node.isPlayerPosition = false;
-            }
-
-            if (node.Id == nodeId)
-            {
-                node.isPlayerPosition = true;
-                print($"position changed to {nodeId}");
-            }
-
             if (node.Id == nodeId && node.Type == "end")
             {
                 // clearing the json effectively wipes the map and lets the next instance create it anew
@@ -274,6 +264,10 @@ public class SelectorMapGenerator : MonoBehaviour
 
     public Root ReadFromFile()
     {
+        if (!PlayerPrefs.HasKey("PlayerPosition"))
+            PlayerPrefs.SetString("PlayerPosition", "0");
+        PlayerPrefs.Save();
+        
         if (!File.Exists(fullPathToFile))
             return new Root(new List<GenNode>(), new List<GenEdge>());
         
@@ -290,7 +284,7 @@ public class SelectorMapGenerator : MonoBehaviour
         */
         
         // reached end of tree, so start with a new tree.
-        if(currentRoot.nodes[currentRoot.nodes.Count - 1].isPlayerPosition)
+        if(currentRoot.nodes[currentRoot.nodes.Count - 1].Id == PlayerPrefs.GetString("PlayerPosition"))
             return new Root(new List<GenNode>(), new List<GenEdge>());
         
         print("found existing graph");
@@ -307,8 +301,10 @@ public class SelectorMapGenerator : MonoBehaviour
         using (JsonWriter writer = new JsonTextWriter(sw))
         {
             serializer.Serialize(writer, root);
+            writer.Close();
         }
         sw.Close();
+        
     }
 
     public void ClearJson()
