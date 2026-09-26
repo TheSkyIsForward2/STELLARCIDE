@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Specialized;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
@@ -10,7 +12,7 @@ public class EnemySpawner : MonoBehaviour
     private void Start()
     {
         spawnerManager = SpawnerManager.Instance;
-        spawnerManager.InitializeSpawner();
+        spawnerManager.UpdateUI();
         StartCoroutine(SpawnCoroutine());
     }
 
@@ -31,6 +33,21 @@ public class EnemySpawner : MonoBehaviour
 
             yield return new WaitForSeconds(spawnerManager.spawnInterval);
             spawnerManager.elapsedTime += spawnerManager.spawnInterval;
+        }
+    }
+
+    private void Update()
+    {
+        if (spawnerManager.roundType == RoundType.EXTERMINATE)
+        {
+            return;
+        }
+        spawnerManager.elapsedTime += Time.deltaTime;
+        spawnerManager.UpdateUI();
+
+        if (spawnerManager.elapsedTime > spawnerManager.roundTime)
+        {
+            EventBus.Instance.RoundEnd();
         }
     }
 

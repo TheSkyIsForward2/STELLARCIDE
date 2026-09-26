@@ -1,12 +1,19 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class EnemySpawnData
 {
     public GameObject prefab;
     public int spawnWeight;
+}
+
+public enum RoundType
+{
+    EXTERMINATE,
+    SURVIVAL
 }
 
 public class SpawnerManager
@@ -18,63 +25,146 @@ public class SpawnerManager
         get { return thisInstance ??= new SpawnerManager(); }
     }
 
-    public int initialRedGiantWeight;
-    public int initialYellowDwarfWeight;
-    public int initialRedDwarfWeight;
+    public RoundType roundType = RoundType.SURVIVAL;
 
-    // If numEnemiesSpawned == totalEnemies, stop spawning enemies & clear remaining enemies
+    public int initialRedGiantWeight = 0;
+    public int initialYellowDwarfWeight = 0;
+    public int initialRedDwarfWeight = 0;
+
+    // EXTERMINATE VARIABLES
     private int totalEnemies = 2; // Will be calclulated based on difficulty
     public int numEnemiesSpawned = 0;
-
     public int enemiesAlive = 0;
+    public int enemiesKilled = 0;
 
-    // For making the win condition based on time.  If roundTime > elapsedTime, stop spawning enemies & clear remaining enemies
+    // SURVIVAL VARIABLES
     public float elapsedTime = 0;
-    private int roundTime = 100;
+    public int roundTime = 10;
 
+    // General variables that can be modified by difficulty
+    public int healthMult = 1;
     public float spawnInterval = 10f;
 
     private List<EnemySpawnData> enemyTypes; // Stores enemy spawn weights + corresponding prefab
-
-
-
 
 
     // Call this when you transfer the variable information from .json, but for now we're doing this in enemyspawner
     public void InitializeSpawner()
     {
         EventBus.Instance.OnEnemyDead += EnemyDead;
+        EventBus.Instance.OnRoundEnd += RoundEnd;
+        ResetVariables();
         CalculateDifficulty();
+        UpdateUI();
+    }
+
+    // Since this is a public class and will always persist, we need to manually reset the values
+    private void ResetVariables()
+    {
+        initialRedDwarfWeight = initialRedGiantWeight = initialYellowDwarfWeight = numEnemiesSpawned = enemiesAlive = enemiesKilled = 0;
+        elapsedTime = 0f;
+        enemiesKilled = 0;
+        totalEnemies = 2;
+        roundTime = 10;
+        spawnInterval = 10f;
+        healthMult = 1;
     }
 
     private void CalculateDifficulty()
     {
+        if (GameManager.Instance.difficultySum >= 7)
+        {
+            initialRedDwarfWeight += (initialRedDwarfWeight == 0) ? 0 : 10;
+            initialRedGiantWeight += (initialRedGiantWeight == 0) ? 0 : 10;
+            initialYellowDwarfWeight += (initialYellowDwarfWeight == 0) ? 0 : 10;
+        }
+        if (GameManager.Instance.difficultySum >= 14)
+        {
+            spawnInterval = 8f;
+        }
+        if (GameManager.Instance.difficultySum >= 21)
+        {
+            healthMult = 2;
+        }
+        if (GameManager.Instance.difficultySum >= 28)
+        {
+            initialYellowDwarfWeight += 10;
+        }
+        // Need to add what happens if the number goes over 28
+        // Very hardcoded.... ;-;
         GameObject[] prefabs = Resources.LoadAll<GameObject>("Prefabs/Enemy Prefabs");
 
         enemyTypes = new List<EnemySpawnData>();
 
-        foreach (GameObject prefab in prefabs)
-        {
-            // Spawn weights will be read from JSON
-            enemyTypes.Add(new EnemySpawnData
-            {
-                prefab = prefab,
-                spawnWeight = 1
-            });
-        }
+        enemyTypes.Add(new EnemySpawnData { prefab = prefabs[0], spawnWeight = initialRedDwarfWeight });
+        enemyTypes.Add(new EnemySpawnData { prefab = prefabs[1], spawnWeight = initialRedGiantWeight });
+        enemyTypes.Add(new EnemySpawnData { prefab = prefabs[2], spawnWeight = initialYellowDwarfWeight });
     }
 
-    // Returns true if number of enemies spawned is less than total enemies
-    // Returns true if elapsed time is 
     public bool ContinueSpawning()
     {
-        return (numEnemiesSpawned < totalEnemies) && (elapsedTime < roundTime);
+        switch (roundType)
+        {
+            case RoundType.SURVIVAL:
+                return (elapsedTime < roundTime);
+            case RoundType.EXTERMINATE:
+                return (numEnemiesSpawned < totalEnemies);
+        }
+        return false;
     }
     
 
     public GameObject GetNextEnemy()
     {
         return enemyTypes[GetRandomWeightedIndex()].prefab;
+    }
+
+    // "Signals"
+    private void EnemyDead()
+    {
+        if (roundType == RoundType.SURVIVAL) { return; }
+        Debug.Log("we killed something right?");
+        enemiesAlive -= 1;
+        enemiesKilled += 1;
+        UpdateUI();
+        if (enemiesAlive == 0)
+        {
+            if ((totalEnemies == numEnemiesSpawned))
+            {
+                Debug.Log("all enemies are dead and the conditions for winning are satisfied");
+                EventBus.Instance.RoundEnd();
+            }
+        }
+    }
+
+    private void RoundEnd()
+    {
+        EventBus.Instance.OnEnemyDead -= EnemyDead;
+        EventBus.Instance.OnRoundEnd -= RoundEnd;
+        CoroutineManager.Instance.StartCoroutine(EndGameTransition());
+    }
+
+    private IEnumerator EndGameTransition()
+    {
+        GameManager.Instance.MissionGoalUI.UIAnimator.Play("UIOut");
+        yield return new WaitForSeconds(1.25f);
+        SceneManager.LoadScene("Scenes/UpgradeSelectorTesting");
+    }
+
+    public void UpdateUI()
+    {
+        if (GameManager.Instance.MissionGoalUI == null) { return; }
+        switch (roundType)
+        {
+            case RoundType.SURVIVAL:
+                GameManager.Instance.MissionGoalUI.objective.text = "OBJECTIVE: SURVIVE";
+                GameManager.Instance.MissionGoalUI.counter.text = ($"Time left: {Mathf.Max(roundTime - elapsedTime, 0f):F2}");
+                break;
+            case RoundType.EXTERMINATE:
+                GameManager.Instance.MissionGoalUI.objective.text = "OBJECTIVE: EXTERMINATE ALL ENEMIES";
+                GameManager.Instance.MissionGoalUI.counter.text = ($"Enemies left: {totalEnemies - enemiesKilled}");
+                break;
+        };
     }
 
     private int GetRandomWeightedIndex()
@@ -96,140 +186,6 @@ public class SpawnerManager
         return 0;
     }
 
-    // "Signals"
-    private void EnemyDead()
-    {
-        // Debug.Log("we killed something right?");
-        enemiesAlive -= 1;
-        if (enemiesAlive == 0)
-        {
-            if ((totalEnemies == numEnemiesSpawned) || (elapsedTime >= roundTime))
-            {
-                // Debug.Log("all enemies are dead and the conditions for winning are satisfied");
-                EventBus.Instance.OnEnemyDead -= EnemyDead;
-                EventBus.Instance.RoundEnd();
-            }
-        }
-    }
 
 }
 
-//public class SpawnerManager : MonoBehaviour
-//{
-//    // Number of enemies that will be spawned
-//    private int totalEnemies = 10;
-//    private int numEnemiesSpawned = 0;
-
-//    private int enemiesAlive = 0;
-//    private float elapsedTime = 0;
-//    private int roundTime = 10; // How much time needs to pass to win (secondary win condition)
-
-//    private List<EnemySpawnData> enemyTypes;
-
-//    //private float spawnTimer = 0f;
-//    private float spawnInterval = 3f; // Spawn an enemy every x seconds
-
-//    private int maxSpawnPerPoint = 1; // How many enemies can be spawned on a spawner at a time
-
-//    void Awake()
-//    {
-//        GameManager.Instance.SpawnerManager = this;
-//    }
-
-//    private void Start()
-//    {
-//        LoadInfoFromJSON();
-//        StartCoroutine(StartSpawning());
-//        EventBus.Instance.OnEnemyDead += EnemyDead;
-//    }
-
-//    private void OnDestroy()
-//    {
-//        EventBus.Instance.OnEnemyDead -= EnemyDead;
-//    }
-
-//    // Coroutine to start spawning enemies
-//    IEnumerator StartSpawning()
-//    {
-//        SpawnEnemies();
-//        yield return new WaitForSeconds(spawnInterval);
-//        elapsedTime += spawnInterval; // Lazy way of increasing time
-
-//        if ((numEnemiesSpawned >= totalEnemies) || (elapsedTime >= roundTime))
-//        {
-//            yield break;
-//        }
-
-//        StartCoroutine(StartSpawning());
-
-//    }
-
-//    // This will load in the proper spawning information from the JSON (sets all of the variables above)
-//    void LoadInfoFromJSON()
-//    {
-//        GameObject[] prefabs = Resources.LoadAll<GameObject>("Prefabs/Enemy Prefabs");
-
-//        enemyTypes = new List<EnemySpawnData>();
-
-//        foreach (GameObject prefab in prefabs)
-//        {
-//            // Spawn weights will be read from JSON
-//            enemyTypes.Add(new EnemySpawnData 
-//            { prefab= prefab, spawnWeight= 1 
-//            });
-//        }
-//    }
-//    // This will call the spawn enemy function on every spawner
-//    private void SpawnEnemies()
-//    {
-//        foreach (Transform child in transform)
-//        {
-//            if (child.transform.childCount <= maxSpawnPerPoint)
-//            {
-//                GameObject selectedEnemy = enemyTypes[GetRandomWeightedIndex()].prefab; // Need to apply some weight randomness here
-//                GameObject enemy = Instantiate(selectedEnemy, child.transform.position, child.transform.rotation);
-//                enemy.transform.SetParent(child.transform);
-//                numEnemiesSpawned += 1;
-//            }
-//            if (numEnemiesSpawned >= totalEnemies)
-//            {
-//                break;
-//            }
-
-//        }
-//    }
-
-//    private int GetRandomWeightedIndex()
-//    {
-//        int totalWeight = enemyTypes.Sum(enemy => enemy.spawnWeight);
-
-//        int randomValue = Random.Range(0, totalWeight);
-
-//        for (int i = 0; i < enemyTypes.Count; i++)
-//        {
-//            randomValue -= enemyTypes[i].spawnWeight;
-
-//            if (randomValue < 0)
-//            {
-//                return i;
-//            }
-//        }
-
-//        return 0;
-//    }
-
-//    // "Signals"
-//    private void EnemyDead()
-//    {
-//        enemiesAlive -= 1;
-//        if (enemiesAlive == 0)
-//        {
-//            if ((totalEnemies == numEnemiesSpawned) || (elapsedTime >= roundTime))
-//            {
-//                Debug.Log("all enemies are dead and the conditions for winning are satisfied");
-//                EventBus.Instance.RoundEnd();
-//            }
-//        }
-//    }
-
-//}

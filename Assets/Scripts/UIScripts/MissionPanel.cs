@@ -26,7 +26,8 @@ public class MissionPanel : MonoBehaviour
 
     public void MissionSelected()
     {
-        GameManager.Instance.difficultySum += mapGenerator.graph.Nodes[currentNodeID].Difficulty;
+        GameManager.Instance.difficultySum += mapGenerator.graph.Nodes[currentNodeID].Difficulty + 1;
+        SpawnerManager.Instance.InitializeSpawner();
         mapGenerator.ChangePlayerLocation(currentNodeID);
         Random rand = new Random();
         SceneManager.LoadScene(mapPool[rand.Next(0,4)]);

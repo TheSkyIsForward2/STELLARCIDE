@@ -14,9 +14,9 @@ public sealed class GenNode {
     public int Depth;
     public int Difficulty;
     public string Description;
-    public int RedDwarfNumber;
-    public int YellowDwarfNumber;
-    public int RedGiantNumber;
+    public int RedDwarfWeight;
+    public int YellowDwarfWeight;
+    public int RedGiantWeight;
     
     public GenNode(string id, string type, int width, int depth, int difficulty, string description)
     {
@@ -31,8 +31,31 @@ public sealed class GenNode {
 
     public void DifficultyRandomization()
     {
+        RedDwarfWeight = YellowDwarfWeight = RedGiantWeight = 0;
         // rand
         // change numbers with rand based on stored difficulty value (check for nulls)
+        switch (Difficulty)
+        {
+            case 0:
+                RedDwarfWeight = 100;
+                break;
+            case 1:
+                RedGiantWeight = 100;
+                break;
+            case 2:
+                RedDwarfWeight = 60;
+                RedGiantWeight = 40;
+                break;
+            case 3:
+                RedDwarfWeight = 90;
+                YellowDwarfWeight = 10;
+                break;
+            case 4:
+                RedDwarfWeight = 40;
+                RedGiantWeight = 40;
+                YellowDwarfWeight = 20;
+                break;
+        }
     }
 }
 
@@ -127,8 +150,9 @@ public class SelectorMapGenerator : MonoBehaviour
                 for (int width = 0; width < columnWidth; width++)
                 {
                     difficulty = rand.Next(0, 5);
-                    graph.AddNode(new GenNode($"{nodeId}", "Area", width, depth, difficulty, "test description"));
-                    currentRoot.nodes.Add(new GenNode($"{nodeId}", "Area", width, depth, difficulty, "test description"));
+                    string roomType = rand.Next(0, 2) == 0 ? "Survival" : "Exterminate";
+                    currentRoot.nodes.Add(new GenNode($"{nodeId}", roomType, width, depth, difficulty, "test description"));
+                    graph.AddNode(new GenNode($"{nodeId}", roomType, width, depth, difficulty, "test description"));
                     nodeId++;
                 }
 
