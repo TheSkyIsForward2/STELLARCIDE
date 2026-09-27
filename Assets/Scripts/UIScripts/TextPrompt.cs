@@ -20,8 +20,11 @@ public class TextPrompt : MonoBehaviour
     {
         set
         { 
-            header.enabled = value; 
-            subtext.enabled = value;
+            if (header != null && subtext != null)
+            {
+                header.enabled = value; 
+                subtext.enabled = value;
+            }
         }
         get
         { 
@@ -36,6 +39,9 @@ public class TextPrompt : MonoBehaviour
         counter = returnTime;
         header.text = $"you shouldnt see this B==D";
         GameManager.Instance.textPrompt = this;
+
+        EventBus.Instance.OnGamePaused += HideAll;
+        HideAll(false);
     }
 
     void Start()
@@ -68,5 +74,10 @@ public class TextPrompt : MonoBehaviour
     public void UpdateText(string text)
     {
         subtext.text = text;
+    }
+
+    public void HideAll(bool hidden)
+    {
+        isVisible = !hidden;
     }
 }

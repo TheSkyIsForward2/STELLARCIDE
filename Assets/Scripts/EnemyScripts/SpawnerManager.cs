@@ -54,7 +54,6 @@ public class SpawnerManager
     {
         EventBus.Instance.OnEnemyDead += EnemyDead;
         EventBus.Instance.OnRoundEnd += RoundEnd;
-        EventBus.Instance.OnGamePaused += HideObjectives;
         ResetVariables();
         CalculateDifficulty();
         UpdateUI();
@@ -191,12 +190,5 @@ public class SpawnerManager
 
         return 0;
     }
-
-    public void HideObjectives(bool isHidden = false)
-    {
-        GameManager.Instance.textPrompt.isVisible = !isHidden;
-    }
-
-
 }
 
