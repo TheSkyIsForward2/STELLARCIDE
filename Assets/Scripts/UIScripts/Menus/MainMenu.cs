@@ -57,8 +57,6 @@ public class MainMenu : MonoBehaviour
         if (PlayerPrefs.GetString("TutorialFinished") == "no") SceneManager.LoadScene("Tutorial");
         // otherwise play game again
         else SceneManager.LoadScene("AreaSelectionMap");
-
-        
     }
 
     public void Options()
