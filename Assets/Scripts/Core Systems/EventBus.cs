@@ -53,6 +53,7 @@ public class EventBus
     public event Action<PlayerMode> OnFormChange;
     public event Action OnEnemyDead;
     public event Action OnRoundEnd;
+    public event Action<bool> OnGamePaused;
     #endregion
 
     #region Callers
@@ -67,6 +68,11 @@ public class EventBus
 
     public void RoundEnd() {
         OnRoundEnd?.Invoke();
+    }
+
+    public void PauseGame(bool isPaused)
+    {
+        OnGamePaused?.Invoke(isPaused);
     }
     #endregion
 }

@@ -4,39 +4,53 @@ using System.Collections;
 
 public class TextPrompt : MonoBehaviour
 {
-    private TextMeshProUGUI textLabel;
+    private TextMeshProUGUI header;
+    private TextMeshProUGUI subtext;
     public int returnTime = 10;
     private int counter;
+    public bool countdownActive
+    {
+        get
+        {
+            return counter < returnTime;
+        }
+    }
 
     public bool isVisible 
     {
         set
         { 
-            textLabel.enabled = value; 
-            if (!value) {counter = returnTime;}
+            header.enabled = value; 
+            subtext.enabled = value;
         }
         get
         { 
-            return textLabel.enabled;
+            return header.enabled && subtext.enabled;
         }
     }
 
     void Awake()
     {
-        textLabel = GetComponent<TextMeshProUGUI>();
-        textLabel.text = $"you shouldnt see this B==D";
-        isVisible = false;
+        header = transform.Find("Objective").GetComponent<TextMeshProUGUI>();
+        subtext = transform.Find("Counter").GetComponent<TextMeshProUGUI>();
         counter = returnTime;
-
+        header.text = $"you shouldnt see this B==D";
         GameManager.Instance.textPrompt = this;
+    }
+
+    void Start()
+    { 
+        isVisible = true;
     }
 
     public IEnumerator StartCountDown()
     {
         isVisible = true;
+        counter = returnTime;
         while (counter > 0)
         {
-            textLabel.text = $"RETURN TO MISSION ZONE IN {counter--}";
+            UpdateHeader($"RETURN TO MISSION ZONE IN {counter--}");
+            UpdateText("");
             yield return new WaitForSeconds(1);
         }
         GameManager.Instance.Player.GetComponent<HealthOwner>().TakeDOT(
@@ -44,5 +58,15 @@ public class TextPrompt : MonoBehaviour
             new Damage(20,Damage.Type.PHYSICAL),
             1
         );
+    }
+
+    public void UpdateHeader(string text)
+    {
+        header.text = text;
+    }
+
+    public void UpdateText(string text)
+    {
+        subtext.text = text;
     }
 }

@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.SceneManagement;
+using IEnumerator = System.Collections.IEnumerator;
 
 [System.Serializable]
 public class EnemySpawnData
@@ -53,9 +54,11 @@ public class SpawnerManager
     {
         EventBus.Instance.OnEnemyDead += EnemyDead;
         EventBus.Instance.OnRoundEnd += RoundEnd;
+        EventBus.Instance.OnGamePaused += HideObjectives;
         ResetVariables();
         CalculateDifficulty();
         UpdateUI();
+
     }
 
     // Since this is a public class and will always persist, we need to manually reset the values
@@ -141,7 +144,7 @@ public class SpawnerManager
     {
         EventBus.Instance.OnEnemyDead -= EnemyDead;
         EventBus.Instance.OnRoundEnd -= RoundEnd;
-        CoroutineManager.Instance.StartCoroutine(EndGameTransition());
+        CoroutineManager.Instance.Run(EndGameTransition());
     }
 
     private IEnumerator EndGameTransition()
@@ -154,15 +157,18 @@ public class SpawnerManager
     public void UpdateUI()
     {
         if (GameManager.Instance.MissionGoalUI == null) { return; }
+        if (GameManager.Instance.textPrompt.countdownActive) { return; }
+        GameManager.Instance.textPrompt.isVisible = true;
+
         switch (roundType)
         {
             case RoundType.SURVIVAL:
-                GameManager.Instance.MissionGoalUI.objective.text = "OBJECTIVE: SURVIVE";
-                GameManager.Instance.MissionGoalUI.counter.text = ($"Time left: {Mathf.Max(roundTime - elapsedTime, 0f):F2}");
+                GameManager.Instance.textPrompt.UpdateHeader("OBJECTIVE: SURVIVE");
+                GameManager.Instance.textPrompt.UpdateText($"TIME LEFT: {Mathf.Max(roundTime - elapsedTime, 0f):F2}");
                 break;
             case RoundType.EXTERMINATE:
-                GameManager.Instance.MissionGoalUI.objective.text = "OBJECTIVE: EXTERMINATE ALL ENEMIES";
-                GameManager.Instance.MissionGoalUI.counter.text = ($"Enemies left: {totalEnemies - enemiesKilled}");
+                GameManager.Instance.textPrompt.UpdateHeader("OBJECTIVE: EXTERMINATE ALL ENEMIES");
+                GameManager.Instance.textPrompt.UpdateText($"Enemies left: {totalEnemies - enemiesKilled}");
                 break;
         };
     }
@@ -184,6 +190,11 @@ public class SpawnerManager
         }
 
         return 0;
+    }
+
+    public void HideObjectives(bool isHidden = false)
+    {
+        GameManager.Instance.textPrompt.isVisible = !isHidden;
     }
 
 

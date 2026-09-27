@@ -292,8 +292,11 @@ public class SelectorMapGenerator : MonoBehaviour
             PlayerPrefs.SetString("PlayerPosition", "0");
         PlayerPrefs.Save();
         
-        if (!File.Exists(fullPathToFile))
+        if (!File.Exists(fullPathToFile) || fileToReadWrite.text == "")
+        {
             return new Root(new List<GenNode>(), new List<GenEdge>());
+        }
+            
         
         // break apart json into node and edges text
         string json = fileToReadWrite.text;
@@ -333,9 +336,15 @@ public class SelectorMapGenerator : MonoBehaviour
 
     public void ClearJson()
     {
-        if (File.Exists(fullPathToFile))
+        // if (File.Exists(fullPathToFile))
+        // {
+        //     File.Delete(fullPathToFile);
+        // }
+
+        using (StreamWriter sw = new StreamWriter(fullPathToFile, false))
         {
-            File.Delete(fullPathToFile);
+            sw.Write("");
+            sw.Close();
         }
     }
 }

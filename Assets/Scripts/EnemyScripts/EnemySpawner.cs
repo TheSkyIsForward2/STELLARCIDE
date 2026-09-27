@@ -38,6 +38,8 @@ public class EnemySpawner : MonoBehaviour
 
     private void Update()
     {
+        if (spawnerManager == null) {return;}
+
         if (spawnerManager.roundType == RoundType.EXTERMINATE)
         {
             return;

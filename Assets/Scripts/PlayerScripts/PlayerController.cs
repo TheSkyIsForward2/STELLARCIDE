@@ -42,6 +42,7 @@ public class PlayerController : MonoBehaviour
     
     private Rigidbody2D rb;
     private Animator animator;
+    private CapsuleCollider2D _collider;
 
     private void Awake()
     {
@@ -51,24 +52,34 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
 
         inputActions = new PlayerControls();
-        inputActions.Enable();
         
         shipMovement = GetComponent<ShipMovement>();
         shipMovement.enabled = true;
         mechMovement = GetComponent<MechMovement>();
         mechMovement.enabled = false;
+        _collider = GetComponent<CapsuleCollider2D>();
 
         ToggleControls(true);
+    }
+
+    void OnEnable()
+    {
+        inputActions.Enable();
+        _collider.enabled = true;
     }
 
     void OnDisable()
     {
         StopAllCoroutines();
+        inputActions.Disable();
+        _collider.enabled = false;
     }
 
     void OnDestroy()
     {
         StopAllCoroutines();
+        inputActions.Disable();
+        _collider.enabled = false;
     }
 
     void Start() {

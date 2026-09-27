@@ -30,12 +30,18 @@ public class PlayerAttacking : MonoBehaviour
     {
         inputActions = new PlayerControls();
         inputActions.Enable();
+    }
 
-        // Debug Heal
+    void OnEnable()
+    {
+        EventBus.Instance.OnFormChange += SwapAttacks;
+
         inputActions.Gameplay.Heal.performed += (ctx) =>
         {
-            GetComponent<PlayerHealth>().healthController.TakeDamage(new Damage(999, Damage.Type.PHYSICAL));
-            // SceneManager.LoadScene(1);
+            if (TryGetComponent<PlayerHealth>(out PlayerHealth ph))
+            {
+                ph.healthController.TakeDamage(new Damage(999, Damage.Type.PHYSICAL));
+            }
         };
 
         // Primary Upgrades
@@ -58,11 +64,10 @@ public class PlayerAttacking : MonoBehaviour
         };
     }
 
-
     void Start()
     {
         // this script now observes whenever the player changes forms and switches attacks accordingly
-        EventBus.Instance.OnFormChange += SwapAttacks;
+        // EventBus.Instance.OnFormChange += SwapAttacks;
         pc = GetComponent<PlayerController>();
 
         UpgradeManager instance = UpgradeManager.Instance;
@@ -136,11 +141,14 @@ public class PlayerAttacking : MonoBehaviour
     {
         StopAllCoroutines();
         EventBus.Instance.OnFormChange -= SwapAttacks;
+        inputActions.Gameplay.Disable();
     }
 
     void OnDisable()
     {
         StopAllCoroutines();
+        EventBus.Instance.OnFormChange -= SwapAttacks;
+        inputActions.Gameplay.Disable();
     }
     #endregion
 
@@ -239,9 +247,9 @@ public class PlayerAttacking : MonoBehaviour
 
     public void resetDoubling()
     {
-        slashAttack.Doubling = false; // not the best but o well
+        if (slashAttack != null) slashAttack.Doubling = false; // not the best but o well
         punchAttack.Doubling = false;
         shootAttack.Doubling = false;
-        missileAttack.Doubling = false;
+        if (missileAttack != null) missileAttack.Doubling = false;
     }
 }

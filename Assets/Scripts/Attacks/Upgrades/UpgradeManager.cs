@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
-using NUnit.Framework;
 using UnityEngine;
 
 public enum UpgradeTarget
@@ -81,7 +79,7 @@ public class UpgradeManager : MonoBehaviour
     {
         if (Instance != null && Instance != this)
         {
-            Destroy(Instance);
+            Destroy(this);
             return;
         }
 
