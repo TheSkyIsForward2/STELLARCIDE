@@ -581,7 +581,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 223470b4ef7c65a4e9e4dbcb38aee108, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundSlider: {fileID: 0}
+  soundSlider: {fileID: 6655146404609641359}
   masterMixer: {fileID: 24100000, guid: e115c91a482a34e4ba79a8a313ef8e2a, type: 2}
 --- !u!4 &1078034800
 Transform:
