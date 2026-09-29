@@ -29,8 +29,6 @@ public class MainMenu : MonoBehaviour
         }
         resolutionHeight = PlayerPrefs.GetInt("ResolutionHeight");
         
-        
-        
         if (!PlayerPrefs.HasKey("Fullscreen"))
         {
             PlayerPrefs.SetInt("Fullscreen", 1);

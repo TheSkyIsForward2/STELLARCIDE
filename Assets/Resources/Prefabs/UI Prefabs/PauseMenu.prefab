@@ -530,7 +530,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2492779994964211407
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1098,10 +1098,10 @@ RectTransform:
   - {fileID: 157542344396355336}
   m_Father: {fileID: 4503021975867727499}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 180, y: -300}
+  m_SizeDelta: {x: 360, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4568791773146706417
 CanvasRenderer:
@@ -1471,10 +1471,10 @@ RectTransform:
   - {fileID: 1135436854411348278}
   m_Father: {fileID: 4503021975867727499}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 180, y: -170}
+  m_SizeDelta: {x: 360, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3641663641345986511
 CanvasRenderer:
@@ -2882,9 +2882,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1806949386160300164}
+      - m_Target: {fileID: 9027549235554819949}
         m_TargetAssemblyTypeName: OptionsMenu, Assembly-CSharp
-        m_MethodName: Return
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3944,10 +3944,10 @@ RectTransform:
   - {fileID: 2395251831001224777}
   m_Father: {fileID: 4503021975867727499}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 180, y: -40}
+  m_SizeDelta: {x: 360, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2050700089233494192
 CanvasRenderer:
@@ -6874,7 +6874,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5453074593062451755
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8206,7 +8206,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2851298517654098872
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8245,7 +8245,7 @@ MonoBehaviour:
   optionsMenu: {fileID: 7308863411017485985}
   volumeMenu: {fileID: 2690244890738216895}
   graphicsMenu: {fileID: 5321632748581723237}
-  inMainMenu: 1
+  inMainMenu: 0
 --- !u!1 &9220819020730060931
 GameObject:
   m_ObjectHideFlags: 0
