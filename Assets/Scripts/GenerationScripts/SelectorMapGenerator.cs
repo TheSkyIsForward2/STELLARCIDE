@@ -276,7 +276,7 @@ public class SelectorMapGenerator : MonoBehaviour
         // modify the root and re-write json
         foreach (GenNode node in currentRoot.nodes)
         {
-            if (node.Id == nodeId && node.Type == "end")
+            if (node.Id == PlayerPrefs.GetString("PlayerPosition") && int.Parse(node.Id) == currentRoot.nodes.Count-1)
             {
                 // clearing the json effectively wipes the map and lets the next instance create it anew
                 ClearJson();
@@ -346,5 +346,6 @@ public class SelectorMapGenerator : MonoBehaviour
             sw.Write("");
             sw.Close();
         }
+        PlayerPrefs.SetString("PlayerPosition", "0");
     }
 }
