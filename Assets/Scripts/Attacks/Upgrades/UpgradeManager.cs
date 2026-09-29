@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
-using NUnit.Framework;
 using UnityEngine;
 
 public enum UpgradeTarget
@@ -75,11 +73,13 @@ public class UpgradeManager : MonoBehaviour
 
     public UpgradeData PrimaryUpgrade;
     public UpgradeData SecondaryUpgrade;
+
+    public List<UpgradeType> selectedUpgrades = new List<UpgradeType>();
     void Awake()
     {
         if (Instance != null && Instance != this)
         {
-            Destroy(Instance);
+            Destroy(this);
             return;
         }
 
@@ -93,8 +93,6 @@ public class UpgradeManager : MonoBehaviour
         possibleUpgrades.Add(new UpgradeType("Double Time", "time time", UpgradeTarget.DOUBLE_TIME, UpgradeEffect.CREATE));
 
         shuffleUpgrades();
-        PrimaryUpgrade = new DoubleTimeUpgrade(999,1);
-        SecondaryUpgrade = new SlashUpgrade(999,1);
         chargeUpUpgradeData = new ChargeUpUpgrade(1,1);
     }
 
@@ -241,6 +239,7 @@ public class UpgradeManager : MonoBehaviour
                 break;
         }
         shuffleUpgrades();
+        selectedUpgrades.Add(upgrade);
     }
 
     public void removeDurationAndCooldown(UpgradeType upgrade)

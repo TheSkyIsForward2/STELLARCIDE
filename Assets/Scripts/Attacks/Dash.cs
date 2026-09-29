@@ -50,6 +50,7 @@ public class Dash : Attack
 
         while (elapsedTime < TravelSpeed)
         {
+            if (Owner == null) {yield break;}
             Owner.transform.position = Vector3.Lerp(Owner.transform.position, 
                 origin + targetDistance, 
                 elapsedTime/TravelSpeed

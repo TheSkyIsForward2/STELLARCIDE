@@ -41,6 +41,9 @@ public class MainMenu : MonoBehaviour
         {
             PlayerPrefs.SetInt("Vsync", 1);
         }
+
+        PlayerPrefs.SetString("PlayerPosition", "0");
+
         PlayerPrefs.Save();
     }
 
@@ -52,7 +55,6 @@ public class MainMenu : MonoBehaviour
         if (PlayerPrefs.GetString("TutorialFinished") == "no") SceneManager.LoadScene("Tutorial");
         // otherwise play game again
         else SceneManager.LoadScene("AreaSelectionMap");
-        
     }
 
     public void Options()

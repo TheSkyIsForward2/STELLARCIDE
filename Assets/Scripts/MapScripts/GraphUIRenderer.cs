@@ -1,8 +1,4 @@
-using System;
 using System.Collections.Generic;
-using TMPro;
-using TMPro.EditorUtilities;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -209,7 +205,7 @@ namespace MapScripts
             GenNode selected = graphRef.Nodes[id];
             
             // grab difficulty and description
-            missionPanel.description.text =  $"{selected.Description}";
+            missionPanel.description.text =  $"{selected.Description} {selected.Type}";
             missionPanel.scoreMult.text =  $"DIFFICULTY\nMULTIPLIER:\n{1 + selected.Difficulty * .5}X";
             missionPanel.currentNodeID = id;
             missionPanel.gameObject.SetActive(true);  

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class MapSelectorRing : MonoBehaviour
 {
@@ -13,6 +14,16 @@ public class MapSelectorRing : MonoBehaviour
     private void Start()
     {
         StartCoroutine(LerpFunction(maxSize, smoothTime));
+    }
+
+    void OnDisable()
+    {
+        StopAllCoroutines();
+    }
+
+    void OnDestroy()
+    {
+        StopAllCoroutines();
     }
 
     // Update is called once per frame

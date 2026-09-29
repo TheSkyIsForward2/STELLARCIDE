@@ -21,6 +21,7 @@ public class PauseMenu : MonoBehaviour
         GameManager.Instance.GameActive = false;
         Time.timeScale = 0f;
         playerController.ToggleControls(false);
+        EventBus.Instance.PauseGame(true);
     }
 
     public void Resume()
@@ -29,6 +30,7 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1f;
         GameManager.Instance.GameActive = true;
         playerController.ToggleControls(true);
+        EventBus.Instance.PauseGame(false);
     }
 
     public void ReturnToMainMenu()
@@ -58,8 +60,14 @@ public class PauseMenu : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (GameManager.Instance.GameActive) Pause();
-            else if (!nested) Resume();
+            if (GameManager.Instance.GameActive)
+            {
+                Pause();
+            } 
+            else if (!nested) 
+            {
+                Resume();
+            }
         }
     }
 }

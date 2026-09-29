@@ -59,7 +59,7 @@ public class HealthOwner : Component
 
         if (team == Team.PLAYER)
         {
-            SceneManager.LoadScene("GameOver");
+            SceneManager.LoadScene("Leaderboard");
             return true;
         }
         

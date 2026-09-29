@@ -24,7 +24,7 @@ public class ScoutState : IState
 
     public void OnEntry(StateController controller)
     {
-        controller.Animator.SetTrigger("triggerWalk");
+        controller.TryTriggerAnimation("triggerWalk");
     }
 
     public void OnUpdate(StateController controller)
@@ -38,7 +38,10 @@ public class ScoutState : IState
             controller.ChangeState(ShootState);
         }
 
-        controller.transform.position = Vector2.MoveTowards(controller.transform.position, controller.Player.position, MoveSpeed * Time.deltaTime);
+        controller.transform.position +=
+            controller.transform.right * MoveSpeed * Time.deltaTime;
+
+        controller.RotateToPlayer();
 
 
     }

@@ -11,7 +11,6 @@ public abstract class Attack
 {
     public GameObject Owner;
     public Animator Animator;
-    public string AnimationName;
     public string Name;
     public Damage Damage;
     public float Cooldown;
@@ -111,20 +110,20 @@ public abstract class Attack
 
         for (int i = 0; i < entitiesInRange.Length; i++)
         {
-            Entity other;
-            try { other = entitiesInRange[i].GetComponent<Entity>(); } catch { other = null; }
+            if (entitiesInRange[i].TryGetComponent(out Entity entity))
+            {
+                if (entity && entity.healthController.team != Owner.GetComponent<Entity>().healthController.team)
+                {
+                    if (!entity.healthController.TakeDamage(Damage))
+                        gameObjectsHit.Add(entity);
+                }
 
-            if (other && other.healthController.team != Owner.GetComponent<Entity>().healthController.team)
-            {
-                if (!other.healthController.TakeDamage(Damage))
-                    gameObjectsHit.Add(other);
-            }
-            
-            // update health bar
-            if (other && other.TryGetComponent(out EnemyHealth enemyHealth))
-            {
-                enemyHealth.healthBar.UpdateHealthBar(other.GetComponent<Entity>().healthController.hp,
-                    other.GetComponent<Entity>().healthController.maxHP);
+                // update health bar
+                if (entity && entity.TryGetComponent(out EnemyHealth enemyHealth))
+                {
+                    enemyHealth.healthBar.UpdateHealthBar(entity.healthController.hp,
+                        entity.GetComponent<Entity>().healthController.maxHP);
+                }
             }
         }
 
@@ -138,10 +137,15 @@ public abstract class Attack
     public bool AnimatorIsPlaying()
     {
         if (Animator)
-            return Animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1 && 
-                Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimationName);
-        else
-            return false;
+        {
+            AnimatorStateInfo currentState = Animator.GetCurrentAnimatorStateInfo(0);
+            return currentState.normalizedTime > 1 && 
+                !(currentState.IsName("Idle") || currentState.IsName("Walk"));
+
+            // return currentState.IsName("Idle") || currentState.IsName("Walk");
+        }
+
+        return false;
     }
 
     public int CurrentAnimationFrame()
@@ -151,5 +155,20 @@ public abstract class Attack
         AnimatorClipInfo[] clip = Animator.GetCurrentAnimatorClipInfo(0);
         return (int) (Animator.GetCurrentAnimatorStateInfo(0).normalizedTime 
                      * (clip[0].clip.length * clip[0].clip.frameRate));
+    }
+
+    public bool TryTriggerAnimation(string triggerName)
+    {
+        if (Animator == null) {return false;}
+
+        for (int i=0; i<Animator.parameterCount; i++)
+        {
+            if (Animator.parameters[i].name == triggerName)
+            {
+                Animator.SetTrigger(triggerName);
+                return true;
+            }
+        }
+        return false;
     }
 }

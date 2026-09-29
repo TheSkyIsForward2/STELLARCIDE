@@ -14,7 +14,9 @@ public sealed class GenNode {
     public int Depth;
     public int Difficulty;
     public string Description;
-    public int RedDwarfNumber;
+    public int RedDwarfWeight;
+    public int YellowDwarfWeight;
+    public int RedGiantWeight;
     
     public GenNode(string id, string type, int width, int depth, int difficulty, string description)
     {
@@ -29,8 +31,31 @@ public sealed class GenNode {
 
     public void DifficultyRandomization()
     {
+        RedDwarfWeight = YellowDwarfWeight = RedGiantWeight = 0;
         // rand
         // change numbers with rand based on stored difficulty value (check for nulls)
+        switch (Difficulty)
+        {
+            case 0:
+                RedDwarfWeight = 100;
+                break;
+            case 1:
+                RedGiantWeight = 100;
+                break;
+            case 2:
+                RedDwarfWeight = 60;
+                RedGiantWeight = 40;
+                break;
+            case 3:
+                RedDwarfWeight = 90;
+                YellowDwarfWeight = 10;
+                break;
+            case 4:
+                RedDwarfWeight = 40;
+                RedGiantWeight = 40;
+                YellowDwarfWeight = 20;
+                break;
+        }
     }
 }
 
@@ -125,8 +150,9 @@ public class SelectorMapGenerator : MonoBehaviour
                 for (int width = 0; width < columnWidth; width++)
                 {
                     difficulty = rand.Next(0, 5);
-                    graph.AddNode(new GenNode($"{nodeId}", "Area", width, depth, difficulty, "test description"));
-                    currentRoot.nodes.Add(new GenNode($"{nodeId}", "Area", width, depth, difficulty, "test description"));
+                    string roomType = rand.Next(0, 2) == 0 ? "Survival" : "Exterminate";
+                    currentRoot.nodes.Add(new GenNode($"{nodeId}", roomType, width, depth, difficulty, "test description"));
+                    graph.AddNode(new GenNode($"{nodeId}", roomType, width, depth, difficulty, "test description"));
                     nodeId++;
                 }
 
@@ -266,8 +292,11 @@ public class SelectorMapGenerator : MonoBehaviour
             PlayerPrefs.SetString("PlayerPosition", "0");
         PlayerPrefs.Save();
         
-        if (!File.Exists(fullPathToFile))
+        if (!File.Exists(fullPathToFile) || fileToReadWrite.text == "")
+        {
             return new Root(new List<GenNode>(), new List<GenEdge>());
+        }
+            
         
         // break apart json into node and edges text
         string json = fileToReadWrite.text;
@@ -307,9 +336,15 @@ public class SelectorMapGenerator : MonoBehaviour
 
     public void ClearJson()
     {
-        if (File.Exists(fullPathToFile))
+        // if (File.Exists(fullPathToFile))
+        // {
+        //     File.Delete(fullPathToFile);
+        // }
+
+        using (StreamWriter sw = new StreamWriter(fullPathToFile, false))
         {
-            File.Delete(fullPathToFile);
+            sw.Write("");
+            sw.Close();
         }
         PlayerPrefs.SetString("PlayerPosition", "0");
     }
