@@ -87,7 +87,7 @@ public class Punch : Attack
         {
             if (entity.healthController.team != this.entity.healthController.team)
             {
-                CoroutineManager.Instance.Run(entity.KnockBack(
+                entity.StartCoroutine(entity.KnockBack(
                     origin: Owner.transform.position,
                     strength: KnockbackStrength
                 ));
@@ -157,7 +157,7 @@ public class Punch : Attack
         {
             if (entity.healthController.team != this.entity.healthController.team)
             {
-                CoroutineManager.Instance.Run(entity.KnockBack(
+                entity.StartCoroutine(entity.KnockBack(
                     origin: Owner.transform.position,
                     strength: KnockbackStrength
                 ));
