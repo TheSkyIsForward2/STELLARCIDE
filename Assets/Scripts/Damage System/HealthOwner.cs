@@ -62,6 +62,11 @@ public class HealthOwner : Component
             SceneManager.LoadScene("Leaderboard");
             return true;
         }
+
+        if (team == Team.ENEMY)
+        {
+            EventBus.Instance.EnemyDead();
+        }
         
         Destroy(owner);
         return true;
