@@ -148,7 +148,10 @@ public class SpawnerManager
 
     private IEnumerator EndGameTransition()
     {
-        GameManager.Instance.MissionGoalUI.UIAnimator.Play("UIOut");
+        if (GameManager.Instance.MissionGoalUI.UIAnimator != null)
+        {
+            GameManager.Instance.MissionGoalUI.UIAnimator.Play("UIOut");
+        }
         yield return new WaitForSeconds(1.25f);
         SceneManager.LoadScene("Scenes/UpgradeSelectorTesting");
     }
