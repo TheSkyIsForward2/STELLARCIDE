@@ -55,7 +55,7 @@ public class Punch : Attack
             if (entity.healthController.team == HealthOwner.Team.PLAYER)
             {
                 Animator.SetBool("straightPunch", true);
-                Animator.SetTrigger("executeWindup");
+                TryTriggerAnimation("executeWindup");
 
                 LastExecute = Time.time;
                 yield return new WaitWhile(AnimatorIsPlaying);
@@ -100,18 +100,12 @@ public class Punch : Attack
         // lol it works
         if (Doubling)
         {
-            if (Animator)
-            {
-                Animator.SetTrigger("executeWindup");
-            }
+            TryTriggerAnimation("executeWindup");
 
             LastExecute = Time.time;
             yield return new WaitWhile(AnimatorIsPlaying);
 
-            if (Animator)
-            {
-                Animator.SetTrigger("executePunch");
-            }
+            TryTriggerAnimation("executePunch");
 
             LastExecute = Time.time;
             yield return new WaitForSeconds(0.20f);
@@ -127,10 +121,7 @@ public class Punch : Attack
     public override IEnumerator StartCharge()
     {
         LastExecute = Time.time;
-        if (Animator)
-        {
-            Animator.SetTrigger("executeWindup");
-        }
+        TryTriggerAnimation("executeWindup");
 
         yield return new WaitWhile(AnimatorIsPlaying);
     }
@@ -140,10 +131,7 @@ public class Punch : Attack
     {
         int temp = Damage.Amount;
         Damage.Amount += Damage.Amount * (int)(Time.time - LastExecute);
-        if (Animator)
-        {
-            Animator.SetTrigger("executePunch");
-        }
+        TryTriggerAnimation("executePunch");
 
         if (playerRB)
         {
@@ -170,18 +158,12 @@ public class Punch : Attack
         // lol it works
         if (Doubling)
         {
-            if (Animator)
-            {
-                Animator.SetTrigger("executeWindup");
-            }
+            TryTriggerAnimation("executeWindup");
 
             LastExecute = Time.time;
             yield return new WaitWhile(AnimatorIsPlaying);
 
-            if (Animator)
-            {
-                Animator.SetTrigger("executePunch");
-            }
+            TryTriggerAnimation("executePunch");
 
             LastExecute = Time.time;
             yield return new WaitForSeconds(0.20f);
