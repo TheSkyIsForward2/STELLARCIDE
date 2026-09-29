@@ -70,16 +70,12 @@ public class PlayerController : MonoBehaviour
 
     void OnDisable()
     {
-        StopAllCoroutines();
         inputActions.Disable();
-        _collider.enabled = false;
     }
 
     void OnDestroy()
     {
-        StopAllCoroutines();
         inputActions.Disable();
-        _collider.enabled = false;
     }
 
     void Start() {
@@ -183,7 +179,8 @@ public class PlayerController : MonoBehaviour
     {
         shipMovement.enabled = false;
         mechMovement.enabled = true;
-        
+
+        if (!gameObject.activeInHierarchy) { return; }
         StartCoroutine(LockControls(slideLength));
         rb.AddForce(transform.right * slideSpeed, ForceMode2D.Impulse);
         // transformation animation (ship to mech)
@@ -195,7 +192,7 @@ public class PlayerController : MonoBehaviour
     {
         shipMovement.enabled = true;
         mechMovement.enabled = false;
-        
+        if (!gameObject.activeInHierarchy) { return; }
         StartCoroutine(LockControls(slideLength));
         // addforce ( direction of movement * speed)
         Vector2 wishDir = inputActions.Gameplay.Move.ReadValue<Vector2>().normalized;
