@@ -19,12 +19,7 @@ public class ChaseState : IState
     {
         controller.TryTriggerAnimation("triggerWalk");
         self = controller.gameObject;
-        controller.CurrentAttack = new Punch(self,
-            damage: new Damage(10, Damage.Type.PHYSICAL), 
-            cooldown: 2f,
-            travelSpeed:0,
-            knockbackStrength:6 // i guess this is the min b4 it bugs out
-        );
+        controller.CurrentAttack = controller.biteAttack;
     }
 
     public void OnUpdate(StateController controller)
@@ -42,7 +37,7 @@ public class ChaseState : IState
 
         if (controller.CurrentAttack == null) {return;}
 
-        if (controller.DistanceToPlayer < 4.5 && controller.CurrentAttack.IsReady())
+        if (controller.DistanceToPlayer < 4.5 && controller.biteAttack.IsReady())
         {
             controller.AttackPlayer();
         }

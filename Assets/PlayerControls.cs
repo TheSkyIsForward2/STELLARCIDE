@@ -163,6 +163,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Seppuku"",
+                    ""type"": ""Button"",
+                    ""id"": ""bb77f533-9e8a-444b-8acb-9f847263248d"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -363,6 +372,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Heal"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8504e0fb-6118-4cdd-a2aa-71d4c68a972e"",
+                    ""path"": ""<Keyboard>/j"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Seppuku"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -379,6 +399,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Gameplay_UpgradeA = m_Gameplay.FindAction("UpgradeA", throwIfNotFound: true);
         m_Gameplay_UpgradeB = m_Gameplay.FindAction("UpgradeB", throwIfNotFound: true);
         m_Gameplay_Heal = m_Gameplay.FindAction("Heal", throwIfNotFound: true);
+        m_Gameplay_Seppuku = m_Gameplay.FindAction("Seppuku", throwIfNotFound: true);
     }
 
     ~@PlayerControls()
@@ -467,6 +488,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_UpgradeA;
     private readonly InputAction m_Gameplay_UpgradeB;
     private readonly InputAction m_Gameplay_Heal;
+    private readonly InputAction m_Gameplay_Seppuku;
     /// <summary>
     /// Provides access to input actions defined in input action map "Gameplay".
     /// </summary>
@@ -510,6 +532,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Gameplay/Heal".
         /// </summary>
         public InputAction @Heal => m_Wrapper.m_Gameplay_Heal;
+        /// <summary>
+        /// Provides access to the underlying input action "Gameplay/Seppuku".
+        /// </summary>
+        public InputAction @Seppuku => m_Wrapper.m_Gameplay_Seppuku;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -560,6 +586,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Heal.started += instance.OnHeal;
             @Heal.performed += instance.OnHeal;
             @Heal.canceled += instance.OnHeal;
+            @Seppuku.started += instance.OnSeppuku;
+            @Seppuku.performed += instance.OnSeppuku;
+            @Seppuku.canceled += instance.OnSeppuku;
         }
 
         /// <summary>
@@ -595,6 +624,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Heal.started -= instance.OnHeal;
             @Heal.performed -= instance.OnHeal;
             @Heal.canceled -= instance.OnHeal;
+            @Seppuku.started -= instance.OnSeppuku;
+            @Seppuku.performed -= instance.OnSeppuku;
+            @Seppuku.canceled -= instance.OnSeppuku;
         }
 
         /// <summary>
@@ -691,5 +723,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnHeal(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Seppuku" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSeppuku(InputAction.CallbackContext context);
     }
 }

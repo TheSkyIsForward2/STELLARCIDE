@@ -14,6 +14,14 @@ public class TextPrompt : MonoBehaviour
         {
             return counter < returnTime;
         }
+
+        set
+        {
+            if (!value)
+            {
+                counter = returnTime;
+            }
+        }
     }
 
     public bool isVisible 

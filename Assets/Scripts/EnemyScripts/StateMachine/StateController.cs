@@ -1,4 +1,3 @@
-using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
@@ -7,6 +6,10 @@ public class StateController : MonoBehaviour
 {
     public IState CurrentState {  get; private set; }
     public Attack CurrentAttack;
+
+    public Punch biteAttack;
+    public Shoot shootAttack;
+    public Dash dashAttack;
 
     public Transform Player { get; private set; }
     
@@ -19,12 +22,34 @@ public class StateController : MonoBehaviour
 
     public Light2D AttackIndicator;
 
+    private Vector3 ZEROVEC = Vector3.zero;
 
+    // DEBUG
     [SerializeField] private TextMeshProUGUI debugText;
 
     private void Awake()
     {
         Animator = GetComponent<Animator>();
+
+        biteAttack = new Punch(gameObject,
+            damage: new Damage(10, Damage.Type.PHYSICAL), 
+            cooldown: 2f,
+            travelSpeed:0,
+            knockbackStrength:6 // i guess this is the min b4 it bugs out
+        );
+        shootAttack = new Shoot(gameObject,
+            damage: new Damage(10, Damage.Type.PHYSICAL),
+            cooldown: 1f,
+            travelSpeed: 10,
+            lifetime: 2,
+            piercing: false
+        );
+        dashAttack = new Dash(gameObject,
+            damage: new Damage(10, Damage.Type.PHYSICAL),
+            cooldown: 1f,
+            travelSpeed: 0.25f,
+            lifetime: 1f
+        );
     }
 
     private void Start()
@@ -50,6 +75,15 @@ public class StateController : MonoBehaviour
         CurrentState = newState;
         CurrentState.OnEntry(this);
         debugText.text = CurrentState.GetName();
+
+        // uncomment this for baby mode
+        // if (biteAttack == null || shootAttack == null || dashAttack == null)
+        // {
+        //     return;
+        // }
+        // biteAttack.ResetCD();
+        // shootAttack.ResetCD();
+        // dashAttack.ResetCD();
     }
 
     private void Update()
@@ -67,18 +101,27 @@ public class StateController : MonoBehaviour
         //RotateToPlayer();
     }
 
-    public void AttackPlayer()
+    public void AttackPlayer(Vector3 origin = default, Vector3 target = default)
     {
         if (CurrentAttack is Shoot)
         {
-            StartCoroutine(CurrentAttack.Execute(transform.position, EnemyToPlayer));
+            StartCoroutine(shootAttack.Execute(
+                origin: transform.position, 
+                target: EnemyToPlayer));
         }
         else if (CurrentAttack is Punch)
         {
-            StartCoroutine(CurrentAttack.Execute(
+            StartCoroutine(biteAttack.Execute(
                 origin: transform.position, 
                 target: new Vector3(60,160) // x is range, y is width
             )); 
+        }
+        else if (CurrentAttack is Dash)
+        {
+            StartCoroutine(dashAttack.Execute(
+                origin: origin,
+                target: target
+            ));
         }
     }
 

@@ -18,7 +18,8 @@ public class MissionBorder : MonoBehaviour
     {
         if (collider.CompareTag("Player"))
         {
-            GameManager.Instance.textPrompt.isVisible = false;
+            // GameManager.Instance.textPrompt.isVisible = false;
+            GameManager.Instance.textPrompt.countdownActive = false;
             if (coroutine != null)
             {
                 StopCoroutine(coroutine);

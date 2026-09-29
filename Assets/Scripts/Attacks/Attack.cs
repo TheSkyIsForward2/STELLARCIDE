@@ -82,6 +82,11 @@ public abstract class Attack
         return LastExecute + Cooldown < Time.time;
     }
 
+    public void ResetCD()
+    {
+        LastExecute = Time.time - 0.5f; // magic num and honestly bad balancing but maybe works
+    }
+
     /// <summary>
     /// Damages entities in a rectangular area in front of the owner a.k.a attacker. 
     /// </summary>

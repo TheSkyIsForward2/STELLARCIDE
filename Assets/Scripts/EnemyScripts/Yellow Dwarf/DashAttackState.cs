@@ -14,19 +14,10 @@ public class DashAttackState : IState
     {
         DashChaseState = dashChase;
     }
+
     public void OnEntry(StateController controller)
     {
-        self = controller.gameObject;
-        if (dash != null)
-            return;
-
-        dash = new Dash(self,
-            damage: new Damage(10, Damage.Type.PHYSICAL),
-            cooldown: 1f,
-            travelSpeed: 0.25f,
-            lifetime: 1f
-            );
-
+        controller.CurrentAttack = controller.dashAttack;
     }
 
     public void OnUpdate(StateController controller)
@@ -35,9 +26,9 @@ public class DashAttackState : IState
         {
             controller.ChangeState(DashChaseState);
         }
-        if (dash.IsReady() && canAttack)
+        if (controller.dashAttack.IsReady() && canAttack)
         {
-            CoroutineManager.Instance.StartCoroutine(Attack(controller));
+            controller.StartCoroutine(Attack(controller));
         }
         if (!attacking)
         {
@@ -73,7 +64,11 @@ public class DashAttackState : IState
         controller.TryTriggerAnimation("triggerDashWindup");
         yield return new WaitForSeconds(0.25f);
 
-        CoroutineManager.Instance.Run(dash.Execute(controller.transform.position, controller.transform.position + dashDirection));
+        // CoroutineManager.Instance.Run(controller.dashAttack.Execute(
+        //     controller.transform.position, controller.transform.position + dashDirection
+        // ));
+        controller.AttackPlayer(controller.transform.position, controller.transform.position + dashDirection);
+
         attacking = false;
         controller.TryTriggerAnimation("triggerDash");
         yield return new WaitForSeconds(0.25f);

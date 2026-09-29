@@ -24,13 +24,7 @@ public class ShootState : IState
         if (shoot != null)
             return;
         
-        controller.CurrentAttack = new Shoot(self,
-            damage: new Damage(10, Damage.Type.PHYSICAL),
-            cooldown: 1f,
-            travelSpeed: 10,
-            lifetime: 2,
-            piercing: false
-        );
+        controller.CurrentAttack = controller.shootAttack;
     }
 
     public void OnUpdate(StateController controller)

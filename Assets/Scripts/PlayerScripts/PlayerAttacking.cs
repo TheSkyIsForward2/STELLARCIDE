@@ -36,11 +36,19 @@ public class PlayerAttacking : MonoBehaviour
     {
         EventBus.Instance.OnFormChange += SwapAttacks;
 
+        inputActions.Gameplay.Seppuku.performed += (ctx) =>
+        {
+            if (TryGetComponent<PlayerHealth>(out PlayerHealth ph))
+            {
+                ph.healthController.TakeDamage(new Damage(100, Damage.Type.PHYSICAL));
+            }
+        };
+
         inputActions.Gameplay.Heal.performed += (ctx) =>
         {
             if (TryGetComponent<PlayerHealth>(out PlayerHealth ph))
             {
-                ph.healthController.TakeDamage(new Damage(999, Damage.Type.PHYSICAL));
+                ph.healthController.TakeDamage(new Damage(-100, Damage.Type.PHYSICAL));
             }
         };
 
