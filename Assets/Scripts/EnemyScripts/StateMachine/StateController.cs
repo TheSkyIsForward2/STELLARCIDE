@@ -113,7 +113,7 @@ public class StateController : MonoBehaviour
         {
             StartCoroutine(biteAttack.Execute(
                 origin: transform.position, 
-                target: new Vector3(60,160) // x is range, y is width
+                target: new Vector3(70,170) // x is range, y is width
             )); 
         }
         else if (CurrentAttack is Dash)
