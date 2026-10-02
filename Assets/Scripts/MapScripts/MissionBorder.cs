@@ -16,7 +16,7 @@ public class MissionBorder : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.CompareTag("Player"))
+        if (collider.CompareTag("Player") && gameObject.activeInHierarchy)
         {
             // GameManager.Instance.textPrompt.isVisible = false;
             GameManager.Instance.textPrompt.countdownActive = false;
@@ -30,7 +30,7 @@ public class MissionBorder : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D collider)
     {
-        if (collider.CompareTag("Player"))
+        if (collider.CompareTag("Player") && gameObject.activeInHierarchy)
         {
             if (GameManager.Instance.textPrompt == null) {return;}
             coroutine = StartCoroutine(GameManager.Instance.textPrompt.StartCountDown());
