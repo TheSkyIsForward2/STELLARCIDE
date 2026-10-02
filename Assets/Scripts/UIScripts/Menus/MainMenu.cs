@@ -42,6 +42,12 @@ public class MainMenu : MonoBehaviour
             PlayerPrefs.SetInt("Vsync", 1);
         }
 
+        if (!PlayerPrefs.HasKey("NewGame"))
+        {
+            PlayerPrefs.SetInt("NewGame", 0);
+        }
+        // New game denotes clearing the map json (for the default demo we will not have saved games across loads)
+
         PlayerPrefs.SetString("PlayerPosition", "0");
 
         PlayerPrefs.Save();
@@ -49,8 +55,7 @@ public class MainMenu : MonoBehaviour
 
     public void Play()
     {
-        SelectorMapGenerator smg = gameObject.AddComponent<SelectorMapGenerator>();
-        smg.ClearJson();
+        PlayerPrefs.SetInt("NewGame", 1);
         // check for tutorial flag
         if (PlayerPrefs.GetString("TutorialFinished") == "no") SceneManager.LoadScene("Tutorial");
         // otherwise play game again
