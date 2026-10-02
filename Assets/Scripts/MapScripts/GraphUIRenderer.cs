@@ -63,8 +63,6 @@ namespace MapScripts
             {
                 int depth = kvp.Key;
                 List<GenNode> nodes = kvp.Value;
-                print(depth);
-                print(nodes.Count);
             
                 float x = margin.x + depth * xSpacing;
                 float startY = canvasRect.sizeDelta.y/4 - (nodes.Count-1)*ySpacing/2;
@@ -72,7 +70,6 @@ namespace MapScripts
                 for (int i = 0; i < nodes.Count; i++)
                 {
                     GenNode node = nodes[i];
-                    print(node.Id);
                     
                     float y = startY + i * ySpacing;
                     Vector2 pos = new Vector2(x,y);
@@ -118,18 +115,6 @@ namespace MapScripts
             RectTransform rect = img.rectTransform;
             rect.sizeDelta = new Vector2(nodeSize, nodeSize);
             rect.anchoredPosition = position;
-
-            // removed text on buttons
-            /*print("pre text");
-            // label
-            TMP_Text label = go.GetComponentInChildren<TMP_Text>();
-            print(label);
-            label.text = node.Id;
-            label.alignment = TextAlignmentOptions.Center;
-            label.fontSize = fontSize;
-            label.color = Color.white;
-            label.rectTransform.sizeDelta = rect.sizeDelta;
-            print("post text");*/
             
             // pass node information
             SelectorButton sb = go.GetComponent<SelectorButton>();

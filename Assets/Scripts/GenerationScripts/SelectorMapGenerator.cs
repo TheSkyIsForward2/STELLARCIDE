@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using MapScripts;
 using Newtonsoft.Json;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = System.Random;
 
@@ -117,18 +118,17 @@ public class SelectorMapGenerator : MonoBehaviour
     [SerializeField] private int maxDepth = 8;
     [SerializeField] private int maxWidth = 4;
     [SerializeField] private int minWidth = 2;
-    public bool isScene = false;
- 
-    public TextAsset fileToReadWrite;
-    public string resourcePath = "SavedFiles/PlayerMapPosition";
-    public string fullPathToFile = "Assets/Resources/SavedFiles/PlayerMapPosition.json";
+
+    public string fileToReadWrite = "";
+    public string fileName = "PlayerMapPosition.txt";
+    public string fullPathToFile;
     
     private void Start()
     {
-        fileToReadWrite = Resources.Load<TextAsset>(resourcePath);
+        fullPathToFile = Application.persistentDataPath + "/PlayerMapPosition.txt";
+        if (PlayerPrefs.GetInt("NewGame") == 1) ClearJson();
         currentRoot = ReadFromFile();
-        if(isScene)
-            Generate();
+        Generate();
     }
     
     void Generate()
@@ -291,15 +291,16 @@ public class SelectorMapGenerator : MonoBehaviour
         if (!PlayerPrefs.HasKey("PlayerPosition"))
             PlayerPrefs.SetString("PlayerPosition", "0");
         PlayerPrefs.Save();
+
+        fileToReadWrite = DataHandler.loadData(fileName);
         
-        if (!File.Exists(fullPathToFile) || fileToReadWrite.text == "")
+        if (fileToReadWrite == null)
         {
             return new Root(new List<GenNode>(), new List<GenEdge>());
         }
-            
         
         // break apart json into node and edges text
-        string json = fileToReadWrite.text;
+        string json = fileToReadWrite;
         
         currentRoot = JsonConvert.DeserializeObject<Root>(json);
 
@@ -320,36 +321,22 @@ public class SelectorMapGenerator : MonoBehaviour
 
     public void WriteToFile(Root root)
     {
-        // create the serializer
-        JsonSerializer serializer = new JsonSerializer();
-
-        // use StreamWriter and JSONWriter to create or overwrite file
-        StreamWriter sw = new StreamWriter(fullPathToFile, false);
-        using (JsonWriter writer = new JsonTextWriter(sw))
-        {
-            serializer.Serialize(writer, root);
-            writer.Close();
-        }
-        sw.Close();
-        
+        string save = JsonConvert.SerializeObject(root);
+        Debug.Log(save);
+        DataHandler.saveData(save, fileName);
     }
 
     public void ClearJson()
     {
-        // if (File.Exists(fullPathToFile))
-        // {
-        //     File.Delete(fullPathToFile);
-        // }
-        
-        using (StreamWriter sw = new StreamWriter(fullPathToFile, false))
+        string tempPath = Path.Combine(Application.persistentDataPath, "data");
+        tempPath = Path.Combine(tempPath, fileName);
+        print(tempPath);
+        if (File.Exists(tempPath))
         {
-            Debug.Log("? sw exists " + sw);
-            sw.Write("");
-            sw.Close();
+            DataHandler.deleteData(fileName);
         }
-
-        // string balls = Application.persistentDataPath.;
-
+        PlayerPrefs.SetInt("NewGame", 0);
+        
         PlayerPrefs.SetString("PlayerPosition", "0");
     }
 }
