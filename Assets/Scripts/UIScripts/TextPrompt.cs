@@ -6,8 +6,10 @@ public class TextPrompt : MonoBehaviour
 {
     private TextMeshProUGUI header;
     private TextMeshProUGUI subtext;
+
     public int returnTime = 10;
     private int counter;
+
     public bool countdownActive
     {
         get
@@ -44,6 +46,7 @@ public class TextPrompt : MonoBehaviour
     {
         header = transform.Find("Objective").GetComponent<TextMeshProUGUI>();
         subtext = transform.Find("Counter").GetComponent<TextMeshProUGUI>();
+
         counter = returnTime;
         header.text = $"you shouldnt see this B==D";
         GameManager.Instance.textPrompt = this;

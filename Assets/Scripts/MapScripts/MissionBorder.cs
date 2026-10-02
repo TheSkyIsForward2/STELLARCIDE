@@ -24,20 +24,17 @@ public class MissionBorder : MonoBehaviour
             {
                 StopCoroutine(coroutine);
             }
+            SpawnerManager.Instance.UpdateUI();
         }
     }
 
     void OnTriggerExit2D(Collider2D collider)
     {
-        if (!isActiveAndEnabled)
-        {
-            return;
-        }
-
         if (collider.CompareTag("Player"))
         {
             if (GameManager.Instance.textPrompt == null) {return;}
             coroutine = StartCoroutine(GameManager.Instance.textPrompt.StartCountDown());
+            SpawnerManager.Instance.UpdateUI();
         }
     }
 }

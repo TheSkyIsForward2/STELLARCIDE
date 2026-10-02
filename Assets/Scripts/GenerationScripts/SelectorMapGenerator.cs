@@ -121,8 +121,7 @@ public class SelectorMapGenerator : MonoBehaviour
  
     public TextAsset fileToReadWrite;
     public string resourcePath = "SavedFiles/PlayerMapPosition";
-    // public string fullPathToFile = "Assets/Resources/SavedFiles/PlayerMapPosition.json";
-    public string fullPathToFile = Application.persistentDataPath + "/PlayerMapPosition.json";
+    public string fullPathToFile = "Assets/Resources/SavedFiles/PlayerMapPosition.json";
     
     private void Start()
     {
@@ -337,10 +336,10 @@ public class SelectorMapGenerator : MonoBehaviour
 
     public void ClearJson()
     {
-        if (File.Exists(fullPathToFile))
-        {
-            File.Delete(fullPathToFile);
-        }
+        // if (File.Exists(fullPathToFile))
+        // {
+        //     File.Delete(fullPathToFile);
+        // }
         
         using (StreamWriter sw = new StreamWriter(fullPathToFile, false))
         {
@@ -349,7 +348,7 @@ public class SelectorMapGenerator : MonoBehaviour
             sw.Close();
         }
 
-        string balls = Application.persistentDataPath.;
+        // string balls = Application.persistentDataPath.;
 
         PlayerPrefs.SetString("PlayerPosition", "0");
     }

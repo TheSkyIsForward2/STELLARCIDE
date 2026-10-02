@@ -160,7 +160,7 @@ public class SpawnerManager
     {
         if (GameManager.Instance.MissionGoalUI == null) { return; }
         if (GameManager.Instance.textPrompt.countdownActive) { return; }
-        GameManager.Instance.textPrompt.isVisible = true;
+        // GameManager.Instance.textPrompt.isVisible = true;
 
         switch (roundType)
         {
