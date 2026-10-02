@@ -70,10 +70,8 @@ public class TextPrompt : MonoBehaviour
             UpdateText("");
             yield return new WaitForSeconds(1);
         }
-        GameManager.Instance.Player.GetComponent<HealthOwner>().TakeDOT(
-            -1,
-            new Damage(20,Damage.Type.PHYSICAL),
-            1
+        GameManager.Instance.Player.GetComponent<HealthOwner>().TakeDamage(
+            new Damage(999, Damage.Type.PHYSICAL)
         );
     }
 
