@@ -195,5 +195,13 @@ namespace MapScripts
             missionPanel.currentNodeID = id;
             missionPanel.gameObject.SetActive(true);  
         }
+
+        public void HideMissionPanel()
+        {
+            if (missionPanel != null)
+            {
+                missionPanel.gameObject.SetActive(false);
+            }
+        }
     }
 }
