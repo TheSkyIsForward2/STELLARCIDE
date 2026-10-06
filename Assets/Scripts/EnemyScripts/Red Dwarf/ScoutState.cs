@@ -38,10 +38,9 @@ public class ScoutState : IState
             controller.ChangeState(ShootState);
         }
 
-        controller.transform.position +=
-            controller.transform.right * MoveSpeed * Time.deltaTime;
-
+        controller.rb.linearVelocity = controller.transform.right * MoveSpeed;
         controller.RotateToPlayer();
+
 
 
     }

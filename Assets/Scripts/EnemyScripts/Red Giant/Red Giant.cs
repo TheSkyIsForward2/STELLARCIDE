@@ -33,6 +33,10 @@ public class RedGiant : MonoBehaviour
             body.target = prevTransform;
             BodySegments.Add(body);
             prevTransform = body.transform;
+            if (i == 1)
+            {
+                HeadSegment.bodyBehind = body.transform;
+            }
         }
         TailSegment = Instantiate(TailPrefab, new Vector2(transform.position.x, transform.position.y + ((SegmentCount + 1) * bodySpacing)), 
             transform.rotation, transform);

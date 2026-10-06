@@ -12,12 +12,12 @@ public class StateController : MonoBehaviour
     public Dash dashAttack;
 
     public Transform Player { get; private set; }
-    
     public Vector2 EnemyToPlayer { get; private set; }
     public float DistanceToPlayer { get; private set; }
 
     public Animator Animator { get; private set; }
 
+    public Rigidbody2D rb { get; private set; }
     public bool locked = false; // Locks the state
 
     public Light2D AttackIndicator;
@@ -55,6 +55,7 @@ public class StateController : MonoBehaviour
     private void Start()
     {
         Player = FindFirstObjectByType<PlayerController>()?.transform;
+        rb = GetComponent<Rigidbody2D>();
         AttackIndicator = transform.Find("AttackIndicator").GetComponent<Light2D>();
         //Player = GameObject.FindGameObjectWithTag("Player")?.transform;
     }
@@ -125,15 +126,22 @@ public class StateController : MonoBehaviour
         }
     }
 
-    private float RotateSpeed = 5f;
+    private float RotateSpeed = 180f;
 
     public void RotateToPlayer()
     {
         Vector2 direction = Player.position - transform.position;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        if (direction.sqrMagnitude < 0.0001f)
+        {
+            return;
+        }
 
-        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, RotateSpeed * Time.deltaTime);
+        float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+        float nextAngle = Mathf.MoveTowardsAngle(rb.rotation, targetAngle, RotateSpeed * Time.fixedDeltaTime);
+
+        // Apply the physical rotation smoothly
+        rb.MoveRotation(nextAngle);
     }
 
     public void TryTriggerAnimation(string triggerName)

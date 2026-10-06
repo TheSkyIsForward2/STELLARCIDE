@@ -24,6 +24,7 @@ public class IdleState : IState
         {
             controller.ChangeState(ScoutState);
         }
+        controller.rb.linearVelocity = Vector2.zero;
     }
 
     public string GetName()

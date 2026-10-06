@@ -58,6 +58,7 @@ public class LungeAttackState : IState
 
     private IEnumerator Attack(StateController controller)
     {
+        controller.rb.linearVelocity = Vector2.zero;
         // Debug.Log("started attack");
         // Debug.Log("lerping from " + startPos + " to " + backPos);
         isAttacking = true;
