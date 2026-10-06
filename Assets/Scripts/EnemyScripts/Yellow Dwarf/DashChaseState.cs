@@ -6,6 +6,8 @@ public class DashChaseState : IState
     public Attack dash;
     private GameObject self;
 
+    private float MoveSpeed = 1.0f;
+
     private float DashDistance = 3.0f;
     private bool attacking = false;
 
@@ -35,6 +37,7 @@ public class DashChaseState : IState
         {
             controller.ChangeState(DashAttackState);
         }
+        controller.rb.linearVelocity = Vector2.zero;
 
         if (dash.IsReady() && !attacking)
         {

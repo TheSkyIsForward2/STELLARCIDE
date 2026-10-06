@@ -22,6 +22,7 @@ public class DashAttackState : IState
 
     public void OnUpdate(StateController controller)
     {
+        controller.rb.linearVelocity = Vector2.zero;
         if (controller.DistanceToPlayer > 10)
         {
             controller.ChangeState(DashChaseState);
