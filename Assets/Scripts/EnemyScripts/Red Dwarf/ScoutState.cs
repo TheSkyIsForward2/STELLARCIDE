@@ -5,7 +5,7 @@ public class ScoutState : IState
     private IState IdleState;
     private IState ShootState;
 
-    private float MoveSpeed = 1.0f;
+    private float MoveSpeed = 5.0f;
 
     private float IdleSwitch = 20.0f;
     private float ShootSwitch = 12.0f;

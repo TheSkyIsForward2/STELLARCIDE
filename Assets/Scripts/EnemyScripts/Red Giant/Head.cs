@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.UI.Image;
 
 public class Head : MonoBehaviour
 {
@@ -34,6 +35,8 @@ public class Head : MonoBehaviour
 
         Controller.ChangeState(Idle);
     }
+
+    public LayerMask hitLayers;
     private void FixedUpdate()
     {
         if (!bodyBehind)
