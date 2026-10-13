@@ -140,7 +140,6 @@ public class StateController : MonoBehaviour
 
         float nextAngle = Mathf.MoveTowardsAngle(rb.rotation, targetAngle, RotateSpeed * Time.fixedDeltaTime);
 
-        // Apply the physical rotation smoothly
         rb.MoveRotation(nextAngle);
     }
 

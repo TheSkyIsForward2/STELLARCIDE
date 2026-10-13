@@ -87,10 +87,12 @@ public class Punch : Attack
         {
             if (entity.healthController.team != this.entity.healthController.team)
             {
-                entity.StartCoroutine(entity.KnockBack(
-                    origin: Owner.transform.position,
-                    strength: KnockbackStrength
-                ));
+                Rigidbody2D rb = entity.GetComponent<Rigidbody2D>();
+                rb.AddForce(Owner.transform.right * KnockbackStrength, ForceMode2D.Impulse);
+                //entity.StartCoroutine(entity.KnockBack(
+                //    origin: Owner.transform.position,
+                //    strength: KnockbackStrength
+                //));
             }
         }
 

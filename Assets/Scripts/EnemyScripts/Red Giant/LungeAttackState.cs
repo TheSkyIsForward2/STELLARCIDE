@@ -15,10 +15,6 @@ public class LungeAttackState : IState
     public float lungeTime = 0.15f;
     public float attackCooldown = 1.0f;
 
-    Vector3 startPos;
-    Vector3 backPos;
-    Vector3 lungePos;
-
     public Attack punch;
     private GameObject self;
     public void SetStates(IState retreat)
@@ -33,10 +29,6 @@ public class LungeAttackState : IState
             damage: new Damage(10, Damage.Type.PHYSICAL),
             cooldown: 2f
         );
-
-        startPos = controller.transform.position;
-        backPos = startPos - controller.transform.right * windupDistance;
-        lungePos = backPos + controller.transform.right * lungeDistance;
     }
 
     public void OnUpdate(StateController controller)
@@ -47,8 +39,10 @@ public class LungeAttackState : IState
         if (!isAttacking)
         {
             controller.StartCoroutine(Attack(controller));
+        } else
+        {
+            controller.RotateToPlayer();
         }
-        controller.RotateToPlayer();
     }
 
     public void OnExit(StateController controller) 
@@ -58,16 +52,17 @@ public class LungeAttackState : IState
 
     private IEnumerator Attack(StateController controller)
     {
-        controller.rb.linearVelocity = Vector2.zero;
         // Debug.Log("started attack");
         // Debug.Log("lerping from " + startPos + " to " + backPos);
         isAttacking = true;
+        yield return new WaitForSeconds(0.1f);
+        controller.rb.linearVelocity = Vector2.zero;
 
         float t = 0.0f;
         while (t < 1.0f)
         {
             t += Time.deltaTime / windupTime;
-            controller.transform.position = Vector3.Lerp(startPos, backPos, t);
+            controller.rb.linearVelocity = -controller.transform.right * 3;
             yield return null;
         }
 
@@ -75,12 +70,10 @@ public class LungeAttackState : IState
 
         t = 0.0f;
 
-        lungePos = backPos + controller.transform.right * lungeDistance;
-
         while (t < 1.0f)
         {
             t += Time.deltaTime / lungeTime;
-            controller.transform.position = Vector3.Lerp(backPos, lungePos, t);
+            controller.rb.linearVelocity = controller.transform.right * 50;
             yield return null;
         }
 
@@ -88,6 +81,7 @@ public class LungeAttackState : IState
         {
             if (controller.CurrentAttack.IsReady())
             {
+                controller.TryTriggerAnimation("triggerAttack");
                 controller.AttackPlayer();
             }
         }
