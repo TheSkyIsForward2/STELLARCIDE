@@ -42,7 +42,7 @@ public class DashChaseState : IState
         }
         controller.rb.linearVelocity = Vector2.zero;
 
-        if (controller.CurrentAttack.IsReady())
+        if (controller.CurrentAttack != null && controller.CurrentAttack.IsReady())
         {
             Attack(controller);
         }

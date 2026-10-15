@@ -5,7 +5,7 @@ using UnityEngine.Rendering.Universal;
 public class StateController : MonoBehaviour
 {
     public IState CurrentState {  get; private set; }
-    public Attack CurrentAttack;
+    public Attack CurrentAttack = null;
 
     public Punch biteAttack;
     public Shoot shootAttack;
@@ -30,6 +30,7 @@ public class StateController : MonoBehaviour
     private void Awake()
     {
         Animator = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
 
         biteAttack = new Punch(gameObject,
             damage: new Damage(10, Damage.Type.PHYSICAL), 
@@ -55,7 +56,6 @@ public class StateController : MonoBehaviour
     private void Start()
     {
         Player = FindFirstObjectByType<PlayerController>()?.transform;
-        rb = GetComponent<Rigidbody2D>();
         AttackIndicator = transform.Find("AttackIndicator").GetComponent<Light2D>();
         //Player = GameObject.FindGameObjectWithTag("Player")?.transform;
     }

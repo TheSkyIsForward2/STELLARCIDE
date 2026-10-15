@@ -42,6 +42,8 @@ public class Head : MonoBehaviour
         if (!bodyBehind)
             return;
 
+        if (!Controller.rb) return;
+
         Vector2 bodyToHead =
             (Vector2)transform.position - (Vector2)bodyBehind.position;
 
