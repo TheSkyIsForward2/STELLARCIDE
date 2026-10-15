@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 /* OBSERVER / LISTENER QUICK GUIDE
     If you want to know when something happens in another script:
@@ -51,7 +52,7 @@ public class EventBus
 
     #region Actions
     public event Action<PlayerMode> OnFormChange;
-    public event Action OnEnemyDead;
+    public event Action<GameObject> OnEnemyDead;
     public event Action OnRoundEnd;
     public event Action<bool> OnGamePaused;
     #endregion
@@ -62,8 +63,8 @@ public class EventBus
         OnFormChange?.Invoke(newMode);
     }
 
-    public void EnemyDead() {
-        OnEnemyDead?.Invoke();
+    public void EnemyDead(GameObject gb) {
+        OnEnemyDead?.Invoke(gb);
     }
 
     public void RoundEnd() {
