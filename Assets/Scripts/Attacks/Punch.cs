@@ -89,10 +89,10 @@ public class Punch : Attack
             {
                 Rigidbody2D rb = entity.GetComponent<Rigidbody2D>();
                 rb.AddForce(Owner.transform.right * KnockbackStrength, ForceMode2D.Impulse);
-                //entity.StartCoroutine(entity.KnockBack(
+                // entity.StartCoroutine(entity.KnockBack(
                 //    origin: Owner.transform.position,
                 //    strength: KnockbackStrength
-                //));
+                // ));
             }
         }
 

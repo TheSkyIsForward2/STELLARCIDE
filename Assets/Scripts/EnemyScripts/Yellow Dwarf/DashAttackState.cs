@@ -27,9 +27,9 @@ public class DashAttackState : IState
         {
             controller.ChangeState(DashChaseState);
         }
-        if (controller.dashAttack.IsReady() && canAttack)
+        if (controller.CurrentAttack.IsReady())
         {
-            controller.StartCoroutine(Attack(controller));
+            Attack(controller);
         }
         if (!attacking)
         {
@@ -55,26 +55,10 @@ public class DashAttackState : IState
         return "Dash Attack";
     }
 
-    private IEnumerator Attack(StateController controller)
+    private void Attack(StateController controller)
     {
-        if (controller == null){yield break;}
-        
-        attacking = true;
-        canAttack = false;
-        Vector3 dashDirection = controller.EnemyToPlayer.normalized * DashDistance;
-        controller.TryTriggerAnimation("triggerDashWindup");
-        yield return new WaitForSeconds(0.25f);
-
-        // CoroutineManager.Instance.Run(controller.dashAttack.Execute(
-        //     controller.transform.position, controller.transform.position + dashDirection
-        // ));
-        controller.AttackPlayer(controller.transform.position, controller.transform.position + dashDirection);
-
-        attacking = false;
-        controller.TryTriggerAnimation("triggerDash");
-        yield return new WaitForSeconds(0.25f);
-        yield return new WaitForSeconds(1.5f);
-        canAttack = true;
+        Vector3 dashDirection = (controller.Player.position - controller.transform.position) * 5;
+        controller.AttackPlayer(controller.transform.position, controller.Player.position + dashDirection);
     }
 
 }
