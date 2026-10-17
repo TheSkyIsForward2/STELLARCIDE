@@ -65,7 +65,7 @@ public class HealthOwner : Component
 
         if (team == Team.ENEMY)
         {
-            EventBus.Instance.EnemyDead();
+            EventBus.Instance.EnemyDead(owner);
         }
         
         Destroy(owner);

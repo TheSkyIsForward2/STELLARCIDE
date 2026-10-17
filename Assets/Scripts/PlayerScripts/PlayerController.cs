@@ -23,9 +23,11 @@ public class PlayerController : MonoBehaviour
     
     [Header("Slide Settings")]
     [SerializeField] private float slideSpeed = 15;
-    [SerializeField] private float slideLength = 0.5f;
+    public float slideLength = 0.5f;
 
     [NonSerialized] public bool inputEnabled;
+    // [NonSerialized] public bool rotationLocked;
+    public bool rotationLocked;
 
     private PlayerMode currentMode = PlayerMode.SHIP;
     
@@ -145,6 +147,11 @@ public class PlayerController : MonoBehaviour
     }
 
     void TurnToCursor(float turnSpeed) {
+        if (rotationLocked)
+        {
+            return;
+        }
+
         float angle = Mathf.Atan2(cursorOffset.y, cursorOffset.x) * Mathf.Rad2Deg;
 
         // Create target rotation

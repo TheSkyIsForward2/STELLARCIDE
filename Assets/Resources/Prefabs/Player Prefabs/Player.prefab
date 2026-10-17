@@ -77,6 +77,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   mechTurnSpeed: 500
+  slideSpeed: 15
+  slideLength: 0.5
+  rotationLocked: 0
 --- !u!114 &6359159038041925148
 MonoBehaviour:
   m_ObjectHideFlags: 0

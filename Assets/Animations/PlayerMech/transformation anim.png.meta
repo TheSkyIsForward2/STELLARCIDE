@@ -1,0 +1,793 @@
+fileFormatVersion: 2
+guid: 08778ad851c6d714795bbfa11222e0ba
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 3019484925656626816
+    second: transformation anim_0
+  - first:
+      213: -5436135894493377011
+    second: transformation anim_1
+  - first:
+      213: 1267385069581174613
+    second: transformation anim_2
+  - first:
+      213: 6241211357306319852
+    second: transformation anim_3
+  - first:
+      213: 6240030995445246427
+    second: transformation anim_4
+  - first:
+      213: 7905627432354495873
+    second: transformation anim_5
+  - first:
+      213: -3925251367583163367
+    second: transformation anim_6
+  - first:
+      213: 5559033690906325234
+    second: transformation anim_7
+  - first:
+      213: -8694063797920790878
+    second: transformation anim_8
+  - first:
+      213: -1754862741714196297
+    second: transformation anim_9
+  - first:
+      213: 3405575256249774148
+    second: transformation anim_10
+  - first:
+      213: -4724082015047706133
+    second: transformation anim_11
+  - first:
+      213: 3417202285478227935
+    second: transformation anim_12
+  - first:
+      213: 5223271264004162378
+    second: transformation anim_13
+  - first:
+      213: -8188512975096573528
+    second: transformation anim_14
+  - first:
+      213: -1272625440794326824
+    second: transformation anim_15
+  - first:
+      213: -986840867219980973
+    second: transformation anim_16
+  - first:
+      213: -2657564452108821206
+    second: transformation anim_17
+  - first:
+      213: 2822297372163959255
+    second: transformation anim_18
+  - first:
+      213: 4719743153162132546
+    second: transformation anim_19
+  - first:
+      213: 2700668621342659930
+    second: transformation anim_20
+  - first:
+      213: 8944184834818335251
+    second: transformation anim_21
+  - first:
+      213: -4628823549762659517
+    second: transformation anim_22
+  - first:
+      213: -5743897832802053118
+    second: transformation anim_23
+  - first:
+      213: 6206895313427862274
+    second: transformation anim_24
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WindowsStoreApps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: transformation anim_0
+      rect:
+        serializedVersion: 2
+        x: 503
+        y: 9056
+        width: 992
+        height: 670
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 086f86eba8d57e920800000000000000
+      internalID: 3019484925656626816
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: transformation anim_1
+      rect:
+        serializedVersion: 2
+        x: 2503
+        y: 9056
+        width: 992
+        height: 670
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d0ec8f1b437fe84b0800000000000000
+      internalID: -5436135894493377011
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: transformation anim_2
+      rect:
+        serializedVersion: 2
+        x: 4503
+        y: 9056
+        width: 992
+        height: 670
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 55705028108a69110800000000000000
+      internalID: 1267385069581174613
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: transformation anim_3
+      rect:
+        serializedVersion: 2
+        x: 6503
+        y: 9056
+        width: 992
+        height: 670
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce3706089ac3d9650800000000000000
+      internalID: 6241211357306319852
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: transformation anim_4
+      rect:
+        serializedVersion: 2
+        x: 8632
+        y: 8640
+        width: 732
+        height: 1208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bd9e0f6112b099650800000000000000
+      internalID: 6240030995445246427
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: transformation anim_5
+      rect:
+        serializedVersion: 2
+        x: 632
+        y: 6640
+        width: 732
+        height: 1208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 18db210934e66bd60800000000000000
+      internalID: 7905627432354495873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: transformation anim_6
+      rect:
+        serializedVersion: 2
+        x: 2632
+        y: 6640
+        width: 732
+        height: 1208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 91cd6159da4b689c0800000000000000
+      internalID: -3925251367583163367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: transformation anim_7
+      rect:
+        serializedVersion: 2
+        x: 4632
+        y: 6640
+        width: 732
+        height: 1208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2f076e850b7a52d40800000000000000
+      internalID: 5559033690906325234
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: transformation anim_8
+      rect:
+        serializedVersion: 2
+        x: 6632
+        y: 6640
+        width: 732
+        height: 1208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a60956f90b785780800000000000000
+      internalID: -8694063797920790878
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: transformation anim_9
+      rect:
+        serializedVersion: 2
+        x: 8632
+        y: 6640
+        width: 732
+        height: 1208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b8ae8252a975a7e0800000000000000
+      internalID: -1754862741714196297
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: transformation anim_10
+      rect:
+        serializedVersion: 2
+        x: 632
+        y: 4640
+        width: 732
+        height: 1208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 440b0ace6a8034f20800000000000000
+      internalID: 3405575256249774148
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: transformation anim_11
+      rect:
+        serializedVersion: 2
+        x: 2632
+        y: 4640
+        width: 732
+        height: 1208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: be91543cf60b07eb0800000000000000
+      internalID: -4724082015047706133
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: transformation anim_12
+      rect:
+        serializedVersion: 2
+        x: 4453
+        y: 4033
+        width: 1094
+        height: 1924
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fdf259f9f575c6f20800000000000000
+      internalID: 3417202285478227935
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: transformation anim_13
+      rect:
+        serializedVersion: 2
+        x: 6453
+        y: 4033
+        width: 1094
+        height: 1924
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a4349706a89cc7840800000000000000
+      internalID: 5223271264004162378
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: transformation anim_14
+      rect:
+        serializedVersion: 2
+        x: 8541
+        y: 4033
+        width: 918
+        height: 1924
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8a111b075de8c5e80800000000000000
+      internalID: -8188512975096573528
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: transformation anim_15
+      rect:
+        serializedVersion: 2
+        x: 541
+        y: 2033
+        width: 918
+        height: 1924
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d8445d77e9b65ee0800000000000000
+      internalID: -1272625440794326824
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: transformation anim_16
+      rect:
+        serializedVersion: 2
+        x: 2541
+        y: 2033
+        width: 918
+        height: 1924
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 35db383b5790e42f0800000000000000
+      internalID: -986840867219980973
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: transformation anim_17
+      rect:
+        serializedVersion: 2
+        x: 4541
+        y: 2033
+        width: 918
+        height: 1924
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2d1950163f6e1bd0800000000000000
+      internalID: -2657564452108821206
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: transformation anim_18
+      rect:
+        serializedVersion: 2
+        x: 6541
+        y: 2033
+        width: 918
+        height: 1924
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7d9e95eb180da2720800000000000000
+      internalID: 2822297372163959255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: transformation anim_19
+      rect:
+        serializedVersion: 2
+        x: 8562
+        y: 2720
+        width: 876
+        height: 1237
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 24c9f4b3465ef7140800000000000000
+      internalID: 4719743153162132546
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: transformation anim_20
+      rect:
+        serializedVersion: 2
+        x: 562
+        y: 720
+        width: 876
+        height: 1237
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a555c276dc3ba7520800000000000000
+      internalID: 2700668621342659930
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: transformation anim_21
+      rect:
+        serializedVersion: 2
+        x: 2562
+        y: 720
+        width: 876
+        height: 1237
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 31268cc08b0202c70800000000000000
+      internalID: 8944184834818335251
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: transformation anim_22
+      rect:
+        serializedVersion: 2
+        x: 4642
+        y: 953
+        width: 716
+        height: 1004
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 34b1f6c818d13cfb0800000000000000
+      internalID: -4628823549762659517
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: transformation anim_23
+      rect:
+        serializedVersion: 2
+        x: 6642
+        y: 953
+        width: 716
+        height: 1004
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 20492b18a539940b0800000000000000
+      internalID: -5743897832802053118
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: transformation anim_24
+      rect:
+        serializedVersion: 2
+        x: 8507
+        y: 1001
+        width: 984
+        height: 956
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 20397eae662532650800000000000000
+      internalID: 6206895313427862274
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      transformation anim_0: 3019484925656626816
+      transformation anim_1: -5436135894493377011
+      transformation anim_10: 3405575256249774148
+      transformation anim_11: -4724082015047706133
+      transformation anim_12: 3417202285478227935
+      transformation anim_13: 5223271264004162378
+      transformation anim_14: -8188512975096573528
+      transformation anim_15: -1272625440794326824
+      transformation anim_16: -986840867219980973
+      transformation anim_17: -2657564452108821206
+      transformation anim_18: 2822297372163959255
+      transformation anim_19: 4719743153162132546
+      transformation anim_2: 1267385069581174613
+      transformation anim_20: 2700668621342659930
+      transformation anim_21: 8944184834818335251
+      transformation anim_22: -4628823549762659517
+      transformation anim_23: -5743897832802053118
+      transformation anim_24: 6206895313427862274
+      transformation anim_3: 6241211357306319852
+      transformation anim_4: 6240030995445246427
+      transformation anim_5: 7905627432354495873
+      transformation anim_6: -3925251367583163367
+      transformation anim_7: 5559033690906325234
+      transformation anim_8: -8694063797920790878
+      transformation anim_9: -1754862741714196297
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

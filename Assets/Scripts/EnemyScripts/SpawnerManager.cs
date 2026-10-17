@@ -123,7 +123,7 @@ public class SpawnerManager
     }
 
     // "Signals"
-    private void EnemyDead()
+    private void EnemyDead(GameObject gb)
     {
         if (roundType == RoundType.SURVIVAL) { return; }
         Debug.Log("we killed something right?");
@@ -144,6 +144,7 @@ public class SpawnerManager
     {
         EventBus.Instance.OnEnemyDead -= EnemyDead;
         EventBus.Instance.OnRoundEnd -= RoundEnd;
+        GameManager.Instance.scoreManager.totalMapsCleared++;
         CoroutineManager.Instance.Run(EndGameTransition());
     }
 

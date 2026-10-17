@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5255975443447299020}
   - component: {fileID: 8422348649509717009}
   - component: {fileID: 7743322878130949592}
+  - component: {fileID: 5802877342365370866}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -90,3 +91,20 @@ MonoBehaviour:
   hasSlash: 0
   hasStrafe: 0
   hasMissile: 0
+--- !u!114 &5802877342365370866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7388487893630246697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d005053b8be83d49a8469d0980ab1c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemiesDefeated: 0
+  redDwarfDefeated: 0
+  yellowDwarfDefeated: 0
+  redGiantDefeated: 0
+  totalMapsCleared: 0
