@@ -14,6 +14,7 @@ public class GameManager
     public ScoreManager scoreManager;
     public TextPrompt textPrompt;
     public int difficultySum;
+    public PlayerHealthBar healthBar;
 
     public static GameManager Instance
     {
