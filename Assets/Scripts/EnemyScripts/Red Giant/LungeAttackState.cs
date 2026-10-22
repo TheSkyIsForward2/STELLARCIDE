@@ -55,6 +55,7 @@ public class LungeAttackState : IState
         // Debug.Log("started attack");
         // Debug.Log("lerping from " + startPos + " to " + backPos);
         isAttacking = true;
+        controller.TryTriggerAnimation("triggerIndicator");
         yield return new WaitForSeconds(0.1f);
         controller.rb.linearVelocity = Vector2.zero;
 
