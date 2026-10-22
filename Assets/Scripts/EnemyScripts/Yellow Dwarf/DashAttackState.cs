@@ -31,10 +31,7 @@ public class DashAttackState : IState
         {
             Attack(controller);
         }
-        if (!attacking)
-        {
-            controller.RotateToPlayer();
-        }
+        controller.RotateToPlayer();
     }
 
     public static Vector2 rotate(Vector2 v, float delta)
@@ -57,8 +54,8 @@ public class DashAttackState : IState
 
     private void Attack(StateController controller)
     {
-        Vector3 dashDirection = (controller.Player.position - controller.transform.position) * 5;
-        controller.AttackPlayer(controller.transform.position, controller.Player.position + dashDirection);
+        //Vector3 dashDirection = (controller.Player.position - controller.transform.position) * 5;
+        controller.AttackPlayer(controller.transform.position, controller.transform.position + controller.transform.right * 10);
     }
 
 }
