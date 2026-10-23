@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class TextPrompt : MonoBehaviour
 {
@@ -70,9 +71,13 @@ public class TextPrompt : MonoBehaviour
             UpdateText("");
             yield return new WaitForSeconds(1);
         }
-        GameManager.Instance.Player.GetComponent<HealthOwner>().TakeDamage(
-            new Damage(999, Damage.Type.PHYSICAL)
-        );
+        SceneManager.LoadScene("Leaderboard");
+        // if (GameManager.Instance.Player.TryGetComponent<HealthOwner>(out HealthOwner ho))
+        // {
+        //     ho.TakeDamage(
+        //         new Damage(999, Damage.Type.PHYSICAL)
+        //     );
+        // }
     }
 
     public void UpdateHeader(string text)
