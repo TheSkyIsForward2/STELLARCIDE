@@ -1695,8 +1695,8 @@ Transform:
   m_GameObject: {fileID: 1482183127}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: -0.7614252, w: 0.64825284}
-  m_LocalPosition: {x: -9.359539, y: -17.288769, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -5.8126, y: -26.9702, z: 0}
+  m_LocalScale: {x: 0.8904, y: 0.9155, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -2008,8 +2008,8 @@ Transform:
   m_GameObject: {fileID: 1747396096}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -40.416134, y: -20.907013, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -45.3679, y: -22.1149, z: 0}
+  m_LocalScale: {x: 0.9039, y: 0.9326, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -2427,12 +2427,20 @@ PrefabInstance:
       value: asteroid_1_0 (1)
       objectReference: {fileID: 0}
     - target: {fileID: 2158046141636091979, guid: 05abdde817ec4cc4aba7643ed45c0f26, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.9172
+      objectReference: {fileID: 0}
+    - target: {fileID: 2158046141636091979, guid: 05abdde817ec4cc4aba7643ed45c0f26, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.9064
+      objectReference: {fileID: 0}
+    - target: {fileID: 2158046141636091979, guid: 05abdde817ec4cc4aba7643ed45c0f26, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.525256
+      value: -3.3
       objectReference: {fileID: 0}
     - target: {fileID: 2158046141636091979, guid: 05abdde817ec4cc4aba7643ed45c0f26, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 13.869659
+      value: 19.6
       objectReference: {fileID: 0}
     - target: {fileID: 2158046141636091979, guid: 05abdde817ec4cc4aba7643ed45c0f26, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2553,8 +2561,8 @@ Transform:
   m_GameObject: {fileID: 1954246595}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.74895567, w: 0.66262007}
-  m_LocalPosition: {x: -30.942663, y: 1.2532125, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -29.5633, y: 1.046, z: 0}
+  m_LocalScale: {x: 0.9339, y: 0.9633, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -3417,12 +3425,20 @@ PrefabInstance:
       value: asteroid_1_0
       objectReference: {fileID: 0}
     - target: {fileID: 2158046141636091979, guid: 05abdde817ec4cc4aba7643ed45c0f26, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.9382
+      objectReference: {fileID: 0}
+    - target: {fileID: 2158046141636091979, guid: 05abdde817ec4cc4aba7643ed45c0f26, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.9259
+      objectReference: {fileID: 0}
+    - target: {fileID: 2158046141636091979, guid: 05abdde817ec4cc4aba7643ed45c0f26, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -43.84325
+      value: -47.5851
       objectReference: {fileID: 0}
     - target: {fileID: 2158046141636091979, guid: 05abdde817ec4cc4aba7643ed45c0f26, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 18.543224
+      value: 22.5656
       objectReference: {fileID: 0}
     - target: {fileID: 2158046141636091979, guid: 05abdde817ec4cc4aba7643ed45c0f26, type: 3}
       propertyPath: m_LocalPosition.z
