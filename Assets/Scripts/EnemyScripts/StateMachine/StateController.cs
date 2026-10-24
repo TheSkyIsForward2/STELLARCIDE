@@ -47,7 +47,7 @@ public class StateController : MonoBehaviour
         );
         dashAttack = new Dash(gameObject,
             damage: new Damage(10, Damage.Type.PHYSICAL),
-            cooldown: 1f,
+            cooldown: 2f,
             travelSpeed: 0.25f,
             lifetime: 1f
         );

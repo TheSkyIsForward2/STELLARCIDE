@@ -835,7 +835,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sc: {fileID: 0}
-  maxHealth: 30
+  maxHealth: 200
   healthBar: {fileID: 7519045985152786143}
 --- !u!95 &462609919972354035
 Animator:

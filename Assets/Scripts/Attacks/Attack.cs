@@ -113,10 +113,13 @@ public abstract class Attack
         Collider2D[] entitiesInRange = Physics2D.OverlapAreaAll(start,end);
         
 
+        Debug.Log(entitiesInRange);
         for (int i = 0; i < entitiesInRange.Length; i++)
         {
             if (entitiesInRange[i].TryGetComponent(out Entity entity))
             {
+                Debug.Log(entity);
+                Debug.Log(entity.healthController.team);
                 if (entity && entity.healthController.team != Owner.GetComponent<Entity>().healthController.team)
                 {
                     if (!entity.healthController.TakeDamage(Damage))
