@@ -41,15 +41,13 @@ public class HealthOwner : Component
     /// <returns> True if the healthowner dies as a result of this damage </returns>
     public bool TakeDamage(Damage damage, Vector2 attackDirection)
     {
-        // heal on negatives & account for overhealth
+        // HANDLE dmg & heal on negatives & account for overhealth
         if (hp - damage.Amount > maxHP)
         {
             hp = maxHP;
-            // Debug.Log($"[HEALING] something on team {team} overhealed");
         }
         else
         {
-            hp -= damage.Amount;
             AudioManager.Instance.PlayPlayerTakeDamageSFX();
 
             #region  spawn particle
@@ -88,12 +86,17 @@ public class HealthOwner : Component
             #endregion
             
             // Debug.Log($"[DAMAGE] something on team {team} took {damage.Amount} of {damage.type} damage");
+            hp -= damage.Amount;
         }
 
+        if (team == Team.PLAYER)
+        {
+            EventBus.Instance.HitPlayer();
+        }
         if (hp > 0) return false;
 
+        // HANDLE death 
         hp = 0;
-        // Debug.Log($"[DEATH] something on team {team} died from taking {damage.Amount} pts of {damage.type} damage");
 
         if (team == Team.PLAYER)
         {

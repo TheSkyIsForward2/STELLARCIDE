@@ -1,7 +1,5 @@
 using UnityEngine;
 using System.Collections;
-using Unity.VisualScripting;
-using UnityEditor.Animations;
 
 [RequireComponent(typeof(ShipMovement))]
 public class PlayerVisuals : MonoBehaviour
@@ -44,15 +42,6 @@ public class PlayerVisuals : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
-    {
-        StopAllCoroutines();
-        if (EventBus.Instance != null)
-        {
-            EventBus.Instance.OnFormChange -= SwapSprites;
-        }
-    }
-
 
     void SwapSprites(PlayerMode newMode)
     {
@@ -67,19 +56,44 @@ public class PlayerVisuals : MonoBehaviour
 
     IEnumerator PlayTransformAnimation(PlayerMode newMode)
     {
-        if (shipSprite.activeInHierarchy && !mechSprite.activeInHierarchy)
+        if (newMode == PlayerMode.MECH)
         {
+            ForceSwapSprites(PlayerMode.SHIP);
             shipAnimator.SetTrigger("executeTransform");
         }
-        else if (mechSprite.activeInHierarchy && !shipSprite.activeInHierarchy)
+        else if (newMode == PlayerMode.SHIP)
         {
+            ForceSwapSprites(PlayerMode.MECH);
             mechAnimator.SetTrigger("executeTransform");
         }
         
         pc.rotationLocked = true;
-        yield return new WaitUntil(TransformFinished);
+        yield return new WaitUntil( ()=>
+        {
+            return TransformFinished(newMode);
+        });
         pc.rotationLocked = false;
 
+        ForceSwapSprites(newMode);
+    }
+
+    bool TransformFinished(PlayerMode pm)
+    {
+        if (pm == PlayerMode.MECH)
+        {
+            return shipAnimator.GetCurrentAnimatorStateInfo(0).IsName("Transform") && 
+                   shipAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1;
+        }
+        else if (pm == PlayerMode.SHIP)
+        {
+            return mechAnimator.GetCurrentAnimatorStateInfo(0).IsName("Transform") &&
+                   mechAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1;
+        }
+        return false;
+    }
+
+    void ForceSwapSprites(PlayerMode newMode)
+    {
         if (newMode == PlayerMode.MECH)
         {
             shipSprite.SetActive(false);
@@ -90,20 +104,5 @@ public class PlayerVisuals : MonoBehaviour
             mechSprite.SetActive(false);
             shipSprite.SetActive(true);
         }
-    }
-
-    bool TransformFinished()
-    {
-        if (shipSprite.activeInHierarchy && !mechSprite.activeInHierarchy)
-        {
-            return shipAnimator.GetCurrentAnimatorStateInfo(0).IsName("Transform") && 
-                   shipAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1;
-        }
-        else if (!shipSprite.activeInHierarchy && mechSprite.activeInHierarchy)
-        {
-            return mechAnimator.GetCurrentAnimatorStateInfo(0).IsName("Transform") &&
-                   mechAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1;
-        }
-        return false;
     }
 }

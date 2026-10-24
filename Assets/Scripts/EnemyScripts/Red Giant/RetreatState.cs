@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
@@ -6,7 +7,7 @@ public class RetreatState : IState
 {
     private IState ScoutState;
     private float MoveSpeed = 5.0f;
-    private float turnDirection = 30f;
+    private float turnDirection = 90f;
 
     private Vector3 retreatPoint;
 
@@ -18,25 +19,35 @@ public class RetreatState : IState
     public void OnEntry(StateController controller)
     {
         controller.StartCoroutine(ChangeState(controller));
-        turnDirection *= Random.Range(-1, 1);
+        turnDirection *= Random.value < 0.5f ? -1 : 1;
     }
 
     public void OnUpdate(StateController controller)
     {
 
-
-        Vector2 direction = controller.transform.right;
-
-        direction = Quaternion.Euler(0, 0, -turnDirection * Time.deltaTime) * direction;
-
-        controller.transform.position +=
-            (Vector3)direction * MoveSpeed * Time.deltaTime;
-
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        controller.transform.rotation = Quaternion.Euler(0, 0, angle);
+        controller.rb.linearVelocity = controller.transform.right * MoveSpeed;
+        controller.RotateToPlayer();
+        float nextAngle = Mathf.MoveTowardsAngle(controller.rb.rotation, controller.rb.rotation + 30f, 180f * Time.fixedDeltaTime);
+        RotateAwayFromPlayer(controller);
 
 
         //controller.transform.position = Vector2.MoveTowards(controller.transform.position, controller.Player.position, MoveSpeed * Time.deltaTime);
+    }
+
+    private void RotateAwayFromPlayer(StateController controller)
+    {
+        Vector2 direction = controller.Player.position - controller.transform.position;
+        if (direction.sqrMagnitude < 0.0001f)
+        {
+            return;
+        }
+
+        float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + turnDirection;
+
+        float nextAngle = Mathf.MoveTowardsAngle(controller.rb.rotation, targetAngle, 180f * Time.fixedDeltaTime);
+
+        // Apply the physical rotation smoothly
+        controller.rb.MoveRotation(nextAngle);
     }
 
     public void OnExit(StateController controller)
@@ -46,7 +57,7 @@ public class RetreatState : IState
 
     private IEnumerator ChangeState(StateController controller)
     {
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(5.0f);
         controller.ChangeState(ScoutState);
     }
 

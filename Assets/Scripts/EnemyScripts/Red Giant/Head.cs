@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.UI.Image;
 
 public class Head : MonoBehaviour
 {
@@ -10,6 +11,10 @@ public class Head : MonoBehaviour
     private ScoutState Scout;
     private LungeAttackState Lunge;
     private RetreatState Retreat;
+
+    public Transform bodyBehind;
+
+    private float maxAngle = 60f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -29,6 +34,35 @@ public class Head : MonoBehaviour
         Scout.SetDistance(20, 3);
 
         Controller.ChangeState(Idle);
+    }
+
+    public LayerMask hitLayers;
+    private void FixedUpdate()
+    {
+        if (!bodyBehind)
+            return;
+
+        if (!Controller.rb) return;
+
+        Vector2 bodyToHead =
+            (Vector2)transform.position - (Vector2)bodyBehind.position;
+
+        if (bodyToHead.sqrMagnitude < 0.0001f)
+            return;
+
+        float referenceAngle = Mathf.Atan2(bodyToHead.y, bodyToHead.x) * Mathf.Rad2Deg;
+
+        float currentAngle = Controller.rb.rotation;
+
+        float difference = Mathf.DeltaAngle(referenceAngle, currentAngle);
+
+        if (Mathf.Abs(difference) > maxAngle)
+        {
+            float clampedAngle =
+                referenceAngle + Mathf.Clamp(difference, -maxAngle, maxAngle);
+
+            Controller.rb.MoveRotation(clampedAngle);
+        }
     }
 
     private void OnDestroy()

@@ -74,21 +74,21 @@ public class SpawnerManager
 
     private void CalculateDifficulty()
     {
-        if (GameManager.Instance.difficultySum >= 7)
+        if (GameManager.Instance.difficultySum >= 3)
         {
-            initialRedDwarfWeight += (initialRedDwarfWeight == 0) ? 0 : 10;
-            initialRedGiantWeight += (initialRedGiantWeight == 0) ? 0 : 10;
-            initialYellowDwarfWeight += (initialYellowDwarfWeight == 0) ? 0 : 10;
+            initialRedDwarfWeight += (initialRedDwarfWeight == 0) ? 10 : 0;
+            initialRedGiantWeight += (initialRedGiantWeight == 0) ? 10 : 0;
+            initialYellowDwarfWeight += (initialYellowDwarfWeight == 0) ? 10 : 0;
         }
-        if (GameManager.Instance.difficultySum >= 14)
+        if (GameManager.Instance.difficultySum >= 7)
         {
             spawnInterval = 8f;
         }
-        if (GameManager.Instance.difficultySum >= 21)
+        if (GameManager.Instance.difficultySum >= 14)
         {
             healthMult = 2;
         }
-        if (GameManager.Instance.difficultySum >= 28)
+        if (GameManager.Instance.difficultySum >= 20)
         {
             initialYellowDwarfWeight += 10;
         }
@@ -97,6 +97,7 @@ public class SpawnerManager
         GameObject[] prefabs = Resources.LoadAll<GameObject>("Prefabs/Enemy Prefabs");
 
         enemyTypes = new List<EnemySpawnData>();
+
 
         enemyTypes.Add(new EnemySpawnData { prefab = prefabs[0], spawnWeight = initialRedDwarfWeight });
         enemyTypes.Add(new EnemySpawnData { prefab = prefabs[1], spawnWeight = initialRedGiantWeight });

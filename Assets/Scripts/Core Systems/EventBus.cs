@@ -55,6 +55,8 @@ public class EventBus
     public event Action<GameObject> OnEnemyDead;
     public event Action OnRoundEnd;
     public event Action<bool> OnGamePaused;
+    public event Action OnPlayerHit;
+    public event Action OnPlayerHealed;
     #endregion
 
     #region Callers
@@ -74,6 +76,16 @@ public class EventBus
     public void PauseGame(bool isPaused)
     {
         OnGamePaused?.Invoke(isPaused);
+    }
+
+    public void HitPlayer()
+    {
+        OnPlayerHit?.Invoke();
+    }
+
+    public void HealPlayer()
+    {
+        OnPlayerHealed?.Invoke();
     }
     #endregion
 }

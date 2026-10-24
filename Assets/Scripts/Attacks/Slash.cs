@@ -24,6 +24,7 @@ public class Slash : Attack
             Animator = a;
         }
         playerRB = Owner.GetComponent<Rigidbody2D>();
+        entity = Owner.GetComponent<Entity>();
     }
 
     public override IEnumerator StartCharge()
@@ -49,14 +50,16 @@ public class Slash : Attack
 
         LastExecute = Time.time;
         yield return new WaitForSeconds(0.077f);
-        foreach (Entity entity in DamageArea(range: 3, width: 3))
+        foreach (Entity _entity in DamageArea(range: 3, width: 3))
         {
-            if (entity.healthController.team != this.entity.healthController.team)
+            if (_entity.healthController.team != this.entity.healthController.team)
             {
-                entity.StartCoroutine(entity.KnockBack(
-                    origin: Owner.transform.position,
-                    strength: KnockbackStrength
-                ));
+                Rigidbody2D rb = _entity.GetComponent<Rigidbody2D>();
+                rb.AddForce(Owner.transform.right * KnockbackStrength, ForceMode2D.Impulse);
+                // entity.StartCoroutine(entity.KnockBack(
+                //     origin: Owner.transform.position,
+                //     strength: KnockbackStrength
+                // ));
             }
         }
 
@@ -105,14 +108,16 @@ public class Slash : Attack
         LastExecute = Time.time;
         yield return new WaitForSeconds(0.077f);
 
-        foreach (Entity entity in DamageArea(range: 3, width: 3))
+        foreach (Entity _entity in DamageArea(range: 3, width: 3))
         {
-            if (entity.healthController.team != this.entity.healthController.team)
+            if (_entity.healthController.team != this.entity.healthController.team)
             {
-                entity.StartCoroutine(entity.KnockBack(
-                    origin: Owner.transform.position,
-                    strength: KnockbackStrength
-                ));
+                Rigidbody2D rb = _entity.GetComponent<Rigidbody2D>();
+                rb.AddForce(Owner.transform.right * KnockbackStrength, ForceMode2D.Impulse);
+                // entity.StartCoroutine(entity.KnockBack(
+                //     origin: Owner.transform.position,
+                //     strength: KnockbackStrength
+                // ));
             }
         }
 

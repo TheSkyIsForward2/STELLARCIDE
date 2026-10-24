@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Body : MonoBehaviour
+public class Body : Entity
 {
     public Transform target;
     public float followDistance = 4.0f;

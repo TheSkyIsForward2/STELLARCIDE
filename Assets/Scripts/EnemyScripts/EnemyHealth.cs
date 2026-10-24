@@ -8,7 +8,7 @@ public class EnemyHealth : Entity
     public int maxHealth;
     public EnemyHealthBar  healthBar;
     
-    void Start()
+    void Awake()
     {
         healthController = new HealthOwner(maxHealth, HealthOwner.Team.ENEMY, gameObject);
         healthBar.UpdateHealthBar(healthController.hp, maxHealth *= SpawnerManager.Instance.healthMult);

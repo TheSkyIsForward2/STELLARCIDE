@@ -25,14 +25,20 @@ public class RedGiant : MonoBehaviour
 
         //CreateBody();
         HeadSegment = Instantiate(HeadPrefab, transform.position, transform.rotation, transform);
+        EnemyHealth eh = HeadSegment.GetComponent<EnemyHealth>();
         Transform prevTransform = HeadSegment.transform;
         for (int i = 1; i < SegmentCount + 1; i++)
         {
             Body body = Instantiate(BodyPrefab, new Vector2(transform.position.x, transform.position.y + (i * bodySpacing)), 
                 transform.rotation, transform);
             body.target = prevTransform;
+            body.healthController = eh.healthController;
             BodySegments.Add(body);
             prevTransform = body.transform;
+            if (i == 1)
+            {
+                HeadSegment.bodyBehind = body.transform;
+            }
         }
         TailSegment = Instantiate(TailPrefab, new Vector2(transform.position.x, transform.position.y + ((SegmentCount + 1) * bodySpacing)), 
             transform.rotation, transform);

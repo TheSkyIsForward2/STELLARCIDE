@@ -83,14 +83,16 @@ public class Punch : Attack
 
         // knocking back enemies
         // Debug.Log(Owner.name + " reached knockback stage of dmg calc");
-        foreach (Entity entity in DamageArea(range: (float)target.x, width: (float)target.y))
+        foreach (Entity _entity in DamageArea(range: (float)target.x, width: (float)target.y))
         {
-            if (entity.healthController.team != this.entity.healthController.team)
+            if (_entity.healthController.team != this.entity.healthController.team)
             {
-                entity.StartCoroutine(entity.KnockBack(
-                    origin: Owner.transform.position,
-                    strength: KnockbackStrength
-                ));
+                Rigidbody2D rb = _entity.GetComponent<Rigidbody2D>();
+                rb.AddForce(Owner.transform.right * KnockbackStrength, ForceMode2D.Impulse);
+                // entity.StartCoroutine(entity.KnockBack(
+                //    origin: Owner.transform.position,
+                //    strength: KnockbackStrength
+                // ));
             }
         }
 
@@ -141,14 +143,16 @@ public class Punch : Attack
         yield return new WaitForSeconds(0.15f);
 
         AudioManager.Instance.PlayPunchingSFX();
-        foreach (Entity entity in DamageArea(range: (float)target.x, width: (float)target.y))
+        foreach (Entity _entity in DamageArea(range: (float)target.x, width: (float)target.y))
         {
-            if (entity.healthController.team != this.entity.healthController.team)
+            if (_entity.healthController.team != this.entity.healthController.team)
             {
-                entity.StartCoroutine(entity.KnockBack(
-                    origin: Owner.transform.position,
-                    strength: KnockbackStrength
-                ));
+                Rigidbody2D rb = _entity.GetComponent<Rigidbody2D>();
+                rb.AddForce(Owner.transform.right * KnockbackStrength, ForceMode2D.Impulse);
+                // entity.StartCoroutine(entity.KnockBack(
+                //    origin: Owner.transform.position,
+                //    strength: KnockbackStrength
+                // ));
             }
         }
 

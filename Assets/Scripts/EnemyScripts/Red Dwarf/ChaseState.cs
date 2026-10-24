@@ -30,7 +30,7 @@ public class ChaseState : IState
             controller.ChangeState(ScoutState);
         } else
         {
-            controller.transform.position = Vector2.MoveTowards(controller.transform.position, controller.Player.position, chaseSpeed * Time.deltaTime);
+            controller.rb.linearVelocity = controller.transform.right * chaseSpeed;
         }
 
         controller.RotateToPlayer();

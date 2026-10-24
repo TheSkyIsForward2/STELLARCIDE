@@ -6,6 +6,8 @@ public class DashChaseState : IState
     public Attack dash;
     private GameObject self;
 
+    private float MoveSpeed = 5.0f;
+
     private float DashDistance = 3.0f;
     private bool attacking = false;
 
@@ -22,26 +24,31 @@ public class DashChaseState : IState
 
         dash = new Dash(self,
             damage: new Damage(10, Damage.Type.PHYSICAL),
-            cooldown: 1f,
+            cooldown: 3f,
             travelSpeed: 0.25f,
-            lifetime: 1f
+            lifetime: 1f,
+            minDistance: 100f,
+            maxDistance: 100f
             );
+        controller.CurrentAttack = controller.dashAttack;
 
     }
 
     public void OnUpdate(StateController controller)
     {
-        if (controller.DistanceToPlayer < 10)
+        if (controller.DistanceToPlayer < 5)
         {
             controller.ChangeState(DashAttackState);
         }
+        controller.rb.linearVelocity = Vector2.zero;
 
-        if (dash.IsReady() && !attacking)
+        if (controller.CurrentAttack != null && controller.CurrentAttack.IsReady())
         {
-            CoroutineManager.Instance.StartCoroutine(Attack(controller));
+            Attack(controller);
         }
-        if (!attacking)
+        else
         {
+            controller.rb.linearVelocity = controller.transform.right * MoveSpeed;
             controller.RotateToPlayer();
         }
     }
@@ -64,13 +71,10 @@ public class DashChaseState : IState
         return "Dash Chase";
     }
 
-    private IEnumerator Attack(StateController controller)
+    private void Attack(StateController controller)
     {
-        attacking = true;
         Vector3 dashDirection = rotate(controller.EnemyToPlayer,
             Random.Range(-45.0f, 45.0f) * Mathf.Deg2Rad).normalized * DashDistance;
-        yield return new WaitForSeconds(5);
-        CoroutineManager.Instance.Run(dash.Execute(controller.transform.position, controller.transform.position + dashDirection));
-        attacking = false;
+        controller.AttackPlayer(controller.transform.position, controller.transform.position + dashDirection);
     }
 }

@@ -5,7 +5,7 @@ public class ScoutState : IState
     private IState IdleState;
     private IState ShootState;
 
-    private float MoveSpeed = 1.0f;
+    private float MoveSpeed = 5.0f;
 
     private float IdleSwitch = 20.0f;
     private float ShootSwitch = 12.0f;
@@ -38,13 +38,21 @@ public class ScoutState : IState
             controller.ChangeState(ShootState);
         }
 
-        controller.transform.position +=
-            controller.transform.right * MoveSpeed * Time.deltaTime;
-
+        controller.rb.linearVelocity = controller.transform.right * MoveSpeed;
         controller.RotateToPlayer();
-
-
     }
+
+    //private bool isFacingPlayer(StateController controller)
+    //{
+    //    Vector3 directionToTarget = (controller.Player.position - controller.transform.position).normalized;
+
+    //    Vector3 forwardDirection = controller.transform.right;
+
+    //    float dotProduct = Vector3.Dot(forwardDirection, directionToTarget);
+
+    //    float precision = Mathf.Cos(2f * Mathf.Deg2Rad);
+    //    return dotProduct > precision;
+    //}
 
     public void OnExit(StateController controller)
     {

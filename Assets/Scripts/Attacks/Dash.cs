@@ -45,6 +45,7 @@ public class Dash : Attack
             target = origin + MaxDistance * (target - origin).normalized;
         }
 
+
         targetDistance = (target - origin) * Lifetime;
         
 

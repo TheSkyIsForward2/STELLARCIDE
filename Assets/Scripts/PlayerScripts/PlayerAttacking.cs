@@ -1,7 +1,5 @@
 using System;
 using UnityEngine;
-using System.Collections;
-using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Controller script for player attacks 

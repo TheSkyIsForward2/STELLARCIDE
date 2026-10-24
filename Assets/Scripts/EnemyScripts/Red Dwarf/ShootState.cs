@@ -37,6 +37,7 @@ public class ShootState : IState
             controller.ChangeState(ChaseState);
         }
         // Scouting out enemy
+        controller.rb.linearVelocity = Vector2.zero;
 
         controller.RotateToPlayer();
 

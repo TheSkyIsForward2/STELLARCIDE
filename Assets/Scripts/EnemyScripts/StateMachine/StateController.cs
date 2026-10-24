@@ -5,19 +5,19 @@ using UnityEngine.Rendering.Universal;
 public class StateController : MonoBehaviour
 {
     public IState CurrentState {  get; private set; }
-    public Attack CurrentAttack;
+    public Attack CurrentAttack = null;
 
     public Punch biteAttack;
     public Shoot shootAttack;
     public Dash dashAttack;
 
     public Transform Player { get; private set; }
-    
     public Vector2 EnemyToPlayer { get; private set; }
     public float DistanceToPlayer { get; private set; }
 
     public Animator Animator { get; private set; }
 
+    public Rigidbody2D rb { get; private set; }
     public bool locked = false; // Locks the state
 
     public Light2D AttackIndicator;
@@ -30,6 +30,7 @@ public class StateController : MonoBehaviour
     private void Awake()
     {
         Animator = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
 
         biteAttack = new Punch(gameObject,
             damage: new Damage(10, Damage.Type.PHYSICAL), 
@@ -46,7 +47,7 @@ public class StateController : MonoBehaviour
         );
         dashAttack = new Dash(gameObject,
             damage: new Damage(10, Damage.Type.PHYSICAL),
-            cooldown: 1f,
+            cooldown: 2f,
             travelSpeed: 0.25f,
             lifetime: 1f
         );
@@ -125,15 +126,21 @@ public class StateController : MonoBehaviour
         }
     }
 
-    private float RotateSpeed = 5f;
+    private float RotateSpeed = 180f;
 
     public void RotateToPlayer()
     {
         Vector2 direction = Player.position - transform.position;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        if (direction.sqrMagnitude < 0.0001f)
+        {
+            return;
+        }
 
-        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, RotateSpeed * Time.deltaTime);
+        float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+        float nextAngle = Mathf.MoveTowardsAngle(rb.rotation, targetAngle, RotateSpeed * Time.fixedDeltaTime);
+
+        rb.MoveRotation(nextAngle);
     }
 
     public void TryTriggerAnimation(string triggerName)
