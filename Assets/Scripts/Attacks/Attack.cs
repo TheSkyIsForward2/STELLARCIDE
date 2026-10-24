@@ -122,7 +122,10 @@ public abstract class Attack
                 Debug.Log(entity.healthController.team);
                 if (entity && entity.healthController.team != Owner.GetComponent<Entity>().healthController.team)
                 {
-                    if (!entity.healthController.TakeDamage(Damage))
+                    // calculate direction of attack
+                    Vector2 direction = entity.transform.position - Owner.transform.position;
+                    
+                    if (!entity.healthController.TakeDamage(Damage, direction))
                         gameObjectsHit.Add(entity);
                 }
 

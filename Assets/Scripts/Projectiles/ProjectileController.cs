@@ -68,8 +68,11 @@ public class ProjectileController : MonoBehaviour
                 {
                     return;
                 }
+                
+                // calculate incoming direction
+                Vector2 direction = other.transform.position - transform.position;
 
-                entity.healthController.TakeDamage(damage);
+                entity.healthController.TakeDamage(damage, direction);
             }
             
             // update health
