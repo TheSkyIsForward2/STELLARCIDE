@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8422348649509717009}
   - component: {fileID: 7743322878130949592}
   - component: {fileID: 5802877342365370866}
+  - component: {fileID: 1902522334180422185}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -108,3 +109,15 @@ MonoBehaviour:
   yellowDwarfDefeated: 0
   redGiantDefeated: 0
   totalMapsCleared: 0
+--- !u!114 &1902522334180422185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7388487893630246697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5adbf1734bc58f4e829f1c3cd7616dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -36,8 +36,10 @@ public class HealthOwner : Component
     /// Entity will die when health reaches 0 and will not overheal.
     /// </summary>
     /// <param name="damage"> struct Damage(int amount, Type type) </param>
+    /// <param name="attackDirection"> Vector2 of incoming attack's direction for particles,
+    /// leave as Vector2.zero if non-standard attack</param>
     /// <returns> True if the healthowner dies as a result of this damage </returns>
-    public bool TakeDamage(Damage damage)
+    public bool TakeDamage(Damage damage, Vector2 attackDirection)
     {
         // heal on negatives & account for overhealth
         if (hp - damage.Amount > maxHP)
@@ -49,6 +51,42 @@ public class HealthOwner : Component
         {
             hp -= damage.Amount;
             AudioManager.Instance.PlayPlayerTakeDamageSFX();
+
+            #region  spawn particle
+
+            // check for incoming direction
+            if (!attackDirection.Equals(Vector2.zero))
+            {
+                // Red stars damage particle
+                if (owner.TryGetComponent<RedDwarf>(out RedDwarf rD))
+                {
+                    if (rD != null)
+                    {
+                        GameManager.Instance.ParticleManager.SpawnParticle(owner.transform, 0, attackDirection);
+                    }
+                }
+                else if (owner.TryGetComponent<RedGiant>(out RedGiant rG))
+                {
+                    if (rG != null)
+                    {
+                        GameManager.Instance.ParticleManager.SpawnParticle(owner.transform, 0, attackDirection);
+                    }
+                }
+                // Yellow stars damage particle
+                else if (owner.TryGetComponent<YellowDwarf>(out YellowDwarf yD))
+                {
+                    if (yD != null)
+                    {
+                        GameManager.Instance.ParticleManager.SpawnParticle(owner.transform, 1, attackDirection);
+                    }
+                }
+            
+            
+                // TODO create player damage particle(s)
+            }
+            
+            #endregion
+            
             // Debug.Log($"[DAMAGE] something on team {team} took {damage.Amount} of {damage.type} damage");
         }
 
@@ -86,7 +124,7 @@ public class HealthOwner : Component
 
         if (duration == 0)
         {
-            return TakeDamage(totalDamage);
+            return TakeDamage(totalDamage, Vector2.zero);
         }
         else if (duration < 0)
         {
@@ -94,7 +132,7 @@ public class HealthOwner : Component
         }
         else
         {
-            if (interval > duration) { return TakeDamage(totalDamage); }
+            if (interval > duration) { return TakeDamage(totalDamage, Vector2.zero); }
 
             float dmgPerTick = totalDamage.Amount / (duration / interval);
             CoroutineManager.Instance.Run(DoTickDamage(
@@ -125,7 +163,7 @@ public class HealthOwner : Component
         float _duration = duration;
         while ( _duration >= 0)
         {
-            if (TakeDamage(dmg)) yield break;
+            if (TakeDamage(dmg, Vector2.zero)) yield break;
             _duration -= interval;
             yield return new WaitForSeconds(interval);
         } 
@@ -136,7 +174,7 @@ public class HealthOwner : Component
     {
         while (true)
         {
-            if (TakeDamage(dmg)) yield break;
+            if (TakeDamage(dmg, Vector2.zero)) yield break;
             yield return new WaitForSeconds(interval);
         }
     }

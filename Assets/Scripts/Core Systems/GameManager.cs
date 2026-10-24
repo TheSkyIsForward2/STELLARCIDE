@@ -9,6 +9,7 @@ public class GameManager
     public GameObject Player;
     public ProjectileManager ProjectileManager;
     public SpawnerManager SpawnerManager;
+    public ParticleManager ParticleManager;
     public bool GameActive;
     public XMLManager xmlManager;
     public ScoreManager scoreManager;

@@ -71,7 +71,7 @@ public class TextPrompt : MonoBehaviour
             yield return new WaitForSeconds(1);
         }
         GameManager.Instance.Player.GetComponent<HealthOwner>().TakeDamage(
-            new Damage(999, Damage.Type.PHYSICAL)
+            new Damage(999, Damage.Type.PHYSICAL), Vector2.zero
         );
     }
 

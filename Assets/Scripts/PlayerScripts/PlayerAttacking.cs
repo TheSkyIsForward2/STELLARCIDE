@@ -40,7 +40,7 @@ public class PlayerAttacking : MonoBehaviour
         {
             if (TryGetComponent<PlayerHealth>(out PlayerHealth ph))
             {
-                ph.healthController.TakeDamage(new Damage(100, Damage.Type.PHYSICAL));
+                ph.healthController.TakeDamage(new Damage(100, Damage.Type.PHYSICAL), Vector2.zero);
             }
         };
 
@@ -48,7 +48,7 @@ public class PlayerAttacking : MonoBehaviour
         {
             if (TryGetComponent<PlayerHealth>(out PlayerHealth ph))
             {
-                ph.healthController.TakeDamage(new Damage(-100, Damage.Type.PHYSICAL));
+                ph.healthController.TakeDamage(new Damage(-100, Damage.Type.PHYSICAL), Vector2.zero);
             }
         };
 
