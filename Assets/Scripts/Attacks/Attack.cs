@@ -125,7 +125,7 @@ public abstract class Attack
                     // calculate direction of attack
                     Vector2 direction = entity.transform.position - Owner.transform.position;
                     
-                    if (!entity.healthController.TakeDamage(Damage, direction))
+                    if (!entity.healthController.TakeDamage(Damage, direction, entity.gameObject))
                         gameObjectsHit.Add(entity);
                 }
 

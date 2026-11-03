@@ -72,7 +72,7 @@ public class TextPrompt : MonoBehaviour
             yield return new WaitForSeconds(1);
         }
         GameManager.Instance.Player.GetComponent<HealthOwner>().TakeDamage(
-            new Damage(999, Damage.Type.PHYSICAL), Vector2.zero
+            new Damage(999, Damage.Type.PHYSICAL), Vector2.zero, gameObject
         );
         SceneManager.LoadScene("Leaderboard");
         // if (GameManager.Instance.Player.TryGetComponent<HealthOwner>(out HealthOwner ho))

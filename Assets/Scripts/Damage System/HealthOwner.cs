@@ -39,8 +39,13 @@ public class HealthOwner : Component
     /// <param name="attackDirection"> Vector2 of incoming attack's direction for particles,
     /// leave as Vector2.zero if non-standard attack</param>
     /// <returns> True if the healthowner dies as a result of this damage </returns>
-    public bool TakeDamage(Damage damage, Vector2 attackDirection)
+    public bool TakeDamage(Damage damage, Vector2 attackDirection, GameObject objectHit)
     {
+        // Give a simple damage reduction if hitting the segment of the red giant
+        if (objectHit != owner)
+        {
+            damage.Amount /= 2;
+        }
         // HANDLE dmg & heal on negatives & account for overhealth
         if (hp - damage.Amount > maxHP)
         {
@@ -133,7 +138,7 @@ public class HealthOwner : Component
 
         if (duration == 0)
         {
-            return TakeDamage(totalDamage, Vector2.zero);
+            return TakeDamage(totalDamage, Vector2.zero, gameObject);
         }
         else if (duration < 0)
         {
@@ -141,7 +146,7 @@ public class HealthOwner : Component
         }
         else
         {
-            if (interval > duration) { return TakeDamage(totalDamage, Vector2.zero); }
+            if (interval > duration) { return TakeDamage(totalDamage, Vector2.zero, gameObject); }
 
             float dmgPerTick = totalDamage.Amount / (duration / interval);
             CoroutineManager.Instance.Run(DoTickDamage(
@@ -172,7 +177,7 @@ public class HealthOwner : Component
         float _duration = duration;
         while ( _duration >= 0)
         {
-            if (TakeDamage(dmg, Vector2.zero)) yield break;
+            if (TakeDamage(dmg, Vector2.zero, gameObject)) yield break;
             _duration -= interval;
             yield return new WaitForSeconds(interval);
         } 
@@ -183,7 +188,7 @@ public class HealthOwner : Component
     {
         while (true)
         {
-            if (TakeDamage(dmg, Vector2.zero)) yield break;
+            if (TakeDamage(dmg, Vector2.zero, gameObject)) yield break;
             yield return new WaitForSeconds(interval);
         }
     }

@@ -26,6 +26,7 @@ public class RedGiant : MonoBehaviour
         //CreateBody();
         HeadSegment = Instantiate(HeadPrefab, transform.position, transform.rotation, transform);
         EnemyHealth eh = HeadSegment.GetComponent<EnemyHealth>();
+        eh.healthController.IncreaseMaxHP(10 * SegmentCount);
         Transform prevTransform = HeadSegment.transform;
         for (int i = 1; i < SegmentCount + 1; i++)
         {
