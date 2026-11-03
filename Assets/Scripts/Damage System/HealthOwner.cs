@@ -93,6 +93,12 @@ public class HealthOwner : Component
         {
             EventBus.Instance.HitPlayer();
         }
+
+        // If we have this check here, I think we can just remove it from ProjectileManager / Attack.cs
+        if (owner.TryGetComponent(out EnemyHealth enemyHealth))
+        {
+            enemyHealth.healthBar.UpdateHealthBar(hp, maxHP);
+        }
         if (hp > 0) return false;
 
         // HANDLE death 
